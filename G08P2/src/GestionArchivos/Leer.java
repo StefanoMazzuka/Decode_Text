@@ -13,7 +13,7 @@ public class Leer {
 	private BufferedReader br;
 	private String texto;
 
-	public Leer(String nombreArchivo) {
+	public void LeerArvhivo(String nombreArchivo) {
 		String rutaArchivo = this.rutaUsuario + this.separador + "Archivos" + this.separador + nombreArchivo;
 		this.archivo = new File(rutaArchivo);
 		this.texto = "";
@@ -31,9 +31,41 @@ public class Leer {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		} finally {	    	  
-			try {                    
-				if(null != fr)  
+		} finally {
+			try {
+				if(null != fr)
+					fr.close();
+				if(null != br)  
+					br.close();
+
+			} catch (Exception e2) { 
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	public void LeerNgramas(String nombreArchivo) {
+		String rutaArchivo = this.rutaUsuario + this.separador + "Archivos" + this.separador + nombreArchivo;
+		this.archivo = new File(rutaArchivo);
+		this.texto = "";
+
+		try {
+			// Apertura del fichero y creacion de BufferedReader para poder
+			// hacer una lectura comoda (disponer del metodo readLine()).
+			fr = new FileReader (archivo);
+			br = new BufferedReader(fr);
+
+			// Lectura del fichero
+			String linea;
+			while((linea = br.readLine()) != null) {
+				this.texto += (linea + "\t");
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if(null != fr)
 					fr.close();
 				if(null != br)  
 					br.close();
@@ -46,5 +78,9 @@ public class Leer {
 	
 	public void mostrarTexto() {
 		System.out.println(this.texto);
+	}
+	
+	public String getTexto() {
+		return this.texto;
 	}
 }
