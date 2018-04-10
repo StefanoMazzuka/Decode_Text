@@ -1,7 +1,6 @@
 package base;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Gen2 {
@@ -14,19 +13,6 @@ public class Gen2 {
 	    	this.alelos.add((char) i);
 	    }
 	    Collections.shuffle(this.alelos);
-	    for (int i = 0; i < 26; i++) {
-	    	System.out.print(this.alelos.get(i));
-	    }
-	    System.out.println();
-	    Collections.shuffle(this.alelos);
-	    for (int i = 0; i < 26; i++) {
-	    	System.out.print(this.alelos.get(i));
-	    }
-	    System.out.println();
-	    Collections.shuffle(this.alelos);
-	    for (int i = 0; i < 26; i++) {
-	    	System.out.print(this.alelos.get(i));
-	    }
 	}
 	public ArrayList<Character> getAlelos() {
 		return this.alelos;
@@ -41,5 +27,3 @@ public class Gen2 {
 		return g;
 	}
 }
-
-
