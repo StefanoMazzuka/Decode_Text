@@ -14,9 +14,8 @@ public class nGramas {
 		crearFrecuenciaLetras();
 		crearFrecuenciaBigramas();
 		double x = 0.0;
-		for (int i = 97; i <= 122; i++) {
-			System.out.print((char) i);
-			x += this.frecuenciaLetras.get((char) i);
+		for (HashMap.Entry<String, Double> entry : frecuenciaBigramas.entrySet()) {
+			x += entry.getValue();
 		}
 		System.out.println(x);
 	}
