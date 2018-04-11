@@ -11,15 +11,15 @@ public class Decode extends Cromosoma {
 
 	private double min = 0;
 	private double max = 32;
-	private String texto;
+	private char[] texto;
 	private Gen2 gen;
 	
 	public Decode(double precision, String nombreArchivo) {
 		Leer l = new Leer();
 		l.LeerArvhivo(nombreArchivo);
-		this.texto = l.getTexto();
+		this.texto = l.getTexto().toCharArray();
 		this.setPrecision(precision);
-		Gen2 gen = new Gen2();
+		this.gen = new Gen2();
 		
 		calcularFitness();
 	}
@@ -32,15 +32,29 @@ public class Decode extends Cromosoma {
 //		this.setFenotipo(fenotipo);
 	}
 	public void calcularFitness() {
-		String textoTraducido;
-		ArrayList<Character> alelos = this.gen.getAlelos();
+		// Traducimos el texto
+		ArrayList<Character> alelos = new ArrayList<Character>();
+		alelos = this.gen.getAlelos();
 		int j;
-		for (int i = 0; i < this.texto.length(); i++) {
-			j = i;
-			while (j < alelos.size() && !alelos.get(j).equals(this.texto.charAt(i))) {
+		boolean encontrado;
+		for (int i = 0; i < this.texto.length; i++) {
+			j = 0;
+			encontrado = false;
+			while (j < alelos.size() && !encontrado) {
+				if (alelos.get(j).equals(this.texto[i])) {
+					this.texto[i] = (char) (j + 97);
+					encontrado = true;
+				}
 				j++;
 			}
-			if (alelos.get(j).equals(this.texto.charAt(i))) this.texto.charAt(i) = (char) (i + 97);
+		}
+		
+		for (int i = 0; i < alelos.size(); i++) {
+			System.out.print(alelos.get(i));
+		}
+		System.out.println();
+		for (int i = 0; i < this.texto.length; i++) {
+			System.out.print(this.texto[i]);
 		}
 	}
 //	public Cromosoma copy() {
@@ -66,4 +80,9 @@ public class Decode extends Cromosoma {
 //		
 //		return f;
 //	}
+	@Override
+	public Cromosoma copy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
