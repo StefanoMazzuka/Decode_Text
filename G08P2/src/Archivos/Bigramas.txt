@@ -1,0 +1,22 @@
+th	1582	co	296	di	210	us	165	ei	122
+in	784	de	275	si	210	mo	164	ad	120
+er	667	ra	275	ca	202	om	163	ss	120
+re	625	ro	275	un	201	ai	162	il	118
+an	542	li	273	ut	189	pr	161	os	117
+he	542	ri	271	nc	188	we	158	ul	115
+ar	511	io	270	wi	188	ac	152	em	114
+en	511	le	263	ho	184	ee	148	ns	113
+ti	510	nd	263	tr	183	et	146	ot	113
+te	492	ma	260	be	181	sa	146	ge	112
+at	440	se	259	ce	177	ni	142	ir	112
+on	420	al	246	wh	177	rt	142	av	111
+ha	420	ic	244	ll	176	na	141	ct	111
+ou	361	fo	239	fi	175	ol	141	tu	108
+it	356	il	232	no	175	ev	131	da	107
+es	343	ne	232	to	175	ie	129	am	104
+st	340	la	229	pe	174	mi	128	ci	104
+or	339	ta	225	as	172	ng	128	su	102
+nt	337	el	216	wa	171	pl	128	bl	101
+hi	330	me	216	ur	169	iv	127	of	101
+ea	321	ec	214	lo	166	po	125	bu	100
+ve	321	is	211	pa	165	ch	122		

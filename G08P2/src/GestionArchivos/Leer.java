@@ -14,7 +14,8 @@ public class Leer {
 	private String texto;
 
 	public void LeerArvhivo(String nombreArchivo) {
-		String rutaArchivo = this.rutaUsuario + this.separador + "Archivos" + this.separador + nombreArchivo;
+		String rutaArchivo = this.rutaUsuario + this.separador + "src" + this.separador + 
+				"Archivos" + this.separador + nombreArchivo;
 		this.archivo = new File(rutaArchivo);
 		this.texto = "";
 
@@ -45,7 +46,8 @@ public class Leer {
 	}
 	
 	public void LeerNgramas(String nombreArchivo) {
-		String rutaArchivo = this.rutaUsuario + this.separador + "Archivos" + this.separador + nombreArchivo;
+		String rutaArchivo = this.rutaUsuario + this.separador + "src" + this.separador + 
+				"Archivos" + this.separador + nombreArchivo;
 		this.archivo = new File(rutaArchivo);
 		this.texto = "";
 

@@ -27,50 +27,90 @@ public class Decode extends Cromosoma {
 		this.alelos = new ArrayList<Character>();
 		this.alelos = this.gen.getAlelos();
 
-		for (int i = 0; i < texto.length; i++) {
-			System.out.print(this.texto[i]);
-		}
-		System.out.println();
+//		for (int i = 0; i < texto.length; i++) {
+//			System.out.print(this.texto[i]);
+//		}
+//		System.out.println();
 
-		//		inicializarFreciencias();
+		inicializarFreciencias();
 		calcularFitness();
 	}
 	@Override
 	public void calcularFenotipo() {
 		// TODO Auto-generated method stub
 	}
-	//	private void inicializarFreciencias() {
-	//		nGramas ng = new nGramas();
-	//		this.frecuenciaLetras = ng.getFrecuenciaLetras();
-	//		this.frecuenciaBigramas = ng.getFrecuenciaBigramas();
-	//		this.frecuenciaTrigramas = ng.getFrecuenciaTrigramas();
-	//
-	//		for (HashMap.Entry<String, Double> entry : this.frecuenciaLetras.entrySet()) {
-	//			this.frecuenciaLetrasTexto.put(entry.getKey(), 0);
-	//		}
-	//		
-	//		for (HashMap.Entry<String, Double> entry : this.frecuenciaBigramas.entrySet()) {
-	//			this.frecuenciaBigramasTexto.put(entry.getKey(), 0);
-	//		}
-	//		
-	//		for (HashMap.Entry<String, Double> entry : this.frecuenciaTrigramas.entrySet()) {
-	//			this.frecuenciaTrigramasTexto.put(entry.getKey(), 0);
-	//		}
-	//	}
+	private void inicializarFreciencias() {
+		this.frecuenciaLetrasTexto = new HashMap<String, Integer>();
+		this.frecuenciaBigramasTexto = new HashMap<String, Integer>();
+		this.frecuenciaTrigramasTexto = new HashMap<String, Integer>();
+
+		nGramas ng = new nGramas();	
+		this.frecuenciaLetras = ng.getFrecuenciaLetras();
+		this.frecuenciaBigramas = ng.getFrecuenciaBigramas();
+		this.frecuenciaTrigramas = ng.getFrecuenciaTrigramas();
+
+		for (HashMap.Entry<String, Double> entry : this.frecuenciaLetras.entrySet()) {
+			this.frecuenciaLetrasTexto.put(entry.getKey(), 0);
+		}
+
+		for (HashMap.Entry<String, Double> entry : this.frecuenciaBigramas.entrySet()) {
+			this.frecuenciaBigramasTexto.put(entry.getKey(), 0);
+		}
+
+		for (HashMap.Entry<String, Double> entry : this.frecuenciaTrigramas.entrySet()) {
+			this.frecuenciaTrigramasTexto.put(entry.getKey(), 0);
+		}
+	}
 	public void calcularFitness() {
 		pasarAMinusculas();
-		for (int i = 0; i < texto.length; i++) {
-			System.out.print(this.texto[i]);
-		}
-		System.out.println();
+//		for (int i = 0; i < texto.length; i++) {
+//			System.out.print(this.texto[i]);
+//		}
+//		System.out.println();
 		pasarClaveGen();
+		
+		String nGrama = "";
+		String letra;
+		String biGrama;
+		String triGrama;
+		for (int i = 0; i < this.texto.length; i++) {
+			if (((int) this.texto[i]) < 97 || ((int) this.texto[i]) > 122) nGrama = "";
+			else {
+				nGrama += Character.toString(this.texto[i]);
+
+				letra = Character.toString(nGrama.charAt(nGrama.length() - 1));
+				crearFrecuenciaLetrasTexto(letra); 
+
+				if (nGrama.length() > 1) {
+					biGrama = Character.toString(nGrama.charAt(nGrama.length() - 2)) + 
+							Character.toString(nGrama.charAt(nGrama.length() - 1));
+					crearFrecuenciaBigramasTexto(biGrama);
+				}
+
+				if (nGrama.length() > 2) {
+					triGrama = Character.toString(nGrama.charAt(nGrama.length() - 3)) + 
+							Character.toString(nGrama.charAt(nGrama.length() - 2)) +
+							Character.toString(nGrama.charAt(nGrama.length() - 1));
+					crearFrecuenciaTrigramasTexto(triGrama);
+				}
+			}
+		}
+		
 		for (int i = 0; i < texto.length; i++) {
 			System.out.print(this.texto[i]);
 		}
 		System.out.println();
-		//		crearFrecuenciaLetrasTexto();
-		//		crearFrecuenciaBigramasTexto();
-		//		crearFrecuenciaTrigramasTexto();
+		for (HashMap.Entry<String, Integer> entry : this.frecuenciaLetrasTexto.entrySet()) {
+			System.out.println(entry.getKey() + " - " + entry.getValue());
+		}
+		System.out.println();
+		for (HashMap.Entry<String, Integer> entry : this.frecuenciaBigramasTexto.entrySet()) {
+			System.out.println(entry.getKey() + " - " + entry.getValue());
+		}
+		System.out.println();
+		for (HashMap.Entry<String, Integer> entry : this.frecuenciaTrigramasTexto.entrySet()) {
+			System.out.println(entry.getKey() + " - " + entry.getValue());
+		}
 	}
 	private void pasarAMinusculas() {
 		for (int i = 0; i < this.texto.length; i++) {
@@ -84,41 +124,27 @@ public class Decode extends Cromosoma {
 		//		}
 		//		System.out.println();
 
-		for (int i = 0; i < this.texto.length; i++) {
-			if (this.alelos.contains(this.texto[i]))
+		for (int i = 0; i < this.textoOriginal.length; i++) {
+			if (this.alelos.contains(this.textoOriginal[i]))
 				this.texto[i] = (char) ((this.alelos.indexOf(this.texto[i])) + 97);
 		}
 	}
-	//	private void crearFrecuenciaLetrasTexto() {
-	//		String letra;
-	//		for (int i = 0; i < this.texto.length; i++) {
-	//			letra = Character.toString(this.texto[i]);
-	//			if (this.frecuenciaLetrasTexto.containsKey(letra))
-	//				this.frecuenciaLetrasTexto.put(letra, 
-	//						(this.frecuenciaLetrasTexto.get(letra) + 1));
-	//		}
-	//	}
-	//	private void crearFrecuenciaBigramasTexto() {
-	//		String bigrama;
-	//		for (int i = 0; i < this.texto.length; i += 2) {
-	//			bigrama = Character.toString(this.texto[i]) + 
-	//					Character.toString(this.texto[i + 1]);
-	//			if (this.frecuenciaBigramasTexto.containsKey(bigrama))
-	//				this.frecuenciaBigramasTexto.put(bigrama, 
-	//						(this.frecuenciaBigramasTexto.get(bigrama) + 1));
-	//		}
-	//	}
-	//	private void crearFrecuenciaTrigramasTexto() {
-	//		String trigrama;
-	//		for (int i = 0; i < this.texto.length; i += 3) {
-	//			trigrama = Character.toString(this.texto[i]) + 
-	//					Character.toString(this.texto[i + 1]) + 
-	//					Character.toString(this.texto[i + 2]);
-	//			if (this.frecuenciaBigramasTexto.containsKey(trigrama))
-	//				this.frecuenciaBigramasTexto.put(trigrama, 
-	//						(this.frecuenciaBigramasTexto.get(trigrama) + 1));
-	//		}
-	//	}
+	private void crearFrecuenciaLetrasTexto(String letra) {
+		if (this.frecuenciaLetrasTexto.containsKey(letra))
+			this.frecuenciaLetrasTexto.put(letra, 
+					(this.frecuenciaLetrasTexto.get(letra) + 1));
+
+	}
+	private void crearFrecuenciaBigramasTexto(String bigrama) {
+		if (this.frecuenciaBigramasTexto.containsKey(bigrama))
+			this.frecuenciaBigramasTexto.put(bigrama, 
+					(this.frecuenciaBigramasTexto.get(bigrama) + 1));
+	}
+	private void crearFrecuenciaTrigramasTexto(String trigrama) {
+		if (this.frecuenciaTrigramasTexto.containsKey(trigrama))
+			this.frecuenciaTrigramasTexto.put(trigrama, 
+					(this.frecuenciaTrigramasTexto.get(trigrama) + 1));
+	}
 	public Cromosoma copy() {
 		Gen2 gen = new Gen2();
 		gen = this.gen.copy();
