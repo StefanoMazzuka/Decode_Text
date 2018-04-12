@@ -3,6 +3,7 @@ package base;
 import java.util.ArrayList;
 
 import cruce.UnPunto;
+import funciones.Decode;
 import funciones.Funcion1;
 import funciones.Funcion2;
 import funciones.Funcion3;
@@ -13,6 +14,8 @@ import seleccion.FactoriaSeleccion;
 import seleccion.Seleccion;
 
 import java.util.Arrays;
+
+import GestionArchivos.Leer;
 
 public class AlgoritmoGenetico {
 
@@ -101,6 +104,16 @@ public class AlgoritmoGenetico {
 			this.listaMedias[i] = media;
 			this.listaFitnessMejor[i] = this.fitnessMejor;
 			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;	
+		}
+	}
+	public void crearPoblacionDecode(String nombreArchivo) {
+		Leer l = new Leer();
+		l.LeerArvhivo(nombreArchivo);
+		Decode d;
+		for (int i = 0; i < lPoblacion; i++) {
+			d = new Decode(l.getTexto().toCharArray());
+			d.setId(i);
+			this.poblacion.add(i, d);
 		}
 	}
 	public void crearPoblacionFuncion1() {

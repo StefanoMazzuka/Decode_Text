@@ -17,21 +17,21 @@ public class nGramas {
 		crearFrecuenciaLetras();
 		crearFrecuenciaBigramas();
 		crearFrecuenciaTrigramas();
-		double x = 0.0;
-		for (HashMap.Entry<String, Double> entry : frecuenciaLetras.entrySet()) {
-			x += entry.getValue();
-		}
-		System.out.println(x);
-		x = 0.0;
-		for (HashMap.Entry<String, Double> entry : frecuenciaBigramas.entrySet()) {
-			x += entry.getValue();
-		}
-		System.out.println(x);
-		x = 0.0;
-		for (HashMap.Entry<String, Double> entry : frecuenciaTrigramas.entrySet()) {
-			x += entry.getValue();
-		}
-		System.out.println(x);
+//		double x = 0.0;
+//		for (HashMap.Entry<String, Double> entry : frecuenciaLetras.entrySet()) {
+//			x += entry.getValue();
+//		}
+//		System.out.println(x);
+//		x = 0.0;
+//		for (HashMap.Entry<String, Double> entry : frecuenciaBigramas.entrySet()) {
+//			x += entry.getValue();
+//		}
+//		System.out.println(x);
+//		x = 0.0;
+//		for (HashMap.Entry<String, Double> entry : frecuenciaTrigramas.entrySet()) {
+//			x += entry.getValue();
+//		}
+//		System.out.println(x);
 	}
 
 	private void crearFrecuenciaLetras() {
@@ -75,7 +75,6 @@ public class nGramas {
 		//		this.frecuenciaLetras.put('q', 0.0012);
 		//		this.frecuenciaLetras.put('z', 0.0009);
 	}
-
 	private void crearFrecuenciaBigramas() {
 		Leer l = new Leer();
 		l.LeerNgramas("Bigramas.txt");
@@ -154,5 +153,14 @@ public class nGramas {
 		for (int i = 0; i < texto.length; i += 2) {
 			this.frecuenciaTrigramas.put(texto[i], ((Double.parseDouble(texto[i + 1]) * 100) / total));
 		}
+	}
+	public HashMap<String, Double> getFrecuenciaLetras() {
+		return frecuenciaLetras;
+	}
+	public HashMap<String, Double> getFrecuenciaBigramas() {
+		return frecuenciaBigramas;
+	}
+	public HashMap<String, Double> getFrecuenciaTrigramas() {
+		return frecuenciaTrigramas;
 	}
 }

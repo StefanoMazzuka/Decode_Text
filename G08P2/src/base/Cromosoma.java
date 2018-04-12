@@ -2,6 +2,7 @@ package base;
 
 public abstract class Cromosoma {
 	public Gen[] gen;
+	public Gen2 gen2;
 	public double precision;
 	public double[] fenotipo;
 	public double fitness;
@@ -63,5 +64,11 @@ public abstract class Cromosoma {
 	}
 	public void setlGen(int[] lGen) {
 		this.lGen = lGen;
+	}
+	public Gen2 getGen2() {
+		return this.gen2;
+	}
+	public void setGen2(Gen2 gen2) {
+		this.gen2 = gen2;
 	}
 }

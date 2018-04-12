@@ -14,6 +14,8 @@ public class Main {
 		nGramas n = new nGramas();
 		Menu menu = new Menu();
 		menu.setVisible(true);
-		Decode d = new Decode(1, "Dos.txt");
+		l = new Leer();
+		l.LeerArvhivo("Dos.txt");
+		Decode d = new Decode(l.getTexto().toCharArray());
 	}
 }
