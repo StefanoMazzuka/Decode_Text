@@ -13,7 +13,7 @@ public class Leer {
 	private BufferedReader br;
 	private String texto;
 
-	public void LeerArvhivo(String nombreArchivo) {
+	public void leerArvhivo(String nombreArchivo) {
 		String rutaArchivo = this.rutaUsuario + this.separador + "src" + this.separador + 
 				"Archivos" + this.separador + nombreArchivo;
 		this.archivo = new File(rutaArchivo);
@@ -45,7 +45,7 @@ public class Leer {
 		}
 	}
 	
-	public void LeerNgramas(String nombreArchivo) {
+	public void leerNgramas(String nombreArchivo) {
 		String rutaArchivo = this.rutaUsuario + this.separador + "src" + this.separador + 
 				"Archivos" + this.separador + nombreArchivo;
 		this.archivo = new File(rutaArchivo);
@@ -60,7 +60,8 @@ public class Leer {
 			// Lectura del fichero
 			String linea;
 			while((linea = br.readLine()) != null) {
-				this.texto += (linea + "\t");
+				this.texto += (linea + " ");
+				//System.out.println(this.texto);
 			}
 		}
 		catch(Exception e){

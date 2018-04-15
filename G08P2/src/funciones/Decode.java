@@ -45,7 +45,7 @@ public class Decode extends Cromosoma {
 		this.frecuenciaTrigramasTexto = new HashMap<String, Integer>();
 
 		nGramas ng = new nGramas();	
-		this.frecuenciaLetras = ng.getFrecuenciaLetras();
+		this.frecuenciaLetras = ng.getFrecuenciaMonogramas();
 		this.frecuenciaBigramas = ng.getFrecuenciaBigramas();
 		this.frecuenciaTrigramas = ng.getFrecuenciaTrigramas();
 

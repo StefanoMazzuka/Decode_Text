@@ -108,7 +108,7 @@ public class AlgoritmoGenetico {
 	}
 	public void crearPoblacionDecode(String nombreArchivo) {
 		Leer l = new Leer();
-		l.LeerArvhivo(nombreArchivo);
+		l.leerArvhivo(nombreArchivo);
 		Decode d;
 		for (int i = 0; i < lPoblacion; i++) {
 			d = new Decode(l.getTexto().toCharArray());

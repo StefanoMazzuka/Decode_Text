@@ -14,7 +14,7 @@ public class Main {
 		Menu menu = new Menu();
 		menu.setVisible(true);
 		Leer l = new Leer();
-		l.LeerArvhivo("Dos.txt");
+		l.leerArvhivo("Dos.txt");
 		Decode d = new Decode(l.getTexto().toCharArray());
 	}
 }

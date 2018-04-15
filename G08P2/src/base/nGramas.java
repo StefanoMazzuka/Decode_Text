@@ -1,83 +1,123 @@
 package base;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import GestionArchivos.Leer;
 
 public class nGramas {
 
-	private HashMap<String, Double> frecuenciaLetras;
+	private HashMap<String, Double> frecuenciaMonogramas;
 	private HashMap<String, Double> frecuenciaBigramas;
 	private HashMap<String, Double> frecuenciaTrigramas;
 
 	public nGramas() {
-		this.frecuenciaLetras = new HashMap<String, Double>();
+		this.frecuenciaMonogramas = new HashMap<String, Double>();
 		this.frecuenciaBigramas = new HashMap<String, Double>();
 		this.frecuenciaTrigramas = new HashMap<String, Double>();
-		crearFrecuenciaLetras();
-		crearFrecuenciaBigramas();
-		crearFrecuenciaTrigramas();
-//		double x = 0.0;
-//		for (HashMap.Entry<String, Double> entry : frecuenciaLetras.entrySet()) {
-//			x += entry.getValue();
-//		}
-//		System.out.println(x);
-//		x = 0.0;
-//		for (HashMap.Entry<String, Double> entry : frecuenciaBigramas.entrySet()) {
-//			x += entry.getValue();
-//		}
-//		System.out.println(x);
-//		x = 0.0;
-//		for (HashMap.Entry<String, Double> entry : frecuenciaTrigramas.entrySet()) {
-//			x += entry.getValue();
-//		}
-//		System.out.println(x);
+		crearfrecuenciaMonogramas();
+		//crearFrecuenciaBigramas();
+		//crearFrecuenciaTrigramas();
+		double x = 0.0;
+		for (HashMap.Entry<String, Double> entry : frecuenciaMonogramas.entrySet()) {
+			x += entry.getValue();
+		}
+		System.out.println(x);
+		x = 0.0;
+		for (HashMap.Entry<String, Double> entry : frecuenciaBigramas.entrySet()) {
+			x += entry.getValue();
+		}
+		System.out.println(x);
+		x = 0.0;
+		for (HashMap.Entry<String, Double> entry : frecuenciaTrigramas.entrySet()) {
+			x += entry.getValue();
+		}
+		System.out.println(x);
 	}
 
-	private void crearFrecuenciaLetras() {
+	private void crearfrecuenciaMonogramas() {
 		Leer l = new Leer();
-		l.LeerNgramas("Letras.txt");
-		String[] texto = l.getTexto().split("\\t");
+		l.leerNgramas("Qua.txt");
+		String[] texto = l.getTexto().split(" ");
+		
 
 		double total = 0;
+
+		char[] nGrama;
+		String nGramaStr;
+		
+		FileWriter fichero = null;
+        PrintWriter pw = null;
+
+		total = 0;
 		for (int i = 1; i < texto.length; i += 2) {
 			total += Double.parseDouble(texto[i]);
 		}
 
 		for (int i = 0; i < texto.length; i += 2) {
-			this.frecuenciaLetras.put(texto[i], ((Double.parseDouble(texto[i + 1]) * 100) / total));
+			nGrama = texto[i].toCharArray();
+			for (int j = 0; j < nGrama.length; j++) {
+				nGrama[j] = Character.toLowerCase(nGrama[j]);
+			}
+			nGramaStr = Character.toString(nGrama[0]) + Character.toString(nGrama[1]) + Character.toString(nGrama[2]) + Character.toString(nGrama[3]);
+			this.frecuenciaTrigramas.put(nGramaStr, ((Double.parseDouble(texto[i + 1]) * 100) / total));
 		}
+		
+	fichero = null;
+       pw = null;
+        try
+        {
+            fichero = new FileWriter("C:/Quadragramas.txt");
+            pw = new PrintWriter(fichero);
 
-		//		this.frecuenciaLetras.put('e', 0.1249);
-		//		this.frecuenciaLetras.put('t', 0.0928);
-		//		this.frecuenciaLetras.put('a', 0.0804);
-		//		this.frecuenciaLetras.put('o', 0.0764);
-		//		this.frecuenciaLetras.put('i', 0.0757);
-		//		this.frecuenciaLetras.put('n', 0.0723);
-		//		this.frecuenciaLetras.put('s', 0.0651);
-		//		this.frecuenciaLetras.put('r', 0.0628);
-		//		this.frecuenciaLetras.put('h', 0.0505);
-		//		this.frecuenciaLetras.put('l', 0.0407);
-		//		this.frecuenciaLetras.put('d', 0.0382);
-		//		this.frecuenciaLetras.put('c', 0.0334);
-		//		this.frecuenciaLetras.put('u', 0.0273);
-		//		this.frecuenciaLetras.put('m', 0.0251);
-		//		this.frecuenciaLetras.put('f', 0.0240);
-		//		this.frecuenciaLetras.put('p', 0.0214);
-		//		this.frecuenciaLetras.put('g', 0.0187);
-		//		this.frecuenciaLetras.put('w', 0.0168);
-		//		this.frecuenciaLetras.put('y', 0.0166);
-		//		this.frecuenciaLetras.put('b', 0.0148);
-		//		this.frecuenciaLetras.put('v', 0.0105);
-		//		this.frecuenciaLetras.put('k', 0.0054);
-		//		this.frecuenciaLetras.put('x', 0.0023);
-		//		this.frecuenciaLetras.put('j', 0.0016);
-		//		this.frecuenciaLetras.put('q', 0.0012);
-		//		this.frecuenciaLetras.put('z', 0.0009);
+            
+    		for (HashMap.Entry<String, Double> entry : frecuenciaTrigramas.entrySet()) {
+    			pw.println(entry.getKey() + " " + entry.getValue());
+    		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // Nuevamente aprovechamos el finally para 
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+
+		//		this.frecuenciaMonogramas.put('e', 0.1249);
+		//		this.frecuenciaMonogramas.put('t', 0.0928);
+		//		this.frecuenciaMonogramas.put('a', 0.0804);
+		//		this.frecuenciaMonogramas.put('o', 0.0764);
+		//		this.frecuenciaMonogramas.put('i', 0.0757);
+		//		this.frecuenciaMonogramas.put('n', 0.0723);
+		//		this.frecuenciaMonogramas.put('s', 0.0651);
+		//		this.frecuenciaMonogramas.put('r', 0.0628);
+		//		this.frecuenciaMonogramas.put('h', 0.0505);
+		//		this.frecuenciaMonogramas.put('l', 0.0407);
+		//		this.frecuenciaMonogramas.put('d', 0.0382);
+		//		this.frecuenciaMonogramas.put('c', 0.0334);
+		//		this.frecuenciaMonogramas.put('u', 0.0273);
+		//		this.frecuenciaMonogramas.put('m', 0.0251);
+		//		this.frecuenciaMonogramas.put('f', 0.0240);
+		//		this.frecuenciaMonogramas.put('p', 0.0214);
+		//		this.frecuenciaMonogramas.put('g', 0.0187);
+		//		this.frecuenciaMonogramas.put('w', 0.0168);
+		//		this.frecuenciaMonogramas.put('y', 0.0166);
+		//		this.frecuenciaMonogramas.put('b', 0.0148);
+		//		this.frecuenciaMonogramas.put('v', 0.0105);
+		//		this.frecuenciaMonogramas.put('k', 0.0054);
+		//		this.frecuenciaMonogramas.put('x', 0.0023);
+		//		this.frecuenciaMonogramas.put('j', 0.0016);
+		//		this.frecuenciaMonogramas.put('q', 0.0012);
+		//		this.frecuenciaMonogramas.put('z', 0.0009);
 	}
 	private void crearFrecuenciaBigramas() {
 		Leer l = new Leer();
-		l.LeerNgramas("Bigramas.txt");
+		l.leerNgramas("Bi.txt");
 		String[] texto = l.getTexto().split("\\t");
 
 		double total = 0;
@@ -142,7 +182,7 @@ public class nGramas {
 	}
 	private void crearFrecuenciaTrigramas() {
 		Leer l = new Leer();
-		l.LeerNgramas("Trigramas.txt");
+		l.leerNgramas("Tri.txt");
 		String[] texto = l.getTexto().split("\\t");
 
 		double total = 0;
@@ -154,8 +194,8 @@ public class nGramas {
 			this.frecuenciaTrigramas.put(texto[i], ((Double.parseDouble(texto[i + 1]) * 100) / total));
 		}
 	}
-	public HashMap<String, Double> getFrecuenciaLetras() {
-		return frecuenciaLetras;
+	public HashMap<String, Double> getFrecuenciaMonogramas() {
+		return frecuenciaMonogramas;
 	}
 	public HashMap<String, Double> getFrecuenciaBigramas() {
 		return frecuenciaBigramas;
