@@ -13,7 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import org.math.plot.*;
 
@@ -36,7 +38,7 @@ public class Menu extends JFrame {
 	private double[] listaMedias;
 	private String[] funciones = {"1", "2", "3", "4", "5"};
 	private String[] selecciones = {"Ruleta", "Torneos", "Estocástico universal"};
-	
+
 	public Menu() {
 		JComboBox funcion = new JComboBox(funciones);
 		JComboBox seleccion = new JComboBox(selecciones);
@@ -91,9 +93,21 @@ public class Menu extends JFrame {
 
 		// add a line plot to the PlotPanel
 
+		JPanel programa = new JPanel();
+		programa.setLayout(new BorderLayout());
+		programa.add(menuPanel, BorderLayout.WEST);
+		programa.add(grafica, BorderLayout.CENTER);
+		
+		JPanel areaTexto = new JPanel();
+		areaTexto.setLayout(new GridLayout(2, 2));
+		areaTexto.add(new JLabel("Original"));
+		areaTexto.add(new JLabel("Traducido"));
+		areaTexto.add(new JTextArea("Traducido"));
+		areaTexto.add(new JTextArea("Original"));
+
 		setLayout(new BorderLayout());
-		add(menuPanel, BorderLayout.WEST);
-		add(grafica, BorderLayout.CENTER);
+		add(programa, BorderLayout.NORTH);
+		add(areaTexto, BorderLayout.CENTER);
 		pack();
 
 		ok.addActionListener(new ActionListener() {
@@ -114,36 +128,36 @@ public class Menu extends JFrame {
 					porcentajeCruce = Double.parseDouble(porCruce.getText());
 					porcentajeMutacion = Double.parseDouble(porMuta.getText());
 					precision = Double.parseDouble(preci.getText());
-					
+
 					if (eliY.isSelected() == false && eliN.isSelected() == false) {
 						JOptionPane.showMessageDialog(null, "Seleccione una opción elitista");
 					}
-					
+
 					else if (eliY.isSelected() == true && eliN.isSelected() == true) {
 						JOptionPane.showMessageDialog(null, "Seleccione solo una opción elitista.");
 					}
-					
+
 					else if (eliY.isSelected() == true && eliN.isSelected() == false) {
 						generacion = new double[numeroGeneraciones];
 						mejoresFitnessAbsolutos = new double[numeroGeneraciones];
 						mejoresFitness = new double[numeroGeneraciones];
-						
+
 						for (int i = 0; i < numeroGeneraciones; i++) {
 							generacion[i] = i;
 						}
-						
+
 						int tipoFuncion = (int) funcion.getSelectedIndex();
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
-						
+
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
 								porcentajeMutacion, numeroGeneraciones, true, tipoFuncion, tipoSeleccion);
 
 						ag.ejecutar();
-						
+
 						mejoresFitnessAbsolutos = ag.getListaFitnessMejorAbsoluto();
 						mejoresFitness = ag.getListaFitnessMejor();
 						listaMedias = ag.getListaMedias();
-						
+
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
 						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos, "Mejor fitness absoluto");
@@ -152,27 +166,27 @@ public class Menu extends JFrame {
 					}
 
 					else if (eliY.isSelected() == false && eliN.isSelected() == true) {
-						
+
 						generacion = new double[numeroGeneraciones];
 						mejoresFitnessAbsolutos = new double[numeroGeneraciones];
 						mejoresFitness = new double[numeroGeneraciones];
-						
+
 						for (int i = 0; i < numeroGeneraciones; i++) {
 							generacion[i] = i;
 						}
-						
+
 						int tipoFuncion = (int) funcion.getSelectedIndex();
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
-						
+
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
 								porcentajeMutacion, numeroGeneraciones, false, tipoFuncion, tipoSeleccion);
-			
+
 						ag.ejecutar();
-						
+
 						mejoresFitnessAbsolutos = ag.getListaFitnessMejorAbsoluto();
 						mejoresFitness = ag.getListaFitnessMejor();
 						listaMedias = ag.getListaMedias();
-						
+
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
 						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos, "Mejor absoluto");
@@ -183,7 +197,7 @@ public class Menu extends JFrame {
 			}
 		});	
 	}
-	
+
 	public void pintarGrafica(Plot2DPanel grafica, double[] x, double[] y, String nombre) {
 		// define the legend position
 		grafica.setAxisLabel(0, "Generación");

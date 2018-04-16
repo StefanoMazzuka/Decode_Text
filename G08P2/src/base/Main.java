@@ -1,7 +1,5 @@
 package base;
 
-import java.util.HashMap;
-
 import GUI.Menu;
 import GestionArchivos.Leer;
 import funciones.Decode;
@@ -10,11 +8,14 @@ import funciones.Decode;
 // http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/
 public class Main {
 	public static void main(String[] args) {
-		nGramas n = new nGramas();
 		Menu menu = new Menu();
 		menu.setVisible(true);
-		Leer l = new Leer();
-		l.leerArvhivo("Dos.txt");
-		Decode d = new Decode(l.getTexto().toCharArray());
+//		Leer l = new Leer();
+//		l.leerArvhivo("Dos.txt");
+//		nGramas ng = new nGramas();
+//		Decode d = new Decode(l.getTexto().toCharArray(),
+//				ng.getFrecuenciaMonogramas(),
+//				ng.getFrecuenciaBigramas(),
+//				ng.getFrecuenciaTrigramas());
 	}
 }

@@ -61,7 +61,7 @@ public class AlgoritmoGenetico {
 
 	public void ejecutar() {
 
-		if (this.tipoFuncion == 0) crearPoblacionFuncion1();
+		if (this.tipoFuncion == 0) crearPoblacionDecode("Dos.txt");
 		else if (this.tipoFuncion == 1) crearPoblacionFuncion2();
 		else if (this.tipoFuncion == 2) crearPoblacionFuncion3();
 		else if (this.tipoFuncion == 3) crearPoblacionFuncion4();
@@ -109,9 +109,13 @@ public class AlgoritmoGenetico {
 	public void crearPoblacionDecode(String nombreArchivo) {
 		Leer l = new Leer();
 		l.leerArvhivo(nombreArchivo);
+		nGramas ng = new nGramas();
 		Decode d;
 		for (int i = 0; i < lPoblacion; i++) {
-			d = new Decode(l.getTexto().toCharArray());
+			d = new Decode(l.getTexto().toCharArray(),
+					ng.getFrecuenciaMonogramas(),
+					ng.getFrecuenciaBigramas(),
+					ng.getFrecuenciaTrigramas());
 			d.setId(i);
 			this.poblacion.add(i, d);
 		}

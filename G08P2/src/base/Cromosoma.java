@@ -6,7 +6,6 @@ public abstract class Cromosoma {
 	public double precision;
 	public double[] fenotipo;
 	public double fitness;
-	public double fitnessTotalCromosoma;
 	public int lGen[];
 	public int id;
 		
