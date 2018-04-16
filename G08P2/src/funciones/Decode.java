@@ -13,10 +13,10 @@ public class Decode extends Cromosoma {
 	private char[] texto;
 	private Gen2 gen;
 	private ArrayList<Character> alelos;
-	private HashMap<String, Integer> frecuenciaLetrasTexto;
+	private HashMap<String, Integer> frecuenciaMonogramasTexto;
 	private HashMap<String, Integer> frecuenciaBigramasTexto;
 	private HashMap<String, Integer> frecuenciaTrigramasTexto;
-	private HashMap<String, Double> frecuenciaLetras;
+	private HashMap<String, Double> frecuenciaMonogramas;
 	private HashMap<String, Double> frecuenciaBigramas;
 	private HashMap<String, Double> frecuenciaTrigramas;
 
@@ -40,17 +40,17 @@ public class Decode extends Cromosoma {
 		// TODO Auto-generated method stub
 	}
 	private void inicializarFreciencias() {
-		this.frecuenciaLetrasTexto = new HashMap<String, Integer>();
+		this.frecuenciaMonogramasTexto = new HashMap<String, Integer>();
 		this.frecuenciaBigramasTexto = new HashMap<String, Integer>();
 		this.frecuenciaTrigramasTexto = new HashMap<String, Integer>();
 
 		nGramas ng = new nGramas();	
-		this.frecuenciaLetras = ng.getFrecuenciaMonogramas();
+		this.frecuenciaMonogramas = ng.getFrecuenciaMonogramas();
 		this.frecuenciaBigramas = ng.getFrecuenciaBigramas();
 		this.frecuenciaTrigramas = ng.getFrecuenciaTrigramas();
 
-		for (HashMap.Entry<String, Double> entry : this.frecuenciaLetras.entrySet()) {
-			this.frecuenciaLetrasTexto.put(entry.getKey(), 0);
+		for (HashMap.Entry<String, Double> entry : this.frecuenciaMonogramas.entrySet()) {
+			this.frecuenciaMonogramasTexto.put(entry.getKey(), 0);
 		}
 
 		for (HashMap.Entry<String, Double> entry : this.frecuenciaBigramas.entrySet()) {
@@ -79,7 +79,7 @@ public class Decode extends Cromosoma {
 				nGrama += Character.toString(this.texto[i]);
 
 				letra = Character.toString(nGrama.charAt(nGrama.length() - 1));
-				crearFrecuenciaLetrasTexto(letra); 
+				crearFrecuenciaMonogramasTexto(letra); 
 
 				if (nGrama.length() > 1) {
 					biGrama = Character.toString(nGrama.charAt(nGrama.length() - 2)) + 
@@ -100,7 +100,7 @@ public class Decode extends Cromosoma {
 			System.out.print(this.texto[i]);
 		}
 		System.out.println();
-		for (HashMap.Entry<String, Integer> entry : this.frecuenciaLetrasTexto.entrySet()) {
+		for (HashMap.Entry<String, Integer> entry : this.frecuenciaMonogramasTexto.entrySet()) {
 			System.out.println(entry.getKey() + " - " + entry.getValue());
 		}
 		System.out.println();
@@ -129,10 +129,10 @@ public class Decode extends Cromosoma {
 				this.texto[i] = (char) ((this.alelos.indexOf(this.texto[i])) + 97);
 		}
 	}
-	private void crearFrecuenciaLetrasTexto(String letra) {
-		if (this.frecuenciaLetrasTexto.containsKey(letra))
-			this.frecuenciaLetrasTexto.put(letra, 
-					(this.frecuenciaLetrasTexto.get(letra) + 1));
+	private void crearFrecuenciaMonogramasTexto(String letra) {
+		if (this.frecuenciaMonogramasTexto.containsKey(letra))
+			this.frecuenciaMonogramasTexto.put(letra, 
+					(this.frecuenciaMonogramasTexto.get(letra) + 1));
 
 	}
 	private void crearFrecuenciaBigramasTexto(String bigrama) {

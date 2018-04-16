@@ -61,7 +61,6 @@ public class Leer {
 			String linea;
 			while((linea = br.readLine()) != null) {
 				this.texto += (linea + " ");
-				//System.out.println(this.texto);
 			}
 		}
 		catch(Exception e){
