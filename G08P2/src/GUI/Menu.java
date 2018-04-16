@@ -36,7 +36,7 @@ public class Menu extends JFrame {
 	private double[] mejoresFitnessAbsolutos;
 	private double[] mejoresFitness;
 	private double[] listaMedias;
-	private String[] funciones = {"1", "2", "3", "4", "5"};
+	private String[] funciones = {"1", "2", "3", "4", "5", "Decode"};
 	private String[] selecciones = {"Ruleta", "Torneos", "Estocástico universal"};
 
 	public Menu() {
@@ -47,22 +47,21 @@ public class Menu extends JFrame {
 		JTextField porCruce = new JTextField("0.6");
 		JTextField porMuta = new JTextField("0.05");
 		JTextField preci = new JTextField("0.001");
-		JCheckBox eliY = new JCheckBox("si", false);
-		JCheckBox eliN = new JCheckBox("no", false);
+		JCheckBox eli = new JCheckBox("", false);
 		JLabel empty = new JLabel();
 		JButton ok = new JButton("Ok");
-
-		setSize(new Dimension(400, 300));
+		JLabel fitMejor = new JLabel("Fitness Mejor:");
+		JTextArea textoOriginal = new JTextArea();
+		JTextArea textoTraducido = new JTextArea();
+		
+		setSize(new Dimension(700, 500));
 		setLocationRelativeTo(null); 
-		setTitle("Genetic Algorithm*"); 
+		setTitle("Genetic Algorithm"); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Terminar el programa al pulsar la X
+		setResizable(false);
 
-		JPanel checkBoxPanel = new JPanel(new GridLayout(1, 2));
-		checkBoxPanel.add(eliY);
-		checkBoxPanel.add(eliN);
-		eliN.setSelected(true);
-
-		/*Menu Panel*/
+		// Panel programa
+		// Menu Panel
 		JPanel menuPanel = new JPanel(new GridLayout(9, 2));
 		menuPanel.add(new JLabel("Tipo de función:"));
 		menuPanel.add(funcion);
@@ -79,36 +78,49 @@ public class Menu extends JFrame {
 		menuPanel.add(new JLabel("Precisión:"));
 		menuPanel.add(preci);
 		menuPanel.add(new JLabel("Elitismo:"));
-		menuPanel.add(checkBoxPanel);
+		menuPanel.add(eli);
 		menuPanel.add(empty);
 		menuPanel.add(ok);
 
-		/*Grafica Panel*/
-
-		// create your PlotPanel (you can use it as a JPanel)
+		// Grafica Panel
 		Plot2DPanel grafica = new Plot2DPanel();
 
-		// define the legend position
 		grafica.addLegend("SOUTH");
 
-		// add a line plot to the PlotPanel
-
+		JPanel graficaPanel = new JPanel();
+		graficaPanel.setLayout(new BorderLayout());
+		graficaPanel.add(grafica, BorderLayout.CENTER);
+		graficaPanel.add(fitMejor, BorderLayout.SOUTH);
+		
 		JPanel programa = new JPanel();
 		programa.setLayout(new BorderLayout());
 		programa.add(menuPanel, BorderLayout.WEST);
-		programa.add(grafica, BorderLayout.CENTER);
+		programa.add(graficaPanel, BorderLayout.CENTER);
+		// Fin panel programa
 		
+		// Panel areaTexto
+		// TextoOriginal Panel
+		JPanel areaTextoOriginal = new JPanel();
+		areaTextoOriginal.setLayout(new BorderLayout());
+		areaTextoOriginal.add(new JLabel("Original"), BorderLayout.NORTH);
+		areaTextoOriginal.add(textoOriginal, BorderLayout.CENTER);
+		
+		// TextoTraducido Panel
+		JPanel areaTextoTraducido = new JPanel();
+		areaTextoTraducido.setLayout(new BorderLayout());
+		areaTextoTraducido.add(new JLabel("Traducido"), BorderLayout.NORTH);
+		areaTextoTraducido.add(textoTraducido, BorderLayout.CENTER);
+		
+		// AreaTexto Panel
 		JPanel areaTexto = new JPanel();
-		areaTexto.setLayout(new GridLayout(2, 2));
-		areaTexto.add(new JLabel("Original"));
-		areaTexto.add(new JLabel("Traducido"));
-		areaTexto.add(new JTextArea("Traducido"));
-		areaTexto.add(new JTextArea("Original"));
-
+		areaTexto.setLayout(new GridLayout(1, 2));
+		areaTexto.add(areaTextoOriginal);
+		areaTexto.add(areaTextoTraducido);
+		// Fin panel areaTexto		
+		
 		setLayout(new BorderLayout());
 		add(programa, BorderLayout.NORTH);
 		add(areaTexto, BorderLayout.CENTER);
-		pack();
 
 		ok.addActionListener(new ActionListener() {
 
@@ -129,15 +141,8 @@ public class Menu extends JFrame {
 					porcentajeMutacion = Double.parseDouble(porMuta.getText());
 					precision = Double.parseDouble(preci.getText());
 
-					if (eliY.isSelected() == false && eliN.isSelected() == false) {
-						JOptionPane.showMessageDialog(null, "Seleccione una opción elitista");
-					}
 
-					else if (eliY.isSelected() == true && eliN.isSelected() == true) {
-						JOptionPane.showMessageDialog(null, "Seleccione solo una opción elitista.");
-					}
-
-					else if (eliY.isSelected() == true && eliN.isSelected() == false) {
+					if (eli.isSelected() == true) {
 						generacion = new double[numeroGeneraciones];
 						mejoresFitnessAbsolutos = new double[numeroGeneraciones];
 						mejoresFitness = new double[numeroGeneraciones];
@@ -150,7 +155,8 @@ public class Menu extends JFrame {
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
 
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
-								porcentajeMutacion, numeroGeneraciones, true, tipoFuncion, tipoSeleccion);
+								porcentajeMutacion, numeroGeneraciones, true, tipoFuncion, 
+								tipoSeleccion, textoOriginal.getText());
 
 						ag.ejecutar();
 
@@ -160,12 +166,14 @@ public class Menu extends JFrame {
 
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
-						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos, "Mejor fitness absoluto");
-						pintarGrafica(grafica, generacion, mejoresFitness, "Mejor fitness por generacion");
-						pintarGrafica(grafica, generacion, listaMedias, "Media de fitness");
+						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitnessAbsolutos, "Mejor fitness absoluto");
+						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitness, "Mejor fitness por generacion");
+						pintarGrafica(graficaPanel, grafica, generacion, listaMedias, "Media de fitness");
+						
+						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 					}
 
-					else if (eliY.isSelected() == false && eliN.isSelected() == true) {
+					else {
 
 						generacion = new double[numeroGeneraciones];
 						mejoresFitnessAbsolutos = new double[numeroGeneraciones];
@@ -179,7 +187,8 @@ public class Menu extends JFrame {
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
 
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
-								porcentajeMutacion, numeroGeneraciones, false, tipoFuncion, tipoSeleccion);
+								porcentajeMutacion, numeroGeneraciones, false, tipoFuncion, 
+								tipoSeleccion, textoOriginal.getText());
 
 						ag.ejecutar();
 
@@ -189,23 +198,25 @@ public class Menu extends JFrame {
 
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
-						pintarGrafica(grafica, generacion, mejoresFitnessAbsolutos, "Mejor absoluto");
-						pintarGrafica(grafica, generacion, mejoresFitness, "Mejor de la generación");
-						pintarGrafica(grafica, generacion, listaMedias, "Media de la generación");	
+						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitnessAbsolutos, "Mejor absoluto");
+						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitness, "Mejor de la generación");
+						pintarGrafica(graficaPanel, grafica, generacion, listaMedias, "Media de la generación");
+						
+						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 					}
 				} 
 			}
 		});	
 	}
 
-	public void pintarGrafica(Plot2DPanel grafica, double[] x, double[] y, String nombre) {
+	public void pintarGrafica(JPanel graficaPanel, Plot2DPanel grafica, double[] x, double[] y, String nombre) {
 		// define the legend position
 		grafica.setAxisLabel(0, "Generación");
 		grafica.setAxisLabel(1, "Evaluación");
 
 		// add a line plot to the PlotPanel
-		grafica.addLinePlot(nombre, x, y);		
-		add(grafica, BorderLayout.CENTER);	
+		grafica.addLinePlot(nombre, x, y);
+		graficaPanel.add(grafica, BorderLayout.CENTER);
 		grafica.setVisible(true);
 	}
 }

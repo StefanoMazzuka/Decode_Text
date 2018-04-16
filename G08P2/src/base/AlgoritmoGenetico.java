@@ -39,9 +39,11 @@ public class AlgoritmoGenetico {
 	private int tipoFuncion;
 	private int tipoSeleccion;
 	private boolean maximizar;
+	private String nombreArchivo;
 
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
-			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, int tipoFuncion, int tipoSeleccion) {
+			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, 
+			int tipoFuncion, int tipoSeleccion, String nombreArchivo) {
 		this.lPoblacion = lPoblacion;
 		this.poblacion = new ArrayList<Cromosoma>(this.lPoblacion);
 		this.precision = precision;
@@ -57,15 +59,16 @@ public class AlgoritmoGenetico {
 		this.elitista = elitista;
 		this.tipoFuncion = tipoFuncion;
 		this.tipoSeleccion = tipoSeleccion;
+		this.nombreArchivo = nombreArchivo;
 	}
 
 	public void ejecutar() {
 
-		if (this.tipoFuncion == 0) crearPoblacionDecode("Dos.txt");
+		if (this.tipoFuncion == 0) crearPoblacionFuncion1();
 		else if (this.tipoFuncion == 1) crearPoblacionFuncion2();
 		else if (this.tipoFuncion == 2) crearPoblacionFuncion3();
 		else if (this.tipoFuncion == 3) crearPoblacionFuncion4();
-		else if (this.tipoFuncion == 4) crearPoblacionFuncion5();
+		else if (this.tipoFuncion == 4) crearPoblacionFuncion5();		else if (this.tipoFuncion == 5) crearPoblacionDecode(this.nombreArchivo);
 
 		// Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo.
 
@@ -107,12 +110,12 @@ public class AlgoritmoGenetico {
 		}
 	}
 	public void crearPoblacionDecode(String nombreArchivo) {
-		Leer l = new Leer();
-		l.leerArvhivo(nombreArchivo);
+//		Leer l = new Leer();
+//		l.leerArvhivo(nombreArchivo);
 		nGramas ng = new nGramas();
 		Decode d;
 		for (int i = 0; i < lPoblacion; i++) {
-			d = new Decode(l.getTexto().toCharArray(),
+			d = new Decode(nombreArchivo.toCharArray(),
 					ng.getFrecuenciaMonogramas(),
 					ng.getFrecuenciaBigramas(),
 					ng.getFrecuenciaTrigramas());
@@ -281,9 +284,11 @@ public class AlgoritmoGenetico {
 		boolean elitista = this.elitista;
 		int tipoFuncion = this.tipoFuncion;
 		int tipoSeleccion = this.tipoSeleccion;
+		String nombreArchivo = this.nombreArchivo;
 
 		AlgoritmoGenetico ag = new AlgoritmoGenetico(lPoblacion, precision, porcentajeCruce, 
-				porcentajeMutacion, numeroGeneraciones, elitista, tipoFuncion, tipoSeleccion);
+				porcentajeMutacion, numeroGeneraciones, elitista, 
+				tipoFuncion, tipoSeleccion, nombreArchivo);
 
 		ag.setPoblacion(poblacion);
 		ag.setlPoblacion(lPoblacion);
