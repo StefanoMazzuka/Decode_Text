@@ -72,4 +72,9 @@ public class Funcion5 extends Cromosoma {
 	public int getN() {
 		return this.n;
 	}
+	@Override
+	public String getTexto() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

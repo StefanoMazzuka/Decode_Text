@@ -26,6 +26,7 @@ public abstract class Cromosoma {
 	public abstract Cromosoma copy();
 	public abstract void calcularFenotipo();
 	public abstract void calcularFitness();
+	public abstract String getTexto();
 
 	/*Getters y Setters*/
 	public Gen[] getGen() {

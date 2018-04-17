@@ -66,4 +66,9 @@ public class Funcion3 extends Cromosoma {
 		
 		return f;
 	}
+	@Override
+	public String getTexto() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -73,4 +73,9 @@ public class Funcion4 extends Cromosoma {
 		
 		return f;
 	}
+	@Override
+	public String getTexto() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

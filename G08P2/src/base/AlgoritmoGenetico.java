@@ -40,6 +40,7 @@ public class AlgoritmoGenetico {
 	private int tipoSeleccion;
 	private boolean maximizar;
 	private String nombreArchivo;
+	private String texto;
 
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
 			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, 
@@ -108,6 +109,8 @@ public class AlgoritmoGenetico {
 			this.listaFitnessMejor[i] = this.fitnessMejor;
 			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;	
 		}
+		
+		this.texto = ??;
 	}
 	public void crearPoblacionDecode(String nombreArchivo) {
 //		Leer l = new Leer();
@@ -388,5 +391,8 @@ public class AlgoritmoGenetico {
 	}
 	public void setTipoSeleccion(int tipoSeleccion) {
 		this.tipoSeleccion = tipoSeleccion;
+	}
+	public String getTexto() {
+		return this.texto;
 	}
 }

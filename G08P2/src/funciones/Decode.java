@@ -209,4 +209,10 @@ public class Decode extends Cromosoma {
 
 		return f;
 	}
+
+	// Getters and Setters
+	public String getTexto() {
+		String texto = new String(this.texto);
+		return texto;
+	}
 }
