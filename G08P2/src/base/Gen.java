@@ -1,41 +1,29 @@
 package base;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Gen {
-	boolean[] alelos;
-	int lgen;
+	private ArrayList<Character> alelos;
 
-	public Gen(int lgen) {
-		this.lgen = lgen;
-		this.alelos = new boolean[lgen];
-		
-		Random r = new Random();
-		int alelo;
-		for (int i = 0; i < this.lgen; i++) {
-			alelo = r.nextInt(2);
-			if (alelo == 1) this.alelos[i] = true;
-			else this.alelos[i] = false;
-		}
+	public Gen() {
+		this.alelos = new ArrayList<Character>();
+
+	    for (int i = 97; i <= 122; i++) {
+	    	this.alelos.add((char) i);
+	    }
+	    Collections.shuffle(this.alelos);
 	}
-	public boolean[] getAlelos() {
-		return alelos;
+	public ArrayList<Character> getAlelos() {
+		return this.alelos;
 	}
-	public void setAlelos(boolean[] alelos) {
+	public void setAlelos(ArrayList<Character> alelos) {
 		this.alelos = alelos;
 	}
-	public double getLgen() {
-		return lgen;
-	}
-	public void setLgen(int lgen) {
-		this.lgen = lgen;
-	}
 	public Gen copy() {
-		boolean[] alelos = this.alelos;
-		Gen g = new Gen(this.lgen);
+		ArrayList<Character> alelos = this.alelos;
+		Gen g = new Gen();
 		g.setAlelos(alelos);
 		return g;
 	}
 }
-
-

@@ -171,7 +171,7 @@ public class Menu extends JFrame {
 						pintarGrafica(graficaPanel, grafica, generacion, listaMedias, "Media de fitness");
 						
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
-						textoTraducido.setText(ag.getTexto());
+						textoTraducido.setText(ag.getTextoMejor());
 					}
 
 					else {
@@ -204,7 +204,7 @@ public class Menu extends JFrame {
 						pintarGrafica(graficaPanel, grafica, generacion, listaMedias, "Media de la generación");
 						
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
-						textoTraducido.setText(ag.getTexto());
+						textoTraducido.setText(ag.getTextoMejor());
 					}
 				} 
 			}

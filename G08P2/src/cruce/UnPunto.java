@@ -12,12 +12,11 @@ public class UnPunto {
 	private AlgoritmoGenetico agCopy;
 	
 	private double pCruce;
-	private int lGen[];
-	private int lCromosoma;
+	private int lGen;
 	private ArrayList<Cromosoma> poblacion;
 	private ArrayList<Cromosoma> poblacionACruzar;
-	private Gen[] genCruzadoUno;
-	private Gen[] genCruzadoDos;
+	private Gen genCruzadoUno;
+	private Gen genCruzadoDos;
 	private int numElemACruzar;
 	
 	public UnPunto(double pCruce) {
@@ -26,12 +25,11 @@ public class UnPunto {
 	public void cruzar(AlgoritmoGenetico ag) {
 
 		this.agCopy = ag.copy();	
-		this.poblacion = this.agCopy.getPoblacion();		
-		this.lCromosoma = this.agCopy.getlCromosoma();
+		this.poblacion = this.agCopy.getPoblacion();
 		this.lGen = this.poblacion.get(0).getlGen();
 		this.poblacionACruzar = new ArrayList<Cromosoma>();
-		this.genCruzadoUno = new Gen[lCromosoma];
-		this.genCruzadoDos = new Gen[lCromosoma];
+		this.genCruzadoUno = new Gen();
+		this.genCruzadoDos = new Gen();
 		
 		cualCruza();
 		
@@ -61,17 +59,14 @@ public class UnPunto {
 		} 
 	}
 	public void cruzarCromosomas(Cromosoma padreUno, Cromosoma padreDos) {
-		Gen[] padreUGen = padreUno.getGen();
-		Gen[] padreDGen = padreDos.getGen();
+		Gen padreUGen = padreUno.getGen();
+		Gen padreDGen = padreDos.getGen();
 		
 		int pos = 0;
 		Random r = new Random();
-		
-		for (int i = 0; i < this.lCromosoma; i++) {
-			pos = r.nextInt(this.lGen[i]);
-			cruzarGenes(i, pos, padreUGen[i].copy(), padreDGen[i].copy(), this.lGen[i]);
-		}
-
+		pos = r.nextInt(25); // Sobre 26?
+		cruzarGenes(pos, padreUGen.copy(), padreDGen.copy());
+			
 		padreUno.setGen(this.genCruzadoUno);
 		padreDos.setGen(this.genCruzadoDos);
 		
@@ -94,27 +89,27 @@ public class UnPunto {
 		
 		this.poblacionACruzar.set(i, padreDos);
 	}
-	public void cruzarGenes(int posGen, int pos, Gen padreUno, Gen padreDos, int lGen) {	
-		boolean[] hijoUno = new boolean[lGen];
-		boolean[] hijoDos = new boolean[lGen];
-		boolean[] padreU = padreUno.getAlelos();
-		boolean[] padreD = padreDos.getAlelos();
-		
+	public void cruzarGenes(int pos, Gen padreUno, Gen padreDos) {	
+		ArrayList<Character> hijoUno = new ArrayList<Character>();
+		ArrayList<Character> hijoDos = new ArrayList<Character>();
+		ArrayList<Character> padreU = padreUno.getAlelos();
+		ArrayList<Character> padreD = padreDos.getAlelos();
+
 		for (int i = 0; i < pos; i++) {
-			hijoUno[i] = padreU[i];
-			hijoDos[i] = padreD[i];
+			hijoUno.add(i, padreU.get(i));
+			hijoDos.add(i, padreD.get(i));
 		}
 
-		for (int j = pos; j < lGen; j++) {
-			hijoUno[j] = padreD[j];
-			hijoDos[j] = padreU[j];
+		for (int j = pos; j < this.lGen; j++) {			
+			hijoUno.add(j, padreD.get(j));
+			hijoDos.add(j, padreU.get(j));
 		}		
 
 		padreUno.setAlelos(hijoUno);		
 		padreDos.setAlelos(hijoDos);
 		
-		this.genCruzadoUno[posGen] = padreUno;
-		this.genCruzadoDos[posGen] = padreDos;
+		this.genCruzadoUno = padreUno;
+		this.genCruzadoDos = padreDos;
 	}
 	public void poblacionFinal() {
 

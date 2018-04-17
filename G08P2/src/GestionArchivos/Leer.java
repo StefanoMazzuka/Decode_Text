@@ -13,6 +13,7 @@ public class Leer {
 	private BufferedReader br;
 	private String texto;
 
+	// 
 	public void leerArvhivo(String nombreArchivo) {
 		String rutaArchivo = this.rutaUsuario + this.separador + "src" + this.separador + 
 				"Archivos" + this.separador + nombreArchivo;

@@ -11,8 +11,7 @@ public class Mutacion {
 	private double probMutacion;
 	private AlgoritmoGenetico agCopy;
 	ArrayList<Cromosoma> poblacion;
-	private int[] lGen;
-	private int lCromosoma;
+	private int lGen;
 	private int lPoblacion;
 
 	public Mutacion(double probMutacion) {
@@ -23,38 +22,40 @@ public class Mutacion {
 		this.agCopy = ag.copy();	
 		this.poblacion = this.agCopy.getPoblacion();		
 		this.lGen = this.poblacion.get(0).getlGen();
-		this.lCromosoma = this.agCopy.getlCromosoma();
 		this.lPoblacion = this.agCopy.getlPoblacion();
 
 		Cromosoma c;
-		Gen[] g;
-		boolean[] a;
+		Gen g;
+		ArrayList<Character> a = new ArrayList<Character>();
+
 		for (int i = 0; i < this.lPoblacion; i++) {
 			c = this.poblacion.get(i);
 			g = c.getGen();
-			for (int j = 0; j < this.lCromosoma; j++) {
-				a = g[j].getAlelos();
-				for (int k = 0; k < this.lGen[j]; k++) {
-					a = mutarAlelos(a, k);
-				}
-				g[j].setAlelos(a);
+			a = g.getAlelos();
+
+			for (int k = 0; k < this.lGen; k++) {
+				a = mutarAlelos(a, k);
 			}
+			
+			g.setAlelos(a);
 			c.setGen(g);
 			c.calcularFenotipo();
 			c.calcularFitness();
 			this.poblacion.set(i, c);
 		}
-		
+
 		ag.setPoblacion(this.poblacion);
 	}
-	private boolean[] mutarAlelos(boolean[] a, int k) {
+	private ArrayList<Character> mutarAlelos(ArrayList<Character> a, int k) {
 
 		Random r = new Random();
 		double porbAuxiliar = r.nextDouble();
+		int letra;
 
 		if (porbAuxiliar <= probMutacion) {
-			if (a[k] == true) a[k] = false;
-			else a[k] = true;
+			letra = r.nextInt(26);
+			letra += 97;
+			a.set(k, (char) letra);
 		}
 
 		return a;

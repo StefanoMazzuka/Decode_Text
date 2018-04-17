@@ -10,12 +10,5 @@ public class Main {
 	public static void main(String[] args) {
 		Menu menu = new Menu();
 		menu.setVisible(true);
-//		Leer l = new Leer();
-//		l.leerArvhivo("Dos.txt");
-//		nGramas ng = new nGramas();
-//		Decode d = new Decode(l.getTexto().toCharArray(),
-//				ng.getFrecuenciaMonogramas(),
-//				ng.getFrecuenciaBigramas(),
-//				ng.getFrecuenciaTrigramas());
 	}
 }

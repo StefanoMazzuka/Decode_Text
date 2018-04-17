@@ -4,11 +4,6 @@ import java.util.ArrayList;
 
 import cruce.UnPunto;
 import funciones.Decode;
-import funciones.Funcion1;
-import funciones.Funcion2;
-import funciones.Funcion3;
-import funciones.Funcion4;
-import funciones.Funcion5;
 import mutacion.Mutacion;
 import seleccion.FactoriaSeleccion;
 import seleccion.Seleccion;
@@ -40,7 +35,7 @@ public class AlgoritmoGenetico {
 	private int tipoSeleccion;
 	private boolean maximizar;
 	private String nombreArchivo;
-	private String texto;
+	private String textoMejor;
 
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
 			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, 
@@ -65,17 +60,18 @@ public class AlgoritmoGenetico {
 
 	public void ejecutar() {
 
-		if (this.tipoFuncion == 0) crearPoblacionFuncion1();
-		else if (this.tipoFuncion == 1) crearPoblacionFuncion2();
-		else if (this.tipoFuncion == 2) crearPoblacionFuncion3();
-		else if (this.tipoFuncion == 3) crearPoblacionFuncion4();
-		else if (this.tipoFuncion == 4) crearPoblacionFuncion5();		else if (this.tipoFuncion == 5) crearPoblacionDecode(this.nombreArchivo);
+//		if (this.tipoFuncion == 0)
+//		else if (this.tipoFuncion == 1)
+//		else if (this.tipoFuncion == 2)
+//		else if (this.tipoFuncion == 3) 
+//		else if (this.tipoFuncion == 4) 
+		if (this.tipoFuncion == 5) crearPoblacionDecode(this.nombreArchivo);
 
 		// Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo.
 
-		Seleccion r = FactoriaSeleccion.getSeleccion("Ruleta");
-		if (this.tipoSeleccion == 1) r = FactoriaSeleccion.getSeleccion("Torneo");
-		else if (this.tipoSeleccion == 2) r = FactoriaSeleccion.getSeleccion("Estocastico");
+		Seleccion s = FactoriaSeleccion.getSeleccion("Ruleta");
+		if (this.tipoSeleccion == 1) s = FactoriaSeleccion.getSeleccion("Torneo");
+		else if (this.tipoSeleccion == 2) s = FactoriaSeleccion.getSeleccion("Estocastico");
 
 		UnPunto p = new UnPunto(this.porcentajeCruce);
 		Mutacion m = new Mutacion(this.porcentajeMutacion);
@@ -94,7 +90,7 @@ public class AlgoritmoGenetico {
 
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
 
-			r.ejecutar(this);
+			s.ejecutar(this);
 			p.cruzar(this);
 			m.mutar(this);
 
@@ -109,8 +105,8 @@ public class AlgoritmoGenetico {
 			this.listaFitnessMejor[i] = this.fitnessMejor;
 			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;	
 		}
-		
-		this.texto = ??;
+		ordenar();
+		this.textoMejor = this.poblacion.get(this.lPoblacion - 1).getTexto();
 	}
 	public void crearPoblacionDecode(String nombreArchivo) {
 //		Leer l = new Leer();
@@ -125,59 +121,6 @@ public class AlgoritmoGenetico {
 			d.setId(i);
 			this.poblacion.add(i, d);
 		}
-	}
-	public void crearPoblacionFuncion1() {
-		this.maximizar = true;
-		this.porcentajeEli = 0.02;
-		Funcion1 f;
-		for (int i = 0; i < lPoblacion; i++) {
-			f = new Funcion1(this.precision);
-			f.setId(i);
-			this.poblacion.add(i, f);
-		}
-		this.lCromosoma = 1;
-	}
-	public void crearPoblacionFuncion2() {
-		this.maximizar = false;
-		this.porcentajeEli = 0.02;
-		Funcion2 f;
-		for (int i = 0; i < lPoblacion; i++) {
-			f = new Funcion2(this.precision);
-			f.setId(i);
-			this.poblacion.add(i, f);
-		}
-		this.lCromosoma = 2;
-	}
-	public void crearPoblacionFuncion3() {
-		this.maximizar = true;
-		this.porcentajeEli = 0.02;
-		Funcion3 f;
-		for (int i = 0; i < lPoblacion; i++) {
-			f = new Funcion3(this.precision);
-			f.setId(i);
-			this.poblacion.add(i, f);
-		}
-		this.lCromosoma = 2;
-	}
-	public void crearPoblacionFuncion4() {
-		this.porcentajeEli = 0.02;
-		Funcion4 f;
-		for (int i = 0; i < lPoblacion; i++) {
-			f = new Funcion4(this.precision);
-			f.setId(i);
-			this.poblacion.add(i, f);
-		}
-		this.lCromosoma = 2;
-	}
-	public void crearPoblacionFuncion5() {
-		this.porcentajeEli = 0.02;
-		Funcion5 f = null;
-		for (int i = 0; i < lPoblacion; i++) {
-			f = new Funcion5(this.precision);
-			f.setId(i);
-			this.poblacion.add(i, f);
-		}
-		this.lCromosoma = f.getN();
 	}
 	public double calcularFitnessMejor() {
 		double fitnessMejor;
@@ -392,7 +335,7 @@ public class AlgoritmoGenetico {
 	public void setTipoSeleccion(int tipoSeleccion) {
 		this.tipoSeleccion = tipoSeleccion;
 	}
-	public String getTexto() {
-		return this.texto;
+	public String getTextoMejor() {
+		return this.textoMejor;
 	}
 }
