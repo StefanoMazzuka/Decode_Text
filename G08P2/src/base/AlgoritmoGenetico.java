@@ -9,6 +9,7 @@ import seleccion.FactoriaSeleccion;
 import seleccion.Seleccion;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import GestionArchivos.Leer;
 
@@ -31,15 +32,18 @@ public class AlgoritmoGenetico {
 	private double porcentajeEli;
 	private int numElegidosEli;
 	private ArrayList<Cromosoma> poblacionEli;
-	private int tipoFuncion;
 	private int tipoSeleccion;
 	private boolean maximizar;
 	private String nombreArchivo;
 	private String textoMejor;
+	private HashMap<String, Double> frecuenciaMonogramas;
+	private HashMap<String, Double> frecuenciaBigramas;
+	private HashMap<String, Double> frecuenciaTrigramas;
 
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
 			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, 
-			int tipoFuncion, int tipoSeleccion, String nombreArchivo) {
+			int tipoSeleccion, String nombreArchivo, HashMap<String, Double> frecuenciaMonogramas,
+			HashMap<String, Double> frecuenciaBigramas, HashMap<String, Double> frecuenciaTrigramas) {
 		this.lPoblacion = lPoblacion;
 		this.poblacion = new ArrayList<Cromosoma>(this.lPoblacion);
 		this.precision = precision;
@@ -53,19 +57,16 @@ public class AlgoritmoGenetico {
 		this.listaMedias = new double[this.numeroGeneraciones];
 		Arrays.fill(this.listaFitnessMejorAbsoluto, 0.0);
 		this.elitista = elitista;
-		this.tipoFuncion = tipoFuncion;
 		this.tipoSeleccion = tipoSeleccion;
 		this.nombreArchivo = nombreArchivo;
+		this.frecuenciaMonogramas = frecuenciaMonogramas;
+		this.frecuenciaBigramas = frecuenciaBigramas;
+		this.frecuenciaTrigramas = frecuenciaTrigramas;
 	}
 
 	public void ejecutar() {
 
-//		if (this.tipoFuncion == 0)
-//		else if (this.tipoFuncion == 1)
-//		else if (this.tipoFuncion == 2)
-//		else if (this.tipoFuncion == 3) 
-//		else if (this.tipoFuncion == 4) 
-		if (this.tipoFuncion == 5) crearPoblacionDecode(this.nombreArchivo);
+		crearPoblacionDecode(this.nombreArchivo);
 
 		// Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo.
 
@@ -109,15 +110,12 @@ public class AlgoritmoGenetico {
 		this.textoMejor = this.poblacion.get(this.lPoblacion - 1).getTexto();
 	}
 	public void crearPoblacionDecode(String nombreArchivo) {
-//		Leer l = new Leer();
-//		l.leerArvhivo(nombreArchivo);
-		nGramas ng = new nGramas();
 		Decode d;
 		for (int i = 0; i < lPoblacion; i++) {
 			d = new Decode(nombreArchivo.toCharArray(),
-					ng.getFrecuenciaMonogramas(),
-					ng.getFrecuenciaBigramas(),
-					ng.getFrecuenciaTrigramas());
+					this.frecuenciaMonogramas,
+					this.frecuenciaBigramas,
+					this.frecuenciaTrigramas);
 			d.setId(i);
 			this.poblacion.add(i, d);
 		}
@@ -228,13 +226,20 @@ public class AlgoritmoGenetico {
 		double porcentajeMutacion = this.porcentajeMutacion;
 		int numeroGeneraciones = this.numeroGeneraciones;
 		boolean elitista = this.elitista;
-		int tipoFuncion = this.tipoFuncion;
 		int tipoSeleccion = this.tipoSeleccion;
 		String nombreArchivo = this.nombreArchivo;
-
+		HashMap<String, Double> frecuenciaMonogramas = new HashMap<String, Double>();
+		HashMap<String, Double> frecuenciaBigramas = new HashMap<String, Double>();
+		HashMap<String, Double> frecuenciaTrigramas = new HashMap<String, Double>();
+		
+		frecuenciaMonogramas = this.frecuenciaMonogramas;
+		frecuenciaBigramas = this.frecuenciaBigramas;
+		frecuenciaTrigramas = this.frecuenciaTrigramas;
+		
 		AlgoritmoGenetico ag = new AlgoritmoGenetico(lPoblacion, precision, porcentajeCruce, 
 				porcentajeMutacion, numeroGeneraciones, elitista, 
-				tipoFuncion, tipoSeleccion, nombreArchivo);
+				tipoSeleccion, nombreArchivo, frecuenciaMonogramas, 
+				frecuenciaBigramas, frecuenciaTrigramas);
 
 		ag.setPoblacion(poblacion);
 		ag.setlPoblacion(lPoblacion);
@@ -244,7 +249,6 @@ public class AlgoritmoGenetico {
 		ag.setPorcentajeCruce(porcentajeCruce);
 		ag.setPorcentajeMutacion(porcentajeMutacion);
 		ag.setNumeroGeneraciones(numeroGeneraciones);
-		ag.setTipoFuncion(tipoFuncion);
 		ag.setTipoSeleccion(tipoSeleccion);
 
 		return ag;
@@ -328,9 +332,6 @@ public class AlgoritmoGenetico {
 	}
 	public void setElitista(boolean elitista) {
 		this.elitista = elitista;
-	}
-	public void setTipoFuncion(int tipoFuncion) {
-		this.tipoFuncion = tipoFuncion;
 	}
 	public void setTipoSeleccion(int tipoSeleccion) {
 		this.tipoSeleccion = tipoSeleccion;

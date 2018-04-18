@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,6 +21,7 @@ import javax.swing.border.Border;
 import org.math.plot.*;
 
 import base.AlgoritmoGenetico;
+import base.nGramas;
 
 public class Menu extends JFrame {
 
@@ -36,11 +38,12 @@ public class Menu extends JFrame {
 	private double[] mejoresFitnessAbsolutos;
 	private double[] mejoresFitness;
 	private double[] listaMedias;
-	private String[] funciones = {"1", "2", "3", "4", "5", "Decode"};
 	private String[] selecciones = {"Ruleta", "Torneos", "Estocástico universal"};
+	private HashMap<String, Double> frecuenciaMonogramas;
+	private HashMap<String, Double> frecuenciaBigramas;
+	private HashMap<String, Double> frecuenciaTrigramas;
 
 	public Menu() {
-		JComboBox funcion = new JComboBox(funciones);
 		JComboBox seleccion = new JComboBox(selecciones);
 		JTextField tamPob = new JTextField("100");
 		JTextField numGen = new JTextField("100");
@@ -62,9 +65,7 @@ public class Menu extends JFrame {
 
 		// Panel programa
 		// Menu Panel
-		JPanel menuPanel = new JPanel(new GridLayout(9, 2));
-		menuPanel.add(new JLabel("Tipo de función:"));
-		menuPanel.add(funcion);
+		JPanel menuPanel = new JPanel(new GridLayout(8, 2));
 		menuPanel.add(new JLabel("Tipo de selección:"));
 		menuPanel.add(seleccion);
 		menuPanel.add(new JLabel("Tamaño de la población:"));
@@ -122,6 +123,11 @@ public class Menu extends JFrame {
 		add(programa, BorderLayout.NORTH);
 		add(areaTexto, BorderLayout.CENTER);
 
+		nGramas ng = new nGramas();
+		this.frecuenciaMonogramas = ng.getFrecuenciaMonogramas();
+		this.frecuenciaBigramas = ng.getFrecuenciaBigramas();
+		this.frecuenciaTrigramas = ng.getFrecuenciaTrigramas();
+		
 		ok.addActionListener(new ActionListener() {
 
 			@Override
@@ -151,12 +157,12 @@ public class Menu extends JFrame {
 							generacion[i] = i;
 						}
 
-						int tipoFuncion = (int) funcion.getSelectedIndex();
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
 
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
-								porcentajeMutacion, numeroGeneraciones, true, tipoFuncion, 
-								tipoSeleccion, textoOriginal.getText());
+								porcentajeMutacion, numeroGeneraciones, true, 
+								tipoSeleccion, textoOriginal.getText(), frecuenciaMonogramas,
+								frecuenciaBigramas, frecuenciaTrigramas);
 
 						ag.ejecutar();
 
@@ -184,12 +190,12 @@ public class Menu extends JFrame {
 							generacion[i] = i;
 						}
 
-						int tipoFuncion = (int) funcion.getSelectedIndex();
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
 
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
-								porcentajeMutacion, numeroGeneraciones, false, tipoFuncion, 
-								tipoSeleccion, textoOriginal.getText());
+								porcentajeMutacion, numeroGeneraciones, false, 
+								tipoSeleccion, textoOriginal.getText(), frecuenciaMonogramas,
+								frecuenciaBigramas, frecuenciaTrigramas);
 
 						ag.ejecutar();
 

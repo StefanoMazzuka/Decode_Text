@@ -1,5 +1,8 @@
 package base;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public abstract class Cromosoma {
 	public Gen gen;
 	public double precision;
@@ -64,4 +67,15 @@ public abstract class Cromosoma {
 	public void setTextoCromosoma(String textoCromosoma) {
 		this.textoCromosoma = textoCromosoma;
 	}
+
+	// Setters externos
+	public abstract void setTextoOriginal(char[] textoOriginal);
+	public abstract void setTextoTraducido(char[] textoTraducido);
+	public abstract void setAlelos(ArrayList<Character> alelos);
+	public abstract void setFrecuenciaMonogramasTexto(HashMap<String, Double> frecuenciaMonogramasTexto);
+	public abstract void setFrecuenciaBigramasTexto(HashMap<String, Double> frecuenciaBigramasTexto);
+	public abstract void setFrecuenciaTrigramasTexto(HashMap<String, Double> frecuenciaTrigramasTexto);
+	public abstract void setFrecuenciaMonogramas(HashMap<String, Double> frecuenciaMonogramas);
+	public abstract void setFrecuenciaBigramas(HashMap<String, Double> frecuenciaBigramas);
+	public abstract void setFrecuenciaTrigramas(HashMap<String, Double> frecuenciaTrigramas);
 }
