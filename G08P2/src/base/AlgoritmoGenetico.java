@@ -2,6 +2,8 @@ package base;
 
 import java.util.ArrayList;
 
+import cruce.Cruce;
+import cruce.OX;
 import cruce.PMX;
 import cruce.UnPunto;
 import funciones.Decode;
@@ -76,7 +78,7 @@ public class AlgoritmoGenetico {
 		if (this.tipoSeleccion == 1) s = FactoriaSeleccion.getSeleccion("Torneo");
 		else if (this.tipoSeleccion == 2) s = FactoriaSeleccion.getSeleccion("Estocastico");
 
-		PMX p = new PMX(this.porcentajeCruce);
+		OX p = new OX(this.porcentajeCruce);
 		Mutacion m = new Mutacion(this.porcentajeMutacion);
 
 		if (this.elitista) {
