@@ -7,7 +7,7 @@ import base.AlgoritmoGenetico;
 import base.Cromosoma;
 import base.Gen;
 
-public class UnPunto {
+public class UnPunto extends Cruce {
 
 	private AlgoritmoGenetico agCopy;
 	

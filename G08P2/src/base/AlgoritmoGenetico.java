@@ -2,6 +2,7 @@ package base;
 
 import java.util.ArrayList;
 
+import cruce.PMX;
 import cruce.UnPunto;
 import funciones.Decode;
 import mutacion.Mutacion;
@@ -74,7 +75,7 @@ public class AlgoritmoGenetico {
 		if (this.tipoSeleccion == 1) s = FactoriaSeleccion.getSeleccion("Torneo");
 		else if (this.tipoSeleccion == 2) s = FactoriaSeleccion.getSeleccion("Estocastico");
 
-		UnPunto p = new UnPunto(this.porcentajeCruce);
+		PMX p = new PMX(this.porcentajeCruce);
 		Mutacion m = new Mutacion(this.porcentajeMutacion);
 
 		if (this.elitista) {
