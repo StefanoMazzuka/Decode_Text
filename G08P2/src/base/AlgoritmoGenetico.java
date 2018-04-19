@@ -16,6 +16,7 @@ import GestionArchivos.Leer;
 
 public class AlgoritmoGenetico {
 
+	private static final int MAX = 99999999;
 	private ArrayList<Cromosoma> poblacion;
 	private int lPoblacion;
 	private double precision;
@@ -34,7 +35,6 @@ public class AlgoritmoGenetico {
 	private int numElegidosEli;
 	private ArrayList<Cromosoma> poblacionEli;
 	private int tipoSeleccion;
-	private boolean maximizar;
 	private String nombreArchivo;
 	private String textoMejor;
 	private HashMap<String, Double> frecuenciaMonogramas;
@@ -45,6 +45,7 @@ public class AlgoritmoGenetico {
 			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, 
 			int tipoSeleccion, String nombreArchivo, HashMap<String, Double> frecuenciaMonogramas,
 			HashMap<String, Double> frecuenciaBigramas, HashMap<String, Double> frecuenciaTrigramas) {
+		this.fitnessMejorAbsoluto = MAX;
 		this.lPoblacion = lPoblacion;
 		this.poblacion = new ArrayList<Cromosoma>(this.lPoblacion);
 		this.precision = precision;
@@ -124,31 +125,17 @@ public class AlgoritmoGenetico {
 	public double calcularFitnessMejor() {
 		double fitnessMejor;
 		double fitness;
-
-		if (this.maximizar) {
-			fitnessMejor = 0;
-			for (int i = 0; i < this.lPoblacion; i++) {
-				fitness = this.poblacion.get(i).getFitness();
-				if (fitnessMejor < fitness)
-					fitnessMejor = fitness;
-			}		
-			
-			if (fitnessMejorAbsoluto < fitnessMejor)
-			this.fitnessMejorAbsoluto = fitnessMejor;
-		}
-
-		else {
-			fitnessMejor = 99999999;
-			for (int i = 0; i < this.lPoblacion; i++) {
-				fitness = this.poblacion.get(i).getFitness();
-				if (fitnessMejor > fitness)
-					fitnessMejor = fitness;
-			}		
-			
-			if (fitnessMejorAbsoluto > fitnessMejor)
-			this.fitnessMejorAbsoluto = fitnessMejor;
-		}
 		
+		fitnessMejor = MAX;
+		for (int i = 0; i < this.lPoblacion; i++) {
+			fitness = this.poblacion.get(i).getFitness();
+			if (fitnessMejor > fitness)
+				fitnessMejor = fitness;
+		}		
+
+		if (fitnessMejorAbsoluto > fitnessMejor)
+			this.fitnessMejorAbsoluto = fitnessMejor;
+
 		return fitnessMejor;
 	}
 	public double calcularMediaGeneracion() {
@@ -186,33 +173,16 @@ public class AlgoritmoGenetico {
 	public void ordenar() {
 		Cromosoma c1;
 		Cromosoma c2;
-		
-		if(this.maximizar) {
-			for (int i = 0; i < this.lPoblacion - 1; i++) {
-				for (int j = i; j < this.lPoblacion; j++) {
-					if (this.poblacion.get(i).getFitness() <
-							this.poblacion.get(j).getFitness()) {
-						c1 = this.poblacion.get(i).copy();
-						c2 = this.poblacion.get(j).copy();
 
-						this.poblacion.set(i, c2);
-						this.poblacion.set(j, c1);
-					}
-				}
-			}
-		}
+		for (int i = 0; i < this.lPoblacion - 1; i++) {
+			for (int j = i; j < this.lPoblacion; j++) {
+				if (this.poblacion.get(i).getFitness() >
+				this.poblacion.get(j).getFitness()) {
+					c1 = this.poblacion.get(i).copy();
+					c2 = this.poblacion.get(j).copy();
 
-		else {
-			for (int i = 0; i < this.lPoblacion - 1; i++) {
-				for (int j = i; j < this.lPoblacion; j++) {
-					if (this.poblacion.get(i).getFitness() >
-							this.poblacion.get(j).getFitness()) {
-						c1 = this.poblacion.get(i).copy();
-						c2 = this.poblacion.get(j).copy();
-
-						this.poblacion.set(i, c2);
-						this.poblacion.set(j, c1);
-					}
+					this.poblacion.set(i, c2);
+					this.poblacion.set(j, c1);
 				}
 			}
 		}
@@ -232,11 +202,11 @@ public class AlgoritmoGenetico {
 		HashMap<String, Double> frecuenciaMonogramas = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaBigramas = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaTrigramas = new HashMap<String, Double>();
-		
+
 		frecuenciaMonogramas = this.frecuenciaMonogramas;
 		frecuenciaBigramas = this.frecuenciaBigramas;
 		frecuenciaTrigramas = this.frecuenciaTrigramas;
-		
+
 		AlgoritmoGenetico ag = new AlgoritmoGenetico(lPoblacion, precision, porcentajeCruce, 
 				porcentajeMutacion, numeroGeneraciones, elitista, 
 				tipoSeleccion, nombreArchivo, frecuenciaMonogramas, 
