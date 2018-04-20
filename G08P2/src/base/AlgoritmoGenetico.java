@@ -78,7 +78,7 @@ public class AlgoritmoGenetico {
 		if (this.tipoSeleccion == 1) s = FactoriaSeleccion.getSeleccion("Torneo");
 		else if (this.tipoSeleccion == 2) s = FactoriaSeleccion.getSeleccion("Estocastico");
 
-		OX p = new OX(this.porcentajeCruce);
+		PMX p = new PMX(this.porcentajeCruce);
 		Mutacion m = new Mutacion(this.porcentajeMutacion);
 
 		if (this.elitista) {

@@ -97,7 +97,7 @@ public class PMX extends Cruce {
 	public PMX(double pCruce) {
 		this.pCruce = pCruce;
 	}
-	
+
 	@Override
 	public void cruzar(AlgoritmoGenetico ag) {
 
@@ -175,89 +175,46 @@ public class PMX extends Cruce {
 		this.poblacionACruzar.set(i, padreDos);
 	}
 
-	public void cruzarGenes(int pmin, int pmax, Gen padreUno, Gen padreDos) {
+	public void cruzarGenes(int posI, int posJ, Gen padreUno, Gen padreDos) {
 		ArrayList<Character> hijoUno = new ArrayList<Character>();
 		ArrayList<Character> hijoDos = new ArrayList<Character>();
-		ArrayList<Character> auxiliarUno = new ArrayList<Character>();
-		ArrayList<Character> auxiliarDos = new ArrayList<Character>();
 		ArrayList<Character> padreU = padreUno.getAlelos();
 		ArrayList<Character> padreD = padreDos.getAlelos();
 
 		// Inicializo los arrays auxiliares a 0
 		for (int i = 0; i < 26; i++) {
-			auxiliarUno.add((char) 0);
-			auxiliarUno.add((char) 0);
+			hijoUno.add((char) 0);
+			hijoDos.add((char) 0);
 
 		}
 
 		// Hago el primer cruce entre los dos puntos de corte
-		for (int i = pmin; i <= pmax; i++) {
-			auxiliarUno.set(i, padreD.get(i));
-			auxiliarDos.set(i, padreU.get(i));
+		for (int i = posI; i <= posJ; i++) {
+			hijoUno.set(i, padreD.get(i));
+			hijoDos.set(i, padreU.get(i));
 		}
-
-		
-		
-		// Recorro las posiciones que no han sido cruzadas, comprobado a ver si los
-		// elementos del
-		// padre original estan en los actualmente cruzados, si no lo estan los añado
-
-		// ¡¡¡CHAPUZÓN!!!
 
 		// HIJO1
-		boolean esta = false;
-		for (int j = 0; j < pmin; j++) {
-			for (int i = pmin; i <= pmax && !esta; i++) {
-				if (padreU.get(j) == auxiliarUno.get(i)) {
-					esta = true;
-					auxiliarUno.set(j, auxiliarDos.get(i));
-
-				} else {
-					auxiliarUno.set(j, padreU.get(j));
-				}
+		char letra;
+		for (int i = posJ + 1; i < posI; i++) {
+			letra = padreU.get(i);
+			while (hijoUno.contains((letra))) {
+				letra = padreU.get(hijoUno.indexOf(letra));
 			}
-		}
-
-		for (int j = pmax + 1; j < lGen; j++) {
-			for (int i = pmin; i <= pmax && !esta; i++) {
-				if (padreU.get(j) == auxiliarUno.get(i)) {
-					esta = true;
-					auxiliarUno.set(j, auxiliarDos.get(i));
-
-				} else {
-					auxiliarUno.set(j, padreU.get(j));
-				}
-			}
+			hijoUno.add(i, letra);
 		}
 
 		// HIJO2
-		esta = false;
-		for (int j = 0; j < pmin; j++) {
-			for (int i = pmin; i <= pmax && !esta; i++) {
-				if (padreU.get(j) == auxiliarUno.get(i)) {
-					esta = true;
-					auxiliarDos.set(j, auxiliarUno.get(i));
-
-				} else {
-					auxiliarDos.set(j, padreD.get(j));
-				}
+		for (int i = posJ + 1; i < posI; i++) {
+			letra = padreD.get(i);
+			while (hijoDos.contains((letra))) {
+				letra = padreD.get(hijoDos.indexOf(letra));
 			}
+			hijoDos.add(i, letra);
 		}
-
-		for (int j = pmax; j < lGen; j++) {
-			for (int i = pmin; i <= pmax && !esta; i++) {
-				if (padreU.get(j) == auxiliarUno.get(i)) {
-					esta = true;
-					auxiliarDos.set(j, auxiliarUno.get(i));
-
-				} else {
-					auxiliarDos.set(j, padreD.get(j));
-				}
-			}
-		}
-
-		padreUno.setAlelos(auxiliarUno);
-		padreDos.setAlelos(auxiliarDos);
+		
+		padreUno.setAlelos(hijoUno);
+		padreDos.setAlelos(hijoDos);
 
 		this.genCruzadoUno = padreUno;
 		this.genCruzadoDos = padreDos;
@@ -269,5 +226,4 @@ public class PMX extends Cruce {
 			this.poblacion.set(this.poblacionACruzar.get(i).getId(), this.poblacionACruzar.get(i));
 		}
 	}
-
 }
