@@ -29,7 +29,7 @@ public class Menu extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int tamaÃ±oPoblacion;
+	private int tamañoPoblacion;
 	private int numeroGeneraciones;
 	private double porcentajeCruce;
 	private double porcentajeMutacion;
@@ -143,7 +143,7 @@ public class Menu extends JFrame {
 
 				else {
 
-					tamaÃ±oPoblacion = Integer.parseInt(tamPob.getText());
+					tamañoPoblacion = Integer.parseInt(tamPob.getText());
 					numeroGeneraciones = Integer.parseInt(numGen.getText());
 					porcentajeCruce = Double.parseDouble(porCruce.getText());
 					porcentajeMutacion = Double.parseDouble(porMuta.getText());
@@ -161,7 +161,7 @@ public class Menu extends JFrame {
 
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
 
-						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamaÃ±oPoblacion, precision, porcentajeCruce, 
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
 								porcentajeMutacion, numeroGeneraciones, true, 
 								tipoSeleccion, textoOriginal.getText(), frecuenciaMonogramas,
 								frecuenciaBigramas, frecuenciaTrigramas);
@@ -195,7 +195,7 @@ public class Menu extends JFrame {
 
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
 
-						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamaÃ±oPoblacion, precision, porcentajeCruce, 
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
 								porcentajeMutacion, numeroGeneraciones, false, 
 								tipoSeleccion, textoOriginal.getText(), frecuenciaMonogramas,
 								frecuenciaBigramas, frecuenciaTrigramas);
