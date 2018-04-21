@@ -29,7 +29,7 @@ public class Menu extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int tamañoPoblacion;
+	private int tamaÃ±oPoblacion;
 	private int numeroGeneraciones;
 	private double porcentajeCruce;
 	private double porcentajeMutacion;
@@ -38,7 +38,7 @@ public class Menu extends JFrame {
 	private double[] mejoresFitnessAbsolutos;
 	private double[] mejoresFitness;
 	private double[] listaMedias;
-	private String[] selecciones = {"Ruleta", "Torneos", "Estocástico universal"};
+	private String[] selecciones = {"Ruleta", "Torneos", "Estocastico universal"};
 	private HashMap<String, Double> frecuenciaMonogramas;
 	private HashMap<String, Double> frecuenciaBigramas;
 	private HashMap<String, Double> frecuenciaTrigramas;
@@ -54,6 +54,7 @@ public class Menu extends JFrame {
 		JLabel empty = new JLabel();
 		JButton ok = new JButton("Ok");
 		JLabel fitMejor = new JLabel("Fitness Mejor:");
+		JLabel fenotipoM = new JLabel("Fenotipo:");
 		JTextArea textoOriginal = new JTextArea();
 		JTextArea textoTraducido = new JTextArea();
 		
@@ -66,17 +67,17 @@ public class Menu extends JFrame {
 		// Panel programa
 		// Menu Panel
 		JPanel menuPanel = new JPanel(new GridLayout(8, 2));
-		menuPanel.add(new JLabel("Tipo de selección:"));
+		menuPanel.add(new JLabel("Tipo de seleccion:"));
 		menuPanel.add(seleccion);
-		menuPanel.add(new JLabel("Tamaño de la población:"));
+		menuPanel.add(new JLabel("TamaÃ±o de la poblacion:"));
 		menuPanel.add(tamPob);
-		menuPanel.add(new JLabel("Número de generaciones:"));
+		menuPanel.add(new JLabel("Numero de generaciones:"));
 		menuPanel.add(numGen);
 		menuPanel.add(new JLabel("Porcentaje de cruce:"));
 		menuPanel.add(porCruce);
 		menuPanel.add(new JLabel("Porcentaje de mutaciones:"));
 		menuPanel.add(porMuta);
-		menuPanel.add(new JLabel("Precisión:"));
+		menuPanel.add(new JLabel("Precision:"));
 		menuPanel.add(preci);
 		menuPanel.add(new JLabel("Elitismo:"));
 		menuPanel.add(eli);
@@ -92,6 +93,7 @@ public class Menu extends JFrame {
 		graficaPanel.setLayout(new BorderLayout());
 		graficaPanel.add(grafica, BorderLayout.CENTER);
 		graficaPanel.add(fitMejor, BorderLayout.SOUTH);
+		graficaPanel.add(fenotipoM, BorderLayout.SOUTH);
 		
 		JPanel programa = new JPanel();
 		programa.setLayout(new BorderLayout());
@@ -141,7 +143,7 @@ public class Menu extends JFrame {
 
 				else {
 
-					tamañoPoblacion = Integer.parseInt(tamPob.getText());
+					tamaÃ±oPoblacion = Integer.parseInt(tamPob.getText());
 					numeroGeneraciones = Integer.parseInt(numGen.getText());
 					porcentajeCruce = Double.parseDouble(porCruce.getText());
 					porcentajeMutacion = Double.parseDouble(porMuta.getText());
@@ -159,7 +161,7 @@ public class Menu extends JFrame {
 
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
 
-						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamaÃ±oPoblacion, precision, porcentajeCruce, 
 								porcentajeMutacion, numeroGeneraciones, true, 
 								tipoSeleccion, textoOriginal.getText(), frecuenciaMonogramas,
 								frecuenciaBigramas, frecuenciaTrigramas);
@@ -178,6 +180,7 @@ public class Menu extends JFrame {
 						
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 						textoTraducido.setText(ag.getTextoMejor());
+						fenotipoM.setText("Fenotipo Mejor: " + ag.getPoblacion().get(ag.getlPoblacion() -1).gen.concatenarAlelos());
 					}
 
 					else {
@@ -192,7 +195,7 @@ public class Menu extends JFrame {
 
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
 
-						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamaÃ±oPoblacion, precision, porcentajeCruce, 
 								porcentajeMutacion, numeroGeneraciones, false, 
 								tipoSeleccion, textoOriginal.getText(), frecuenciaMonogramas,
 								frecuenciaBigramas, frecuenciaTrigramas);
@@ -206,11 +209,12 @@ public class Menu extends JFrame {
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
 						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitnessAbsolutos, "Mejor absoluto");
-						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitness, "Mejor de la generación");
-						pintarGrafica(graficaPanel, grafica, generacion, listaMedias, "Media de la generación");
+						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitness, "Mejor de la generaciï¿½n");
+						pintarGrafica(graficaPanel, grafica, generacion, listaMedias, "Media de la generaciï¿½n");
 						
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 						textoTraducido.setText(ag.getTextoMejor());
+						fenotipoM.setText("Fenotipo Mejor: " + ag.getPoblacion().get(ag.getlPoblacion() -1).gen.concatenarAlelos());
 					}
 				} 
 			}
@@ -219,8 +223,8 @@ public class Menu extends JFrame {
 
 	public void pintarGrafica(JPanel graficaPanel, Plot2DPanel grafica, double[] x, double[] y, String nombre) {
 		// define the legend position
-		grafica.setAxisLabel(0, "Generación");
-		grafica.setAxisLabel(1, "Evaluación");
+		grafica.setAxisLabel(0, "Generaciï¿½n");
+		grafica.setAxisLabel(1, "Evaluaciï¿½n");
 
 		// add a line plot to the PlotPanel
 		grafica.addLinePlot(nombre, x, y);

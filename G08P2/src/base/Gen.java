@@ -26,4 +26,14 @@ public class Gen {
 		g.setAlelos(alelos);
 		return g;
 	}
+	
+	public String concatenarAlelos() {
+		String alelos = "";
+		
+		for (int i = 0; i < this.alelos.size(); i++) {
+			alelos += this.alelos.get(i);
+		}
+		
+		return alelos;
+	}
 }
