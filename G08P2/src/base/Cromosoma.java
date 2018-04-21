@@ -11,6 +11,7 @@ public abstract class Cromosoma {
 	public int lGen = 26;
 	public int id;
 	public String textoCromosoma;
+	public String textoOriginal;
 
 	public Cromosoma() {}
 	
@@ -58,20 +59,25 @@ public abstract class Cromosoma {
 	public void setlGen(int lGen) {
 		this.lGen = lGen;
 	}
-	public String getTexto() {
-		return this.textoCromosoma;
-	}	
 	public String getTextoCromosoma() {
 		return textoCromosoma;
 	}
 	public void setTextoCromosoma(String textoCromosoma) {
 		this.textoCromosoma = textoCromosoma;
 	}
+	public String getTextoOriginal() {
+		return textoOriginal;
+	}
+	public void setTextoOriginal(String textoOriginal) {
+		this.textoOriginal = textoOriginal;
+	}
 
 	// Setters externos
-	public abstract void setTextoOriginal(char[] textoOriginal);
 	public abstract void setTextoTraducido(char[] textoTraducido);
 	public abstract void setAlelos(ArrayList<Character> alelos);
+	public abstract void setFrecuenciaMonogramasTextoInicial(HashMap<String, Double> frecuenciaMonogramasTextoInicial);
+	public abstract void setFrecuenciaBigramasTextoInicial(HashMap<String, Double> frecuenciaBigramasTextoInicial);
+	public abstract void setFrecuenciaTrigramasTextoInicial(HashMap<String, Double> frecuenciaTrigramasTextoInicial);
 	public abstract void setFrecuenciaMonogramasTexto(HashMap<String, Double> frecuenciaMonogramasTexto);
 	public abstract void setFrecuenciaBigramasTexto(HashMap<String, Double> frecuenciaBigramasTexto);
 	public abstract void setFrecuenciaTrigramasTexto(HashMap<String, Double> frecuenciaTrigramasTexto);

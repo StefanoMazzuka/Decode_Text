@@ -8,9 +8,11 @@ import base.Gen;
 
 public class Decode extends Cromosoma {
 
-	private char[] textoOriginal;
 	private char[] textoTraducido;
 	private ArrayList<Character> alelos;
+	private HashMap<String, Double> frecuenciaMonogramasTextoInicial;
+	private HashMap<String, Double> frecuenciaBigramasTextoInicial;
+	private HashMap<String, Double> frecuenciaTrigramasTextoInicial;
 	private HashMap<String, Double> frecuenciaMonogramasTexto;
 	private HashMap<String, Double> frecuenciaBigramasTexto;
 	private HashMap<String, Double> frecuenciaTrigramasTexto;
@@ -26,13 +28,15 @@ public class Decode extends Cromosoma {
 		this.frecuenciaMonogramas = frecuenciaMonogramas;
 		this.frecuenciaBigramas = frecuenciaBigramas;
 		this.frecuenciaTrigramas = frecuenciaTrigramas;
-		this.textoOriginal = texto;
+		this.textoCromosoma = new String(texto);
+		this.textoOriginal = new String(texto);
 		this.textoTraducido = texto;
 		this.gen = new Gen();
 		this.alelos = new ArrayList<Character>();
 		this.alelos = this.gen.getAlelos();
 
 		inicializarFrecuencias();
+		pasarAMinusculas();
 		calcularFitness();
 	}
 	@Override
@@ -40,24 +44,23 @@ public class Decode extends Cromosoma {
 		// TODO Auto-generated method stub
 	}
 	private void inicializarFrecuencias() {
-		this.frecuenciaMonogramasTexto = new HashMap<String, Double>();
-		this.frecuenciaBigramasTexto = new HashMap<String, Double>();
-		this.frecuenciaTrigramasTexto = new HashMap<String, Double>();
+		this.frecuenciaMonogramasTextoInicial = new HashMap<String, Double>();
+		this.frecuenciaBigramasTextoInicial = new HashMap<String, Double>();
+		this.frecuenciaTrigramasTextoInicial = new HashMap<String, Double>();
 
 		for (HashMap.Entry<String, Double> entry : this.frecuenciaMonogramas.entrySet()) {
-			this.frecuenciaMonogramasTexto.put(entry.getKey(), 0.0);
+			this.frecuenciaMonogramasTextoInicial.put(entry.getKey(), 0.0);
 		}
 
 		for (HashMap.Entry<String, Double> entry : this.frecuenciaBigramas.entrySet()) {
-			this.frecuenciaBigramasTexto.put(entry.getKey(), 0.0);
+			this.frecuenciaBigramasTextoInicial.put(entry.getKey(), 0.0);
 		}
 
 		for (HashMap.Entry<String, Double> entry : this.frecuenciaTrigramas.entrySet()) {
-			this.frecuenciaTrigramasTexto.put(entry.getKey(), 0.0);
+			this.frecuenciaTrigramasTextoInicial.put(entry.getKey(), 0.0);
 		}
 	}
 	public void calcularFitness() {
-		pasarAMinusculas();
 		pasarClaveGen();
 
 		this.textoCromosoma = new String(this.textoTraducido);
@@ -72,17 +75,17 @@ public class Decode extends Cromosoma {
 
 		for (HashMap.Entry<String, Double> entry : frecuenciaMonogramasTexto.entrySet()) {
 			if (entry.getValue() != 0) {
-			fitReal = entry.getValue();
-			fitEsperado = this.frecuenciaMonogramas.get(entry.getKey());
-			fitMonograma += Math.abs(fitReal * (Math.log(fitEsperado) / Math.log(2)));
+				fitReal = entry.getValue();
+				fitEsperado = this.frecuenciaMonogramas.get(entry.getKey());
+				fitMonograma += Math.abs(fitReal * (Math.log(fitEsperado) / Math.log(2)));
 			}
 		}
 
 		for (HashMap.Entry<String, Double> entry : frecuenciaBigramasTexto.entrySet()) {
 			if (entry.getValue() != 0) {
-			fitReal = entry.getValue();
-			fitEsperado = this.frecuenciaBigramas.get(entry.getKey());
-			fitBigrama += Math.abs(fitReal * (Math.log(fitEsperado) / Math.log(2)));
+				fitReal = entry.getValue();
+				fitEsperado = this.frecuenciaBigramas.get(entry.getKey());
+				fitBigrama += Math.abs(fitReal * (Math.log(fitEsperado) / Math.log(2)));
 			}
 		}
 
@@ -120,6 +123,7 @@ public class Decode extends Cromosoma {
 		for (int i = 0; i < this.textoTraducido.length; i++) {
 			this.textoTraducido[i] = Character.toLowerCase(this.textoTraducido[i]);
 		}
+		this.textoOriginal = new String(this.textoTraducido);
 	}
 	private void pasarClaveGen() {
 		//		// Mostramos los alelos
@@ -128,9 +132,11 @@ public class Decode extends Cromosoma {
 		//		}
 		//		System.out.println();
 
-		for (int i = 0; i < this.textoOriginal.length; i++) {
-			if (this.alelos.contains(this.textoOriginal[i]))
-				this.textoTraducido[i] = (char) ((this.alelos.indexOf(this.textoTraducido[i])) + 97);
+		this.textoTraducido = this.textoOriginal.toCharArray();
+		this.alelos = this.gen.getAlelos();
+		for (int i = 0; i < this.textoTraducido.length; i++) {
+			if (this.alelos.contains(this.textoTraducido[i]))
+				this.textoTraducido[i] = (char) (this.alelos.get((int) this.textoTraducido[i] - 97));
 		}
 	}
 	private void calcularFrecuencias() {
@@ -142,6 +148,13 @@ public class Decode extends Cromosoma {
 		int contMonograma = 0;
 		int contBigrama = 0;
 		int contTrigrama = 0;
+
+		this.frecuenciaMonogramasTexto = new HashMap<String, Double>();
+		this.frecuenciaBigramasTexto = new HashMap<String, Double>();
+		this.frecuenciaTrigramasTexto = new HashMap<String, Double>();
+		this.frecuenciaMonogramasTexto = this.frecuenciaMonogramasTextoInicial;
+		this.frecuenciaBigramasTexto = this.frecuenciaBigramasTextoInicial;
+		this.frecuenciaTrigramasTexto = this.frecuenciaTrigramasTextoInicial;
 		for (int i = 0; i < this.textoTraducido.length; i++) {
 			if (((int) this.textoTraducido[i]) < 97 || ((int) this.textoTraducido[i]) > 122) nGrama = "";
 			else {
@@ -214,10 +227,13 @@ public class Decode extends Cromosoma {
 		gen2 = this.gen.copy();
 		double fitness = this.fitness;
 		int id = this.id;
-		String texto = this.textoCromosoma;
-		char[] textoOriginal = this.textoOriginal;
-		char[] textoTraducido = this.textoOriginal;
+		String textoCromosoma = this.textoCromosoma;
+		String textoOriginal = this.textoOriginal;
+		char[] textoTraducido = this.textoTraducido;
 		ArrayList<Character> alelos = new ArrayList<>();
+		HashMap<String, Double> frecuenciaMonogramasTextoInicial = new HashMap<String, Double>();
+		HashMap<String, Double> frecuenciaBigramasTextoInicial = new HashMap<String, Double>();
+		HashMap<String, Double> frecuenciaTrigramasTextoInicial = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaMonogramasTexto = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaBigramasTexto = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaTrigramasTexto = new HashMap<String, Double>();
@@ -226,6 +242,9 @@ public class Decode extends Cromosoma {
 		HashMap<String, Double> frecuenciaTrigramas = new HashMap<String, Double>();
 
 		alelos = this.alelos;
+		frecuenciaMonogramasTextoInicial = this.frecuenciaMonogramasTextoInicial;
+		frecuenciaBigramasTextoInicial = this.frecuenciaBigramasTextoInicial;
+		frecuenciaTrigramasTextoInicial = this.frecuenciaTrigramasTextoInicial;
 		frecuenciaMonogramasTexto = this.frecuenciaMonogramasTexto;
 		frecuenciaBigramasTexto = this.frecuenciaBigramasTexto;
 		frecuenciaTrigramasTexto = this.frecuenciaTrigramasTexto;
@@ -238,27 +257,24 @@ public class Decode extends Cromosoma {
 		f.setGen(gen2);
 		f.setFitness(fitness);
 		f.setId(id);
-		f.setTextoCromosoma(texto);
+		f.setTextoCromosoma(textoCromosoma);
 		f.setTextoOriginal(textoOriginal);
 		f.setTextoTraducido(textoTraducido);
 		f.setAlelos(alelos);
+		f.setFrecuenciaMonogramasTextoInicial(frecuenciaMonogramasTextoInicial);
+		f.setFrecuenciaBigramasTextoInicial(frecuenciaBigramasTextoInicial);
+		f.setFrecuenciaTrigramasTextoInicial(frecuenciaTrigramasTextoInicial);
 		f.setFrecuenciaMonogramasTexto(frecuenciaMonogramasTexto);
 		f.setFrecuenciaBigramasTexto(frecuenciaBigramasTexto);
 		f.setFrecuenciaTrigramasTexto(frecuenciaTrigramasTexto);
 		f.setFrecuenciaMonogramas(frecuenciaMonogramas);
 		f.setFrecuenciaBigramas(frecuenciaBigramas);
 		f.setFrecuenciaTrigramas(frecuenciaTrigramas);
-		
+
 		return f;
 	}
 
 	// Getters and Setters
-	public char[] getTextoOriginal() {
-		return textoOriginal;
-	}
-	public void setTextoOriginal(char[] textoOriginal) {
-		this.textoOriginal = textoOriginal;
-	}
 	public char[] getTextoTraducido() {
 		return this.textoTraducido;
 	}
@@ -309,5 +325,15 @@ public class Decode extends Cromosoma {
 	}
 	public void setFrecuenciaTrigramas(HashMap<String, Double> frecuenciaTrigramas) {
 		this.frecuenciaTrigramas = frecuenciaTrigramas;
+	}
+	public void setFrecuenciaMonogramasTextoInicial(HashMap<String, Double> frecuenciaMonogramasTextoInicial) {
+		this.frecuenciaMonogramasTextoInicial = frecuenciaMonogramasTextoInicial;
+
+	}
+	public void setFrecuenciaBigramasTextoInicial(HashMap<String, Double> frecuenciaBigramasTextoInicial) {
+		this.frecuenciaBigramasTextoInicial = frecuenciaBigramasTextoInicial;
+	}
+	public void setFrecuenciaTrigramasTextoInicial(HashMap<String, Double> frecuenciaTrigramasTextoInicial) {
+		this.frecuenciaTrigramasTextoInicial = frecuenciaTrigramasTextoInicial;
 	}
 }

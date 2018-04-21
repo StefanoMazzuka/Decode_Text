@@ -42,6 +42,7 @@ public class AlgoritmoGenetico {
 	private HashMap<String, Double> frecuenciaMonogramas;
 	private HashMap<String, Double> frecuenciaBigramas;
 	private HashMap<String, Double> frecuenciaTrigramas;
+	private String genMejor;
 
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
 			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, 
@@ -111,7 +112,8 @@ public class AlgoritmoGenetico {
 			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;	
 		}
 		ordenar();
-		this.textoMejor = this.poblacion.get(this.lPoblacion - 1).getTexto();
+		this.textoMejor = this.poblacion.get(0).getTextoCromosoma();
+		this.genMejor = this.poblacion.get(0).getGen().concatenarAlelos();
 	}
 	public void crearPoblacionDecode(String nombreArchivo) {
 		Decode d;
@@ -311,5 +313,11 @@ public class AlgoritmoGenetico {
 	}
 	public String getTextoMejor() {
 		return this.textoMejor;
+	}
+	public String getGenMejor() {
+		return genMejor;
+	}
+	public void setGenMejor(String genMejor) {
+		this.genMejor = genMejor;
 	}
 }

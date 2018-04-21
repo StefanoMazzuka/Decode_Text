@@ -54,7 +54,7 @@ public class Menu extends JFrame {
 		JLabel empty = new JLabel();
 		JButton ok = new JButton("Ok");
 		JLabel fitMejor = new JLabel("Fitness Mejor:");
-		JLabel fenotipoM = new JLabel("Fenotipo:");
+		JLabel genMejor = new JLabel("Gen Mejor:");
 		JTextArea textoOriginal = new JTextArea();
 		JTextArea textoTraducido = new JTextArea();
 		
@@ -89,11 +89,14 @@ public class Menu extends JFrame {
 
 		grafica.addLegend("SOUTH");
 
+		JPanel resultados = new JPanel(new GridLayout(2, 1));
+		resultados.add(fitMejor);
+		resultados.add(genMejor);
+		
 		JPanel graficaPanel = new JPanel();
 		graficaPanel.setLayout(new BorderLayout());
 		graficaPanel.add(grafica, BorderLayout.CENTER);
-		graficaPanel.add(fitMejor, BorderLayout.SOUTH);
-		graficaPanel.add(fenotipoM, BorderLayout.SOUTH);
+		graficaPanel.add(resultados, BorderLayout.SOUTH);
 		
 		JPanel programa = new JPanel();
 		programa.setLayout(new BorderLayout());
@@ -180,7 +183,7 @@ public class Menu extends JFrame {
 						
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 						textoTraducido.setText(ag.getTextoMejor());
-						fenotipoM.setText("Fenotipo Mejor: " + ag.getPoblacion().get(ag.getlPoblacion() -1).gen.concatenarAlelos());
+						genMejor.setText("Fenotipo Mejor: " + ag.getGenMejor());
 					}
 
 					else {
@@ -209,12 +212,12 @@ public class Menu extends JFrame {
 						grafica.setVisible(false);
 						grafica.removeAllPlots();
 						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitnessAbsolutos, "Mejor absoluto");
-						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitness, "Mejor de la generaciï¿½n");
-						pintarGrafica(graficaPanel, grafica, generacion, listaMedias, "Media de la generaciï¿½n");
+						pintarGrafica(graficaPanel, grafica, generacion, mejoresFitness, "Mejor de la generación");
+						pintarGrafica(graficaPanel, grafica, generacion, listaMedias, "Media de la generación");
 						
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 						textoTraducido.setText(ag.getTextoMejor());
-						fenotipoM.setText("Fenotipo Mejor: " + ag.getPoblacion().get(ag.getlPoblacion() -1).gen.concatenarAlelos());
+						genMejor.setText("Gen Mejor: " + ag.getGenMejor());
 					}
 				} 
 			}
@@ -223,8 +226,8 @@ public class Menu extends JFrame {
 
 	public void pintarGrafica(JPanel graficaPanel, Plot2DPanel grafica, double[] x, double[] y, String nombre) {
 		// define the legend position
-		grafica.setAxisLabel(0, "Generaciï¿½n");
-		grafica.setAxisLabel(1, "Evaluaciï¿½n");
+		grafica.setAxisLabel(0, "Generación");
+		grafica.setAxisLabel(1, "Evaluación");
 
 		// add a line plot to the PlotPanel
 		grafica.addLinePlot(nombre, x, y);
