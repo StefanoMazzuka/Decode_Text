@@ -54,7 +54,7 @@ public class Heuristica extends Mutacion {
 	private Cromosoma elegirMejorMutacion(Cromosoma c) {
 
 		this.fitnessMejor = 99999999;
-		
+
 		Gen g;
 		ArrayList<Character> alelos = new ArrayList<Character>();
 		this.alelosElegidos = new ArrayList<Character>();
@@ -66,8 +66,12 @@ public class Heuristica extends Mutacion {
 		int elegido;
 		for(int i = 0; i < n; i++) {
 			elegido = r.nextInt(26);
-			this.lugares[i] = elegido;
-			alelosElegidos.add(alelos.get(elegido));
+			if (!this.alelosElegidos.contains(alelos.get(elegido))) {
+				alelosElegidos.add(alelos.get(elegido));
+				this.lugares[i] = elegido;
+			}
+			else
+				i--;
 		}
 
 		int numPermutaciones = factorial(n);
@@ -80,8 +84,10 @@ public class Heuristica extends Mutacion {
 			cadena += this.alelosElegidos.get(j);
 		}
 
+		int pos = 0;
 		for (int i = 0; i < numPermutaciones; i++) {
 			while (permutaciones.contains(cadena)) {
+				System.out.println(pos++);
 				cadena = "";
 				Collections.shuffle(this.alelosElegidos);
 				for (int j = 0; j < n; j++) {
