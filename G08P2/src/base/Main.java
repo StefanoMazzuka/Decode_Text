@@ -1,8 +1,6 @@
 package base;
 
 import GUI.Menu;
-import GestionArchivos.Leer;
-import funciones.Decode;
 // https://people.cs.uct.ac.za/~jkenwood/JasonBrownbridge.pdf
 // http://norvig.com/mayzner.html
 // http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/

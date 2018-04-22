@@ -14,9 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import org.math.plot.*;
 
@@ -46,9 +46,9 @@ public class Menu extends JFrame {
 	private HashMap<String, Double> frecuenciaTrigramas;
 
 	public Menu() {
-		JComboBox seleccion = new JComboBox(selecciones);
-		JComboBox cruce = new JComboBox(cruces);
-		JComboBox mutacion = new JComboBox(mutaciones);
+		JComboBox<String> seleccion = new JComboBox<String>(selecciones);
+		JComboBox<String> cruce = new JComboBox<String>(cruces);
+		JComboBox<String> mutacion = new JComboBox<String>(mutaciones);
 		JTextField tamPob = new JTextField("100");
 		JTextField numGen = new JTextField("100");
 		JTextField porCruce = new JTextField("0.6");
@@ -118,18 +118,20 @@ public class Menu extends JFrame {
 		areaTextoOriginal.setLayout(new BorderLayout());
 		areaTextoOriginal.add(new JLabel("Original"), BorderLayout.NORTH);
 		areaTextoOriginal.add(textoOriginal, BorderLayout.CENTER);
+		JScrollPane scrollPanelTextoOriginal = new JScrollPane(areaTextoOriginal);
 		
 		// TextoTraducido Panel
 		JPanel areaTextoTraducido = new JPanel();
 		areaTextoTraducido.setLayout(new BorderLayout());
 		areaTextoTraducido.add(new JLabel("Traducido"), BorderLayout.NORTH);
 		areaTextoTraducido.add(textoTraducido, BorderLayout.CENTER);
+		JScrollPane scrollPanelTextoTraducido = new JScrollPane(areaTextoTraducido);
 		
 		// AreaTexto Panel
 		JPanel areaTexto = new JPanel();
 		areaTexto.setLayout(new GridLayout(1, 2));
-		areaTexto.add(areaTextoOriginal);
-		areaTexto.add(areaTextoTraducido);
+		areaTexto.add(scrollPanelTextoOriginal);
+		areaTexto.add(scrollPanelTextoTraducido);
 		// Fin panel areaTexto		
 		
 		setLayout(new BorderLayout());
@@ -143,10 +145,8 @@ public class Menu extends JFrame {
 		
 		ok.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				
 				if (tamPob.getText().equals("") || numGen.getText().equals("") || porCruce.getText().equals("") ||
 						porMuta.getText().equals("") || preci.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Por favor introduzca todos los datos.");

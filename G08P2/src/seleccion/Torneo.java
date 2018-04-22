@@ -31,20 +31,21 @@ public class Torneo extends Seleccion {
 			/*
 			 * Elegimos el trio al azar
 			 */
-			for (int i = 0; i < 3; i++) {
-				cualToca = r.nextInt(ag.getlPoblacion()) ;
-				pobTrio.add(pob.get(cualToca).copy());
-				
-				/*
-				 * Comprobamos cual es el mejor elemento del trio
-				 */
-				desplazamiento(pobTrio);
-				
-				if (mejor < this.fitnessDesplazado[i]) {
-					mejor = this.fitnessDesplazado[i];
-					mejorCromosoma = pobTrio.get(i).copy();
-				}
-			}
+			mejor = 99999999;
+            for (int i = 0; i < 3; i++) {
+                cualToca = r.nextInt(ag.getlPoblacion()) ;
+                pobTrio.add(pob.get(cualToca).copy());
+
+                /*
+                 * Comprobamos cual es el mejor elemento del trio
+                 */
+                //desplazamiento(pobTrio);
+
+                if (mejor > pobTrio.get(i).fitness) {
+                    mejor = pobTrio.get(i).fitness;
+                    mejorCromosoma = pobTrio.get(i).copy();
+                }
+            }
 			
 			/*
 			 * Añadimos el cromosoma a la poblacion seleccionada

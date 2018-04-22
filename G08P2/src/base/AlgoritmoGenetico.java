@@ -12,14 +12,11 @@ import mutacion.Insercion;
 import mutacion.Intercambio;
 import mutacion.Inversion;
 import mutacion.Mutacion;
-import mutacion.MutacionBinaria;
 import seleccion.FactoriaSeleccion;
 import seleccion.Seleccion;
 
 import java.util.Arrays;
 import java.util.HashMap;
-
-import GestionArchivos.Leer;
 
 public class AlgoritmoGenetico {
 

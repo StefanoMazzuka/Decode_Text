@@ -1,7 +1,6 @@
 package mutacion;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -16,19 +15,13 @@ public class Heuristica extends Mutacion {
 	ArrayList<Cromosoma> poblacion;
 	ArrayList<Character> alelosElegidos;
 	ArrayList<String> permutaciones;
-	private int lGen;
 	private int lPoblacion;
 	private static final int n = 3;
 	private double fitnessMejor = 99999999;
-
-	private static int[] mejor; //Guarda al mejor permutación
-	private static double mejor_aptitud; //Guarda el mejor fitness del cromosoma
-	private static int[] lugares; //Guardo posiciones del cromosoma seleccionadas para mutar
+	private int[] lugares; //Guardo posiciones del cromosoma seleccionadas para mutar
 
 	public Heuristica(double probMutacion) {
 		this.probMutacion = probMutacion;
-		mejor = new int[n];
-		mejor_aptitud = 10000000;
 		lugares = new int[n];
 	}
 
@@ -45,7 +38,7 @@ public class Heuristica extends Mutacion {
 			prob = Math.random();
 
 			if(prob < this.probMutacion) {
-				c = elegirMejorMutacion(this.poblacion.get(i));
+				c = elegirMejorMutacion(this.poblacion.get(i).copy());
 				this.poblacion.set(i, c);
 			}
 		}
@@ -84,10 +77,8 @@ public class Heuristica extends Mutacion {
 			cadena += this.alelosElegidos.get(j);
 		}
 
-		int pos = 0;
 		for (int i = 0; i < numPermutaciones; i++) {
 			while (permutaciones.contains(cadena)) {
-				System.out.println(pos++);
 				cadena = "";
 				Collections.shuffle(this.alelosElegidos);
 				for (int j = 0; j < n; j++) {
