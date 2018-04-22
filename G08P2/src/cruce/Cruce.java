@@ -17,7 +17,5 @@ public abstract class Cruce {
 	protected int numElemACruzar;
 	
 	
-	abstract void cruzar(AlgoritmoGenetico ag);
-	
-	
+	public abstract void cruzar(AlgoritmoGenetico ag);	
 }

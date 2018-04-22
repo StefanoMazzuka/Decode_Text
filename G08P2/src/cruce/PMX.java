@@ -78,7 +78,7 @@ public class PMX extends Cruce {
 		padreDos.setGen(this.genCruzadoDos);
 
 		//padreUno.calcularFenotipo();
-		padreUno.calcularFitness();
+ 		padreUno.calcularFitness();
 
 		//padreDos.calcularFenotipo();
 		padreDos.calcularFitness();

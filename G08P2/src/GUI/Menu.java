@@ -39,12 +39,16 @@ public class Menu extends JFrame {
 	private double[] mejoresFitness;
 	private double[] listaMedias;
 	private String[] selecciones = {"Ruleta", "Torneos", "Estocastico universal"};
+	private String[] cruces = {"OX", "PMX", "Un punto"};
+	private String[] mutaciones = {"Inserción", "Intercambio", "Inversión", "Heurística"};
 	private HashMap<String, Double> frecuenciaMonogramas;
 	private HashMap<String, Double> frecuenciaBigramas;
 	private HashMap<String, Double> frecuenciaTrigramas;
 
 	public Menu() {
 		JComboBox seleccion = new JComboBox(selecciones);
+		JComboBox cruce = new JComboBox(cruces);
+		JComboBox mutacion = new JComboBox(mutaciones);
 		JTextField tamPob = new JTextField("100");
 		JTextField numGen = new JTextField("100");
 		JTextField porCruce = new JTextField("0.6");
@@ -66,10 +70,14 @@ public class Menu extends JFrame {
 
 		// Panel programa
 		// Menu Panel
-		JPanel menuPanel = new JPanel(new GridLayout(8, 2));
+		JPanel menuPanel = new JPanel(new GridLayout(10, 2));
 		menuPanel.add(new JLabel("Tipo de seleccion:"));
 		menuPanel.add(seleccion);
-		menuPanel.add(new JLabel("TamaÃ±o de la poblacion:"));
+		menuPanel.add(new JLabel("Tipo de cruce:"));
+		menuPanel.add(cruce);
+		menuPanel.add(new JLabel("Tipo de mutación:"));
+		menuPanel.add(mutacion);
+		menuPanel.add(new JLabel("Tamaño de la población:"));
 		menuPanel.add(tamPob);
 		menuPanel.add(new JLabel("Numero de generaciones:"));
 		menuPanel.add(numGen);
@@ -163,11 +171,12 @@ public class Menu extends JFrame {
 						}
 
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
+						int tipoCruce = (int) cruce.getSelectedIndex();
+						int tipoMutacion = (int) mutacion.getSelectedIndex();
 
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
-								porcentajeMutacion, numeroGeneraciones, true, 
-								tipoSeleccion, textoOriginal.getText(), frecuenciaMonogramas,
-								frecuenciaBigramas, frecuenciaTrigramas);
+								porcentajeMutacion, numeroGeneraciones, true, tipoSeleccion, tipoCruce, tipoMutacion,
+								textoOriginal.getText(), frecuenciaMonogramas, frecuenciaBigramas, frecuenciaTrigramas);
 
 						ag.ejecutar();
 
@@ -197,11 +206,12 @@ public class Menu extends JFrame {
 						}
 
 						int tipoSeleccion = (int) seleccion.getSelectedIndex();
-
+						int tipoCruce = (int) cruce.getSelectedIndex();
+						int tipoMutacion = (int) mutacion.getSelectedIndex();
+						
 						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
-								porcentajeMutacion, numeroGeneraciones, false, 
-								tipoSeleccion, textoOriginal.getText(), frecuenciaMonogramas,
-								frecuenciaBigramas, frecuenciaTrigramas);
+								porcentajeMutacion, numeroGeneraciones, false, tipoSeleccion, tipoCruce, tipoMutacion, 
+								textoOriginal.getText(), frecuenciaMonogramas, frecuenciaBigramas, frecuenciaTrigramas);
 
 						ag.ejecutar();
 

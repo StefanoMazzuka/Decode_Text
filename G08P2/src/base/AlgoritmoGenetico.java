@@ -7,7 +7,12 @@ import cruce.OX;
 import cruce.PMX;
 import cruce.UnPunto;
 import funciones.Decode;
+import mutacion.Heuristica;
+import mutacion.Insercion;
+import mutacion.Intercambio;
+import mutacion.Inversion;
 import mutacion.Mutacion;
+import mutacion.MutacionBinaria;
 import seleccion.FactoriaSeleccion;
 import seleccion.Seleccion;
 
@@ -36,7 +41,9 @@ public class AlgoritmoGenetico {
 	private double porcentajeEli;
 	private int numElegidosEli;
 	private ArrayList<Cromosoma> poblacionEli;
-	private int tipoSeleccion;
+	private int tipoSeleccion;	
+	private int tipoCruce;
+	private int tipoMutacion;
 	private String nombreArchivo;
 	private String textoMejor;
 	private HashMap<String, Double> frecuenciaMonogramas;
@@ -46,7 +53,8 @@ public class AlgoritmoGenetico {
 
 	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
 			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, 
-			int tipoSeleccion, String nombreArchivo, HashMap<String, Double> frecuenciaMonogramas,
+			int tipoSeleccion, int tipoCruce, int tipoMutacion, String nombreArchivo, 
+			HashMap<String, Double> frecuenciaMonogramas,
 			HashMap<String, Double> frecuenciaBigramas, HashMap<String, Double> frecuenciaTrigramas) {
 		this.fitnessMejorAbsoluto = MAX;
 		this.lPoblacion = lPoblacion;
@@ -63,6 +71,8 @@ public class AlgoritmoGenetico {
 		Arrays.fill(this.listaFitnessMejorAbsoluto, 0.0);
 		this.elitista = elitista;
 		this.tipoSeleccion = tipoSeleccion;
+		this.tipoCruce = tipoCruce;
+		this.tipoMutacion = tipoMutacion;
 		this.nombreArchivo = nombreArchivo;
 		this.frecuenciaMonogramas = frecuenciaMonogramas;
 		this.frecuenciaBigramas = frecuenciaBigramas;
@@ -75,12 +85,18 @@ public class AlgoritmoGenetico {
 
 		// Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo.
 
-		Seleccion s = FactoriaSeleccion.getSeleccion("Ruleta");
-		if (this.tipoSeleccion == 1) s = FactoriaSeleccion.getSeleccion("Torneo");
-		else if (this.tipoSeleccion == 2) s = FactoriaSeleccion.getSeleccion("Estocastico");
-
-		PMX p = new PMX(this.porcentajeCruce);
-		Mutacion m = new Mutacion(this.porcentajeMutacion);
+		Seleccion seleccion = FactoriaSeleccion.getSeleccion("Ruleta");
+		if (this.tipoSeleccion == 1) seleccion = FactoriaSeleccion.getSeleccion("Torneo");
+		else if (this.tipoSeleccion == 2) seleccion = FactoriaSeleccion.getSeleccion("Estocastico");
+		
+		Cruce cruce = new OX(this.porcentajeCruce);
+		if (this.tipoCruce == 1) cruce = new PMX(this.porcentajeCruce);
+		else if (this.tipoCruce == 2) cruce = new UnPunto(this.porcentajeCruce);
+		
+		Mutacion mutacion = new Insercion(this.porcentajeMutacion);
+		if (this.tipoMutacion == 1) mutacion = new Intercambio(this.porcentajeMutacion);
+		else if (this.tipoMutacion == 2) mutacion = new Inversion(this.porcentajeMutacion);
+		else if (this.tipoMutacion == 3) mutacion = new Heuristica(this.porcentajeMutacion);
 
 		if (this.elitista) {
 			this.numElegidosEli = (int) Math.round((this.porcentajeEli * this.lPoblacion));
@@ -96,9 +112,9 @@ public class AlgoritmoGenetico {
 
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
 
-			s.ejecutar(this);
-			p.cruzar(this);
-			m.mutar(this);
+			seleccion.ejecutar(this);
+			cruce.cruzar(this);
+			mutacion.mutar(this);
 
 			if (this.elitista) {
 				insertarPobEli();
@@ -202,6 +218,8 @@ public class AlgoritmoGenetico {
 		int numeroGeneraciones = this.numeroGeneraciones;
 		boolean elitista = this.elitista;
 		int tipoSeleccion = this.tipoSeleccion;
+		int tipoCruce = this.tipoCruce;
+		int tipoMutacion = this.tipoMutacion;
 		String nombreArchivo = this.nombreArchivo;
 		HashMap<String, Double> frecuenciaMonogramas = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaBigramas = new HashMap<String, Double>();
@@ -212,9 +230,8 @@ public class AlgoritmoGenetico {
 		frecuenciaTrigramas = this.frecuenciaTrigramas;
 
 		AlgoritmoGenetico ag = new AlgoritmoGenetico(lPoblacion, precision, porcentajeCruce, 
-				porcentajeMutacion, numeroGeneraciones, elitista, 
-				tipoSeleccion, nombreArchivo, frecuenciaMonogramas, 
-				frecuenciaBigramas, frecuenciaTrigramas);
+				porcentajeMutacion, numeroGeneraciones, elitista, tipoSeleccion, tipoCruce,
+				tipoMutacion,nombreArchivo, frecuenciaMonogramas, frecuenciaBigramas, frecuenciaTrigramas);
 
 		ag.setPoblacion(poblacion);
 		ag.setlPoblacion(lPoblacion);

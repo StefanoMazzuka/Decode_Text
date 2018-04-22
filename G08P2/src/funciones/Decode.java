@@ -95,7 +95,7 @@ public class Decode extends Cromosoma {
 				fitEsperado = this.frecuenciaTrigramasTexto.get(entry.getKey());
 				fitTrigrama += Math.abs(fitReal * (Math.log(fitEsperado) / Math.log(2)));
 			}
-		}
+		} 
 
 		this.fitness = fitMonograma * 0.1 + fitBigrama * 0.3 + fitTrigrama * 0.6;
 		//		System.out.println(this.fitness);1
@@ -223,8 +223,8 @@ public class Decode extends Cromosoma {
 		//		System.out.println("Trigrama: " + x);
 	}
 	public Cromosoma copy() {
-		Gen gen2 = new Gen();
-		gen2 = this.gen.copy();
+		Gen gen = new Gen();
+		gen = this.gen.copy();
 		double fitness = this.fitness;
 		int id = this.id;
 		String textoCromosoma = this.textoCromosoma;
@@ -254,7 +254,7 @@ public class Decode extends Cromosoma {
 
 		Cromosoma f = new Decode();
 
-		f.setGen(gen2);
+		f.setGen(gen);
 		f.setFitness(fitness);
 		f.setId(id);
 		f.setTextoCromosoma(textoCromosoma);
