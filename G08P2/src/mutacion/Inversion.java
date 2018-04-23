@@ -35,7 +35,6 @@ public class Inversion extends Mutacion {
 			}
 		}
 	}
-
 	private Cromosoma mutarCromosoma(Cromosoma c) {
 		
 		Gen g;

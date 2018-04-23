@@ -45,7 +45,6 @@ public class Leer {
 			}
 		}
 	}
-	
 	public void leerNgramas(String nombreArchivo) {
 		String rutaArchivo = this.rutaUsuario + this.separador + "src" + this.separador + 
 				"Archivos" + this.separador + nombreArchivo;
@@ -78,11 +77,9 @@ public class Leer {
 			}
 		}
 	}
-	
 	public void mostrarTexto() {
 		System.out.println(this.texto);
 	}
-	
 	public String getTexto() {
 		return this.texto;
 	}

@@ -36,7 +36,6 @@ public class Insercion extends Mutacion{
 			}
 		}
 	}
-
 	private Cromosoma mutarCromosoma(Cromosoma c) {
 		
 		Gen g;

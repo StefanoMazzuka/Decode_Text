@@ -43,7 +43,6 @@ public class Heuristica extends Mutacion {
 			}
 		}
 	}
-
 	private Cromosoma elegirMejorMutacion(Cromosoma c) {
 
 		this.fitnessMejor = 99999999;

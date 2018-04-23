@@ -33,7 +33,6 @@ public class PMX extends Cruce {
 		agCopy.setPoblacion(this.poblacion);
 		ag.setPoblacion(agCopy.getPoblacion());
 	}
-
 	public void cualCruza() {
 
 		double pc = 0;
@@ -51,7 +50,6 @@ public class PMX extends Cruce {
 			this.numElemACruzar--;
 		}
 	}
-
 	public void cruzarCromosomas(Cromosoma padreUno, Cromosoma padreDos) {
 		Gen padreUGen = padreUno.getGen();
 		Gen padreDGen = padreDos.getGen();
@@ -96,7 +94,6 @@ public class PMX extends Cruce {
 
 		this.poblacionACruzar.set(i, padreDos);
 	}
-
 	public void cruzarGenes(int posI, int posJ, Gen padreUno, Gen padreDos) {
 		ArrayList<Character> hijoUno = new ArrayList<Character>();
 		ArrayList<Character> hijoDos = new ArrayList<Character>();
@@ -153,7 +150,6 @@ public class PMX extends Cruce {
 		this.genCruzadoUno = padreUno;
 		this.genCruzadoDos = padreDos;
 	}
-
 	public void poblacionFinal() {
 
 		for (int i = 0; i < this.numElemACruzar; i++) {

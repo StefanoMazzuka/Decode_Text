@@ -35,7 +35,6 @@ public class Intercambio extends Mutacion {
 			}
 		}
 	}
-
 	private Cromosoma mutarCromosoma(Cromosoma c) {
 
 		Gen g;
