@@ -60,7 +60,7 @@ public class Menu extends JFrame {
 		JButton ok = new JButton("Ok");
 		JLabel fitMejor = new JLabel("Fitness Mejor:");
 		JLabel genMejor = new JLabel("Gen Mejor:");
-		JLabel letras = new JLabel("abcdefghijklmnopqrstuvwxyz", SwingConstants.CENTER);
+		JLabel letras = new JLabel("a   b   c   d   e   f   g   h   i   j   k   l   m   n   o   p   q   r   s   t   u   v   w   x   y  z", SwingConstants.CENTER);
 		JLabel cromosomaMejor = new JLabel();
 		JTextArea textoOriginal = new JTextArea();
 		JTextArea textoTraducido = new JTextArea();

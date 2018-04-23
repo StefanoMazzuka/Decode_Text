@@ -13,8 +13,7 @@ public class OX extends Cruce {
 		this.pCruce = pCruce;
 	}
 
-	@Override
-	public void cruzar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> cruzar(AlgoritmoGenetico ag) {
 		this.agCopy = ag.copy();
 		this.poblacion = this.agCopy.getPoblacion();
 		this.lGen = this.poblacion.get(0).getlGen();
@@ -29,9 +28,10 @@ public class OX extends Cruce {
 		}
 
 		poblacionFinal();
-		agCopy.setPoblacion(this.poblacion);
-		ag.setPoblacion(agCopy.getPoblacion());
-
+//		agCopy.setPoblacion(this.poblacion);
+//		ag.setPoblacion(agCopy.getPoblacion());
+		
+		return this.poblacion;
 	}
 	public void cualCruza() {
 

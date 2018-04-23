@@ -17,5 +17,5 @@ public abstract class Cruce {
 	protected int numElemACruzar;
 	
 	
-	public abstract void cruzar(AlgoritmoGenetico ag);	
+	public abstract ArrayList<Cromosoma> cruzar(AlgoritmoGenetico ag);	
 }

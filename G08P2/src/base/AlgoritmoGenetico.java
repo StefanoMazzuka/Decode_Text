@@ -11,8 +11,10 @@ import mutacion.Insercion;
 import mutacion.Intercambio;
 import mutacion.Inversion;
 import mutacion.Mutacion;
-import seleccion.FactoriaSeleccion;
+import seleccion.Estocastico;
+import seleccion.Ruleta;
 import seleccion.Seleccion;
+import seleccion.Torneo;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -82,9 +84,9 @@ public class AlgoritmoGenetico {
 
 		// Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo.
 
-		Seleccion seleccion = FactoriaSeleccion.getSeleccion("Ruleta");
-		if (this.tipoSeleccion == 1) seleccion = FactoriaSeleccion.getSeleccion("Torneo");
-		else if (this.tipoSeleccion == 2) seleccion = FactoriaSeleccion.getSeleccion("Estocastico");
+		Seleccion seleccion = new Ruleta();
+		if (this.tipoSeleccion == 1) seleccion = new Torneo();
+		else if (this.tipoSeleccion == 2) seleccion = new Estocastico();
 		
 		Cruce cruce = new OX(this.porcentajeCruce);
 		if (this.tipoCruce == 1) cruce = new PMX(this.porcentajeCruce);
@@ -107,9 +109,9 @@ public class AlgoritmoGenetico {
 
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
 
-			seleccion.ejecutar(this);
-			cruce.cruzar(this);
-			mutacion.mutar(this);
+			this.poblacion = seleccion.ejecutar(this);
+			this.poblacion = cruce.cruzar(this);
+			this.poblacion = mutacion.mutar(this);
 
 			if (this.elitista) {
 				insertarPobEli();

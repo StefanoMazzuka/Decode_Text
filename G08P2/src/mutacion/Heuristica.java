@@ -25,13 +25,13 @@ public class Heuristica extends Mutacion {
 		lugares = new int[n];
 	}
 
-	public void mutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> mutar(AlgoritmoGenetico ag) {
 
 		this.agCopy = ag.copy();	
 		this.poblacion = this.agCopy.getPoblacion();
 		this.lPoblacion = this.agCopy.getlPoblacion();
 
-		Cromosoma c;
+		Cromosoma c = new Decode();
 
 		double prob;
 		for (int i = 0; i < this.lPoblacion; i++){
@@ -41,7 +41,8 @@ public class Heuristica extends Mutacion {
 				c = elegirMejorMutacion(this.poblacion.get(i).copy());
 				this.poblacion.set(i, c);
 			}
-		}
+		}		
+		return this.poblacion;
 	}
 	private Cromosoma elegirMejorMutacion(Cromosoma c) {
 

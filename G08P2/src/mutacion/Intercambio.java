@@ -3,6 +3,7 @@ package mutacion;
 import java.util.ArrayList;
 import java.util.Random;
 
+import funciones.Decode;
 import base.AlgoritmoGenetico;
 import base.Cromosoma;
 import base.Gen;
@@ -17,13 +18,13 @@ public class Intercambio extends Mutacion {
 		this.probMutacion = probMutacion;
 	}
 
-	public void mutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> mutar(AlgoritmoGenetico ag) {
 
 		this.agCopy = ag.copy();	
 		this.poblacion = this.agCopy.getPoblacion();
 		this.lPoblacion = this.agCopy.getlPoblacion();
 
-		Cromosoma c;
+		Cromosoma c = new Decode();
 
 		double prob;
 		for (int i = 0; i < this.lPoblacion; i++){
@@ -34,6 +35,7 @@ public class Intercambio extends Mutacion {
 				this.poblacion.set(i, c);
 			}
 		}
+		return this.poblacion;
 	}
 	private Cromosoma mutarCromosoma(Cromosoma c) {
 

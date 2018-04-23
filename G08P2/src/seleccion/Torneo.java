@@ -11,7 +11,7 @@ public class Torneo extends Seleccion {
 	private double[] fitnessDesplazado;
 	
 	@Override
-	public void ejecutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> ejecutar(AlgoritmoGenetico ag) {
 		// TODO Auto-generated method stub
 		ArrayList<Cromosoma> pob = ag.getPoblacion();
 		ArrayList<Cromosoma> pobTrio = new ArrayList<Cromosoma>();
@@ -61,9 +61,9 @@ public class Torneo extends Seleccion {
 			
 			/*
 			 * Seteamos la poblacion orginal
-			 */
-			ag.setPoblacion(pobSeleccionada);
-		}	
+			 */	
+		}
+		return pobSeleccionada;
 	}
 	public void desplazamiento(ArrayList<Cromosoma> pob) {
 		double fitnessMejor = 0;

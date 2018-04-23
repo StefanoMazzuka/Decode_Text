@@ -13,7 +13,7 @@ public class Estocastico extends Seleccion {
 	private double fitnessTotalPoblacion;
 
 	@Override
-	public void ejecutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> ejecutar(AlgoritmoGenetico ag) {
 		// TODO Auto-generated method stub
 		this.puntuacion = new double[ag.getlPoblacion()];
 		this.fitnessDesplazado = new double[ag.getlPoblacion()];
@@ -72,7 +72,7 @@ public class Estocastico extends Seleccion {
 			pobSeleccionada.add(pob.get(k - 1).copy());
 		}
 		
-		ag.setPoblacion(pobSeleccionada);
+		return pobSeleccionada;
 	}
 	public void desplazamiento(ArrayList<Cromosoma> pob) {
 		double fitnessMejor = 0;

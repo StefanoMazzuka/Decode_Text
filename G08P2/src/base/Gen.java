@@ -30,9 +30,12 @@ public class Gen {
 	public String concatenarAlelos() {
 		String alelos = "";
 		
-		for (int i = 0; i < this.alelos.size(); i++) {
-			alelos += this.alelos.get(i);
+		for (int i = 0; i < this.alelos.size() - 2; i++) {
+			alelos += this.alelos.get(i) + "   ";
 		}
+		
+		alelos += this.alelos.get(this.alelos.size() - 2) + "  ";
+		alelos += this.alelos.get(this.alelos.size() - 1);
 		
 		return alelos;
 	}
