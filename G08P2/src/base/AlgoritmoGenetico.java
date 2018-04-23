@@ -58,7 +58,7 @@ public class AlgoritmoGenetico {
 		this.precision = precision;
 		this.porcentajeCruce = porcentajeCruce;
 		this.porcentajeMutacion = porcentajeMutacion;
-		this.porcentajeEli = 0.02;
+		this.porcentajeEli = 0.05;
 		this.numeroGeneraciones = numeroGeneraciones;
 		this.listaFitnessMejorAbsoluto = new double[this.numeroGeneraciones];
 		Arrays.fill(this.listaFitnessMejorAbsoluto, 0.0);

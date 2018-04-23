@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.math.plot.*;
 
@@ -59,7 +60,7 @@ public class Menu extends JFrame {
 		JButton ok = new JButton("Ok");
 		JLabel fitMejor = new JLabel("Fitness Mejor:");
 		JLabel genMejor = new JLabel("Gen Mejor:");
-		JLabel letras = new JLabel("abcdefghijklmnopqrstuvwxyz");
+		JLabel letras = new JLabel("abcdefghijklmnopqrstuvwxyz", SwingConstants.CENTER);
 		JLabel cromosomaMejor = new JLabel();
 		JTextArea textoOriginal = new JTextArea();
 		JTextArea textoTraducido = new JTextArea();
@@ -201,6 +202,7 @@ public class Menu extends JFrame {
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 						textoTraducido.setText(ag.getTextoMejor());
 						cromosomaMejor.setText(ag.getGenMejor());
+						cromosomaMejor.setHorizontalAlignment(SwingConstants.CENTER);
 					}
 
 					else {
@@ -236,6 +238,7 @@ public class Menu extends JFrame {
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 						textoTraducido.setText(ag.getTextoMejor());
 						cromosomaMejor.setText(ag.getGenMejor());
+						cromosomaMejor.setHorizontalAlignment(SwingConstants.CENTER);
 					}
 				} 
 			}

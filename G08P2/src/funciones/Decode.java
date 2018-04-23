@@ -123,7 +123,7 @@ public class Decode extends Cromosoma {
 		this.textoOriginal = new String(this.textoTraducido);
 	}
 	private void pasarClaveGen() {
-		//		// Mostramos los alelos
+		// Mostramos los alelos
 		//		for (int i = 0; i < alelos.size(); i++) {
 		//			System.out.print(alelos.get(i));
 		//		}
@@ -133,7 +133,7 @@ public class Decode extends Cromosoma {
 		this.alelos = this.gen.getAlelos();
 		for (int i = 0; i < this.textoTraducido.length; i++) {
 			if (this.alelos.contains(this.textoTraducido[i]))
-				this.textoTraducido[i] = (char) (this.alelos.get((int) this.textoTraducido[i] - 97));
+				this.textoTraducido[i] = (char) (this.alelos.indexOf(this.textoTraducido[i]) + 97);
 		}
 	}
 	private void calcularFrecuencias() {
@@ -155,9 +155,9 @@ public class Decode extends Cromosoma {
 		for (int i = 0; i < this.textoTraducido.length; i++) {
 			if (((int) this.textoTraducido[i]) < 97 || ((int) this.textoTraducido[i]) > 122) nGrama = "";
 			else {
-				nGrama += Character.toString(this.textoTraducido[i]);
+				nGrama += (this.textoTraducido[i]);
 
-				monoGrama = Character.toString(nGrama.charAt(nGrama.length() - 1));
+				monoGrama = "" + (nGrama.charAt(nGrama.length() - 1));
 				if (this.frecuenciaMonogramasTexto.containsKey(monoGrama)) {
 					this.frecuenciaMonogramasTexto.put(monoGrama,
 							(this.frecuenciaMonogramasTexto.get(monoGrama) + 1));
@@ -165,8 +165,8 @@ public class Decode extends Cromosoma {
 				}
 
 				if (nGrama.length() > 1) {
-					biGrama = Character.toString(nGrama.charAt(nGrama.length() - 2)) + 
-							Character.toString(nGrama.charAt(nGrama.length() - 1));
+					biGrama = "" + (nGrama.charAt(nGrama.length() - 2)) + 
+							(nGrama.charAt(nGrama.length() - 1));
 					if (this.frecuenciaBigramasTexto.containsKey(biGrama)) {
 						this.frecuenciaBigramasTexto.put(biGrama, 
 								(this.frecuenciaBigramasTexto.get(biGrama) + 1));
@@ -175,9 +175,9 @@ public class Decode extends Cromosoma {
 				}
 
 				if (nGrama.length() > 2) {
-					triGrama = Character.toString(nGrama.charAt(nGrama.length() - 3)) + 
-							Character.toString(nGrama.charAt(nGrama.length() - 2)) +
-							Character.toString(nGrama.charAt(nGrama.length() - 1));
+					triGrama = "" + (nGrama.charAt(nGrama.length() - 3)) + 
+							(nGrama.charAt(nGrama.length() - 2)) +
+							(nGrama.charAt(nGrama.length() - 1));
 					if (this.frecuenciaTrigramasTexto.containsKey(triGrama)) {
 						this.frecuenciaTrigramasTexto.put(triGrama, 
 								(this.frecuenciaTrigramasTexto.get(triGrama) + 1));
