@@ -39,10 +39,7 @@ public class Decode extends Cromosoma {
 		pasarAMinusculas();
 		calcularFitness();
 	}
-	@Override
-	public void calcularFenotipo() {
-		// TODO Auto-generated method stub
-	}
+	public void calcularFenotipo() {}
 	private void inicializarFrecuencias() {
 		this.frecuenciaMonogramasTextoInicial = new HashMap<String, Double>();
 		this.frecuenciaBigramasTextoInicial = new HashMap<String, Double>();
@@ -98,7 +95,7 @@ public class Decode extends Cromosoma {
 		} 
 
 		this.fitness = fitMonograma * 0.1 + fitBigrama * 0.3 + fitTrigrama * 0.6;
-		//		System.out.println(this.fitness);1
+		//		System.out.println(this.fitness);
 		//		// Mostramos el texto
 		//		for (int i = 0; i < texto.length; i++) {
 		//			System.out.print(this.texto[i]);

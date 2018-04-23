@@ -59,6 +59,8 @@ public class Menu extends JFrame {
 		JButton ok = new JButton("Ok");
 		JLabel fitMejor = new JLabel("Fitness Mejor:");
 		JLabel genMejor = new JLabel("Gen Mejor:");
+		JLabel letras = new JLabel("abcdefghijklmnopqrstuvwxyz");
+		JLabel cromosomaMejor = new JLabel();
 		JTextArea textoOriginal = new JTextArea();
 		JTextArea textoTraducido = new JTextArea();
 		
@@ -97,9 +99,11 @@ public class Menu extends JFrame {
 
 		grafica.addLegend("SOUTH");
 
-		JPanel resultados = new JPanel(new GridLayout(2, 1));
+		JPanel resultados = new JPanel(new GridLayout(4, 1));
 		resultados.add(fitMejor);
 		resultados.add(genMejor);
+		resultados.add(letras);
+		resultados.add(cromosomaMejor);
 		
 		JPanel graficaPanel = new JPanel();
 		graficaPanel.setLayout(new BorderLayout());
@@ -114,6 +118,8 @@ public class Menu extends JFrame {
 		
 		// Panel areaTexto
 		// TextoOriginal Panel
+		textoOriginal.setLineWrap(true);
+		textoOriginal.setWrapStyleWord(true);
 		JPanel areaTextoOriginal = new JPanel();
 		areaTextoOriginal.setLayout(new BorderLayout());
 		areaTextoOriginal.add(new JLabel("Original"), BorderLayout.NORTH);
@@ -121,6 +127,8 @@ public class Menu extends JFrame {
 		JScrollPane scrollPanelTextoOriginal = new JScrollPane(areaTextoOriginal);
 		
 		// TextoTraducido Panel
+		textoTraducido.setLineWrap(true);
+		textoTraducido.setWrapStyleWord(true);
 		JPanel areaTextoTraducido = new JPanel();
 		areaTextoTraducido.setLayout(new BorderLayout());
 		areaTextoTraducido.add(new JLabel("Traducido"), BorderLayout.NORTH);
@@ -192,7 +200,7 @@ public class Menu extends JFrame {
 						
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 						textoTraducido.setText(ag.getTextoMejor());
-						genMejor.setText("Fenotipo Mejor: " + ag.getGenMejor());
+						cromosomaMejor.setText(ag.getGenMejor());
 					}
 
 					else {
@@ -227,7 +235,7 @@ public class Menu extends JFrame {
 						
 						fitMejor.setText("Fitness Mejor: " + mejoresFitnessAbsolutos[mejoresFitnessAbsolutos.length - 1]);
 						textoTraducido.setText(ag.getTextoMejor());
-						genMejor.setText("Gen Mejor: " + ag.getGenMejor());
+						cromosomaMejor.setText(ag.getGenMejor());
 					}
 				} 
 			}
