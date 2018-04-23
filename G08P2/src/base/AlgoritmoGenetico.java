@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import cruce.Cruce;
 import cruce.OX;
 import cruce.PMX;
-import cruce.UnPunto;
 import funciones.Decode;
 import mutacion.Heuristica;
 import mutacion.Insercion;
@@ -88,7 +87,6 @@ public class AlgoritmoGenetico {
 		
 		Cruce cruce = new OX(this.porcentajeCruce);
 		if (this.tipoCruce == 1) cruce = new PMX(this.porcentajeCruce);
-		else if (this.tipoCruce == 2) cruce = new UnPunto(this.porcentajeCruce);
 		
 		Mutacion mutacion = new Insercion(this.porcentajeMutacion);
 		if (this.tipoMutacion == 1) mutacion = new Intercambio(this.porcentajeMutacion);
@@ -103,8 +101,7 @@ public class AlgoritmoGenetico {
 			for (int i = 0; i < this.numElegidosEli; i++) {
 				c = this.poblacion.get(i).copy();
 				this.poblacionEli.add(i, c);
-			}			
-			ordenar();
+			}
 		}
 
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
@@ -124,6 +121,7 @@ public class AlgoritmoGenetico {
 			this.listaFitnessMejor[i] = this.fitnessMejor;
 			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;	
 		}
+		
 		ordenar();
 		this.textoMejor = this.poblacion.get(0).getTextoCromosoma();
 		this.genMejor = this.poblacion.get(0).getGen().concatenarAlelos();
@@ -169,14 +167,13 @@ public class AlgoritmoGenetico {
 
 		return media;
 	}
-	public void seleccionarEli() {	
+	public void seleccionarEli() {
+		ordenar();
 		Cromosoma c;
 		for (int i = 0; i < this.numElegidosEli; i++) {
 			c = this.poblacion.get(i).copy();
 			this.poblacionEli.set(i, c);
 		}
-
-		ordenar();
 	}
 	public void insertarPobEli() {
 		Cromosoma c;
@@ -184,8 +181,6 @@ public class AlgoritmoGenetico {
 			c = this.poblacionEli.get(i).copy();
 			this.poblacion.set((this.lPoblacion - 1) - i, c);
 		}
-
-		ordenar();
 	}
 	public void ordenar() {
 		Cromosoma c1;
