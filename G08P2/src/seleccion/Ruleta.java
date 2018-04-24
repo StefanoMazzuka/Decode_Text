@@ -15,11 +15,11 @@ public class Ruleta extends Seleccion {
 	@Override
 	public ArrayList<Cromosoma> ejecutar(ArrayList<Cromosoma> poblacion, int numGeneraciones) {
 		// TODO Auto-generated method stub
+		this.poblacion = poblacion;
 		this.puntuacion = new double[this.poblacion.size()];
 		this.fitnessDesplazado = new double[this.poblacion.size()];
 		this.fitnessTotalPoblacion = 0;
 		
-		this.poblacion = poblacion;
 		ArrayList<Cromosoma> pobSeleccionada = new ArrayList<Cromosoma>();
 		
 		desplazamiento(poblacion);
