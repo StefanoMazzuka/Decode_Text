@@ -4,20 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import base.AlgoritmoGenetico;
 import base.Cromosoma;
 import base.Gen;
 import funciones.Decode;
 
 public class Heuristica extends Mutacion {
 	private double probMutacion;
-	private AlgoritmoGenetico agCopy;
 	ArrayList<Cromosoma> poblacion;
 	ArrayList<Character> alelosElegidos;
 	ArrayList<String> permutaciones;
 	private int lPoblacion;
 	private static final int n = 3;
-	private double fitnessMejor = 99999999;
+	private double fitnessMejor = Double.MAX_VALUE;
 	private int[] lugares; //Guardo posiciones del cromosoma seleccionadas para mutar
 
 	public Heuristica(double probMutacion) {
@@ -25,11 +23,10 @@ public class Heuristica extends Mutacion {
 		lugares = new int[n];
 	}
 
-	public ArrayList<Cromosoma> mutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> mutar(ArrayList<Cromosoma> poblacion) {
 
-		this.agCopy = ag.copy();	
-		this.poblacion = this.agCopy.getPoblacion();
-		this.lPoblacion = this.agCopy.getlPoblacion();
+		this.poblacion = poblacion;
+		this.lPoblacion = this.poblacion.size();
 
 		Cromosoma c = new Decode();
 
@@ -46,7 +43,7 @@ public class Heuristica extends Mutacion {
 	}
 	private Cromosoma elegirMejorMutacion(Cromosoma c) {
 
-		this.fitnessMejor = 99999999;
+		this.fitnessMejor = Double.MAX_VALUE;
 
 		Gen g;
 		ArrayList<Character> alelos = new ArrayList<Character>();

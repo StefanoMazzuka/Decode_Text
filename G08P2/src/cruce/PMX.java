@@ -3,21 +3,25 @@ package cruce;
 import java.util.ArrayList;
 import java.util.Random;
 
-import base.AlgoritmoGenetico;
 import base.Cromosoma;
 import base.Gen;
 
 public class PMX extends Cruce {
 
+	int numElemACruzar;
+	double pCruce;
+	ArrayList<Cromosoma> poblacion;
+	ArrayList<Cromosoma> poblacionACruzar;
+	Gen genCruzadoUno;
+	Gen genCruzadoDos;
+	
 	public PMX(double pCruce) {
 		this.pCruce = pCruce;
 	}
 
-	public ArrayList<Cromosoma> cruzar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> cruzar(ArrayList<Cromosoma> poblacion) {
 
-		this.agCopy = ag.copy();
-		this.poblacion = this.agCopy.getPoblacion();
-		this.lGen = this.poblacion.get(0).getlGen();
+		this.poblacion = poblacion;
 		this.poblacionACruzar = new ArrayList<Cromosoma>();
 		this.genCruzadoUno = new Gen();
 		this.genCruzadoDos = new Gen();
@@ -37,7 +41,7 @@ public class PMX extends Cruce {
 	public void cualCruza() {
 
 		double pc = 0;
-		for (int i = 0; i < this.agCopy.getlPoblacion(); i++) {
+		for (int i = 0; i < this.poblacion.size(); i++) {
 			pc = Math.random();
 			if (pc < pCruce) {
 				this.poblacionACruzar.add(this.poblacion.get(i).copy());

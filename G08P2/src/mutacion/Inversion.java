@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import funciones.Decode;
-import base.AlgoritmoGenetico;
 import base.Cromosoma;
 import base.Gen;
 
 public class Inversion extends Mutacion {
+	
 	private double probMutacion;
-	private AlgoritmoGenetico agCopy;
 	ArrayList<Cromosoma> poblacion;
 	private int lPoblacion;
 	
@@ -18,11 +17,10 @@ public class Inversion extends Mutacion {
 		this.probMutacion = probMutacion;
 	}
 	
-	public ArrayList<Cromosoma> mutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> mutar(ArrayList<Cromosoma> poblacion) {
 
-		this.agCopy = ag.copy();	
-		this.poblacion = this.agCopy.getPoblacion();
-		this.lPoblacion = this.agCopy.getlPoblacion();
+		this.poblacion = poblacion;
+		this.lPoblacion = this.poblacion.size();
 
 		Cromosoma c = new Decode();
 

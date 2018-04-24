@@ -3,7 +3,6 @@ package seleccion;
 import java.util.ArrayList;
 import java.util.Random;
 
-import base.AlgoritmoGenetico;
 import base.Cromosoma;
 
 public class Ruleta extends Seleccion {	
@@ -11,52 +10,53 @@ public class Ruleta extends Seleccion {
 	private double[] puntuacion;
 	private double[] fitnessDesplazado;
 	private double fitnessTotalPoblacion;
+	ArrayList<Cromosoma> poblacion;
 	
 	@Override
-	public ArrayList<Cromosoma> ejecutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> ejecutar(ArrayList<Cromosoma> poblacion, int numGeneraciones) {
 		// TODO Auto-generated method stub
-		this.puntuacion = new double[ag.getlPoblacion()];
-		this.fitnessDesplazado = new double[ag.getlPoblacion()];
+		this.puntuacion = new double[this.poblacion.size()];
+		this.fitnessDesplazado = new double[this.poblacion.size()];
 		this.fitnessTotalPoblacion = 0;
 		
-		ArrayList<Cromosoma> pob = ag.getPoblacion();
+		this.poblacion = poblacion;
 		ArrayList<Cromosoma> pobSeleccionada = new ArrayList<Cromosoma>();
 		
-		desplazamiento(pob);
+		desplazamiento(poblacion);
 		
-		for (int i = 0; i < ag.getlPoblacion(); i++) {
+		for (int i = 0; i < this.poblacion.size(); i++) {
 			this.fitnessTotalPoblacion += this.fitnessDesplazado[i];
 		}
 		
-		for (int i = 0; i < ag.getlPoblacion(); i++) {
+		for (int i = 0; i < this.poblacion.size(); i++) {
 			this.puntuacion[i] = this.fitnessDesplazado[i] / this.fitnessTotalPoblacion;
 		}
 		
 		Random r = new Random();
 		double probabilidad;
 		double probAcumulada;
-		for (int i = 0; i < ag.getlPoblacion(); i++) {
+		for (int i = 0; i < this.poblacion.size(); i++) {
 			probAcumulada = this.puntuacion[0];
 			probabilidad = r.nextDouble() % 1;
 			int j = 1;
-			while (j < ag.getlPoblacion() && probabilidad > probAcumulada) {
+			while (j < this.poblacion.size() && probabilidad > probAcumulada) {
 				probAcumulada += this.puntuacion[j];
 				j++;
 			}
-			pobSeleccionada.add(pob.get(j - 1).copy());
+			pobSeleccionada.add(this.poblacion.get(j - 1).copy());
 		}
 	
 		return pobSeleccionada;
 	}
-	public void desplazamiento(ArrayList<Cromosoma> pob) {
+	public void desplazamiento(ArrayList<Cromosoma> poblacion) {
 		double fitnessMejor = 0;
-		for (int i = 0; i < pob.size(); i++) {
-			if(fitnessMejor < pob.get(i).getFitness())
-				fitnessMejor = pob.get(i).getFitness();
+		for (int i = 0; i < poblacion.size(); i++) {
+			if(fitnessMejor < poblacion.get(i).getFitness())
+				fitnessMejor = poblacion.get(i).getFitness();
 		}
 		fitnessMejor = fitnessMejor * 1.05;
-		for (int i = 0; i < pob.size(); i++) {
-			this.fitnessDesplazado[i] = fitnessMejor - pob.get(i).getFitness();
+		for (int i = 0; i < poblacion.size(); i++) {
+			this.fitnessDesplazado[i] = fitnessMejor - poblacion.get(i).getFitness();
 		}
 	}
 }

@@ -17,6 +17,7 @@ import seleccion.Seleccion;
 import seleccion.Torneo;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class AlgoritmoGenetico {
@@ -109,15 +110,17 @@ public class AlgoritmoGenetico {
 
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
 
-			this.poblacion = seleccion.ejecutar(this);
-			this.poblacion = cruce.cruzar(this);
-			this.poblacion = mutacion.mutar(this);
+			this.poblacion = seleccion.ejecutar(this.poblacion, this.numeroGeneraciones);
+			Collections.shuffle(this.poblacion);
+			this.poblacion = cruce.cruzar(this.poblacion);
+			this.poblacion = mutacion.mutar(this.poblacion);
+			Collections.shuffle(this.poblacion);
 
 			if (this.elitista) {
 				insertarPobEli();
 				seleccionarEli();
-			}	
-
+			}
+			
 			this.media = this.calcularMediaGeneracion();
 			this.fitnessMejor = this.calcularFitnessMejor();
 			this.listaMedias[i] = media;

@@ -2,6 +2,7 @@ package funciones;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import base.Cromosoma;
 import base.Gen;
@@ -41,13 +42,13 @@ public class Decode extends Cromosoma {
 	}
 	public void calcularFenotipo() {}
 	private void inicializarFrecuencias() {
-		this.frecuenciaMonogramasTextoInicial = new HashMap<String, Double>();
+//		this.frecuenciaMonogramasTextoInicial = new HashMap<String, Double>();
 		this.frecuenciaBigramasTextoInicial = new HashMap<String, Double>();
 		this.frecuenciaTrigramasTextoInicial = new HashMap<String, Double>();
 
-		for (HashMap.Entry<String, Double> entry : this.frecuenciaMonogramas.entrySet()) {
-			this.frecuenciaMonogramasTextoInicial.put(entry.getKey(), 0.0);
-		}
+//		for (HashMap.Entry<String, Double> entry : this.frecuenciaMonogramas.entrySet()) {
+//			this.frecuenciaMonogramasTextoInicial.put(entry.getKey(), 0.0);
+//		}
 
 		for (HashMap.Entry<String, Double> entry : this.frecuenciaBigramas.entrySet()) {
 			this.frecuenciaBigramasTextoInicial.put(entry.getKey(), 0.0);
@@ -70,13 +71,13 @@ public class Decode extends Cromosoma {
 		double fitReal = 0.0;
 		double fitEsperado = 0.0;
 
-		for (HashMap.Entry<String, Double> entry : frecuenciaMonogramasTexto.entrySet()) {
-			if (entry.getValue() != 0) {
-				fitReal = entry.getValue();
-				fitEsperado = this.frecuenciaMonogramas.get(entry.getKey());
-				fitMonograma += Math.abs(fitReal * (Math.log(fitEsperado) / Math.log(2)));
-			}
-		}
+//		for (HashMap.Entry<String, Double> entry : frecuenciaMonogramasTexto.entrySet()) {
+//			if (entry.getValue() != 0) {
+//				fitReal = entry.getValue();
+//				fitEsperado = this.frecuenciaMonogramas.get(entry.getKey());
+//				fitMonograma += Math.abs(fitReal * (Math.log(fitEsperado) / Math.log(2)));
+//			}
+//		}
 
 		for (HashMap.Entry<String, Double> entry : frecuenciaBigramasTexto.entrySet()) {
 			if (entry.getValue() != 0) {
@@ -93,8 +94,8 @@ public class Decode extends Cromosoma {
 				fitTrigrama += Math.abs(fitReal * (Math.log(fitEsperado) / Math.log(2)));
 			}
 		} 
-
-		this.fitness = fitMonograma * 0.1 + fitBigrama * 0.3 + fitTrigrama * 0.6;
+//		fitMonograma * 0.1 +
+		this.fitness = fitBigrama * 0.3 + fitTrigrama * 0.7;
 		//		System.out.println(this.fitness);
 		//		// Mostramos el texto
 		//		for (int i = 0; i < texto.length; i++) {
@@ -111,10 +112,10 @@ public class Decode extends Cromosoma {
 		//			System.out.println(entry.getKey() + " - " + entry.getValue());
 		//		}
 		//		System.out.println();
-		//		// Mostramos las frecuencias de Trigramas
-		//		for (HashMap.Entry<String, Integer> entry : this.frecuenciaTrigramasTexto.entrySet()) {
-		//			System.out.println(entry.getKey() + " - " + entry.getValue());
-		//		}
+				// Mostramos las frecuencias de Trigramas
+//				for (Entry<String, Double> entry : this.frecuenciaTrigramasTexto.entrySet()) {
+//					System.out.println(entry.getKey() + " - " + entry.getValue());
+//				}
 	}
 	private void pasarAMinusculas() {
 		for (int i = 0; i < this.textoTraducido.length; i++) {
@@ -157,12 +158,12 @@ public class Decode extends Cromosoma {
 			else {
 				nGrama += (this.textoTraducido[i]);
 
-				monoGrama = "" + (nGrama.charAt(nGrama.length() - 1));
-				if (this.frecuenciaMonogramasTexto.containsKey(monoGrama)) {
-					this.frecuenciaMonogramasTexto.put(monoGrama,
-							(this.frecuenciaMonogramasTexto.get(monoGrama) + 1));
-					contMonograma++;
-				}
+//				monoGrama = "" + (nGrama.charAt(nGrama.length() - 1));
+//				if (this.frecuenciaMonogramasTexto.containsKey(monoGrama)) {
+//					this.frecuenciaMonogramasTexto.put(monoGrama,
+//							(this.frecuenciaMonogramasTexto.get(monoGrama) + 1));
+//					contMonograma++;
+//				}
 
 				if (nGrama.length() > 1) {
 					biGrama = "" + (nGrama.charAt(nGrama.length() - 2)) + 
@@ -179,7 +180,7 @@ public class Decode extends Cromosoma {
 							(nGrama.charAt(nGrama.length() - 2)) +
 							(nGrama.charAt(nGrama.length() - 1));
 					if (this.frecuenciaTrigramasTexto.containsKey(triGrama)) {
-						this.frecuenciaTrigramasTexto.put(triGrama, 
+						this.frecuenciaTrigramasTexto.put(triGrama,
 								(this.frecuenciaTrigramasTexto.get(triGrama) + 1));
 						contTrigrama++;
 					}
@@ -187,10 +188,10 @@ public class Decode extends Cromosoma {
 			}
 		}
 
-		if (contMonograma > 0)
-			for (HashMap.Entry<String, Double> entry : frecuenciaMonogramasTexto.entrySet()) {
-				this.frecuenciaMonogramasTexto.put(entry.getKey(), (entry.getValue() / contMonograma));
-			}
+//		if (contMonograma > 0)
+//			for (HashMap.Entry<String, Double> entry : frecuenciaMonogramasTexto.entrySet()) {
+//				this.frecuenciaMonogramasTexto.put(entry.getKey(), (entry.getValue() / contMonograma));
+//			}
 
 		if (contBigrama > 0)
 			for (HashMap.Entry<String, Double> entry : frecuenciaBigramasTexto.entrySet()) {
@@ -201,7 +202,7 @@ public class Decode extends Cromosoma {
 			for (HashMap.Entry<String, Double> entry : frecuenciaTrigramasTexto.entrySet()) {
 				this.frecuenciaTrigramasTexto.put(entry.getKey(), (entry.getValue() / contTrigrama));
 			}
-
+		
 		// Mostramos los valores de las frecuencias
 		//		double x = 0.0;
 		//		for (HashMap.Entry<String, Double> entry : frecuenciaMonogramasTexto.entrySet()) {
