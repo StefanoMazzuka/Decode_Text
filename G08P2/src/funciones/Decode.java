@@ -129,11 +129,19 @@ public class Decode extends Cromosoma {
 		//		}
 		//		System.out.println();
 
-		this.textoTraducido = this.textoOriginal.toCharArray();
+//		this.textoTraducido = this.textoOriginal.toCharArray();
+//		this.alelos = this.gen.getAlelos();
+//		for (int i = 0; i < this.textoTraducido.length; i++) {
+//			if (this.alelos.contains(this.textoTraducido[i]))
+//				this.textoTraducido[i] = (char) (this.alelos.indexOf(this.textoTraducido[i]) + 97);
+//		}
+		
+		
 		this.alelos = this.gen.getAlelos();
 		for (int i = 0; i < this.textoTraducido.length; i++) {
-			if (this.alelos.contains(this.textoTraducido[i]))
-				this.textoTraducido[i] = (char) (this.alelos.indexOf(this.textoTraducido[i]) + 97);
+			if (this.alelos.contains(this.textoTraducido[i])){
+				this.textoTraducido[i] = traductor(this.alelos.indexOf(this.textoTraducido[i]));
+			}
 		}
 	}
 	private void calcularFrecuencias() {
@@ -269,6 +277,97 @@ public class Decode extends Cromosoma {
 		f.setFrecuenciaTrigramas(frecuenciaTrigramas);
 
 		return f;
+	}
+	
+	public char traductor(int num){
+		char letra = '-';
+		
+		switch (num) {
+		case 0:
+			letra = 'a';
+			break;
+		case 1:
+			letra = 'b';
+			break;
+		case 2:
+			letra = 'c';	
+			break;
+		case 3:
+			letra = 'd';
+			break;
+		case 4:
+			letra = 'e';
+			break;
+		case 5:
+			letra = 'f';
+			break;
+		case 6:
+			letra = 'g';
+			break;
+		case 7:
+			letra = 'h';
+			break;
+		case 8:
+			letra = 'i';
+			break;
+		case 9:
+			letra = 'j';
+			break;
+		case 10:
+			letra = 'k';
+			break;
+		case 11:
+			letra = 'l';
+			break;
+		case 12:
+			letra = 'm';
+			break;
+		case 13:
+			letra = 'n';
+			break;
+		case 14:
+			letra = 'o';
+			break;
+		case 15:
+			letra = 'p';
+			break;
+		case 16:
+			letra = 'q';
+			break;
+		case 17:
+			letra = 'r';
+			break;
+		case 18:
+			letra = 's';
+			break;
+		case 19:
+			letra = 't';
+			break;
+		case 20:
+			letra = 'u';
+			break;
+		case 21:
+			letra = 'v';
+			break;
+		case 22:
+			letra = 'w';
+			break;
+		case 23:
+			letra = 'x';
+			break;
+		case 24:
+			letra = 'y';
+			break;
+		case 25:
+			letra = 'z';
+			break;
+
+		default:
+			break;
+		}
+		
+		
+		return letra;
 	}
 
 	// Getters and Setters

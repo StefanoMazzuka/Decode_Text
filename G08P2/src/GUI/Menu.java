@@ -50,10 +50,10 @@ public class Menu extends JFrame {
 		JComboBox<String> seleccion = new JComboBox<String>(selecciones);
 		JComboBox<String> cruce = new JComboBox<String>(cruces);
 		JComboBox<String> mutacion = new JComboBox<String>(mutaciones);
-		JTextField tamPob = new JTextField("100");
+		JTextField tamPob = new JTextField("600");
 		JTextField numGen = new JTextField("100");
-		JTextField porCruce = new JTextField("0.6");
-		JTextField porMuta = new JTextField("0.05");
+		JTextField porCruce = new JTextField("0.7");
+		JTextField porMuta = new JTextField("0.2");
 		JTextField preci = new JTextField("0.001");
 		JCheckBox eli = new JCheckBox("", false);
 		JLabel empty = new JLabel();

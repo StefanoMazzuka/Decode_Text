@@ -108,7 +108,7 @@ public class AlgoritmoGenetico {
 		}
 
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
-
+			System.out.println(i);
 			this.poblacion = seleccion.ejecutar(this);
 			this.poblacion = cruce.cruzar(this);
 			this.poblacion = mutacion.mutar(this);

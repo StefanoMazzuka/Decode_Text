@@ -40,9 +40,11 @@ public class Intercambio extends Mutacion {
 	private Cromosoma mutarCromosoma(Cromosoma c) {
 
 		Gen g;
+		Cromosoma mutado;
 		ArrayList<Character> alelos = new ArrayList<Character>();
 		g = c.getGen().copy();
 		alelos = g.getAlelos();
+		
 
 		int posI;
 		int posJ;
@@ -58,7 +60,8 @@ public class Intercambio extends Mutacion {
 		g.setAlelos(alelos);
 		c.setGen(g);
 		c.calcularFitness();
-
-		return c;
+		
+		mutado = c.copy();
+		return mutado;
 	}
 }
