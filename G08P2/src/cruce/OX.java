@@ -101,9 +101,9 @@ public class OX extends Cruce {
 		ArrayList<Character> padreU = padreUno.getAlelos();
 		ArrayList<Character> padreD = padreDos.getAlelos();
 		
-		pmin = 1;
-		
-		pmax = 25;
+//		pmin = 1;
+//		
+//		pmax = 25;
 		
 		for (int i = 0; i < 26; i++) {
 			hijoUno.add((char) 0);

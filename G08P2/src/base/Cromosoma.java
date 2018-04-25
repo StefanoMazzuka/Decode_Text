@@ -71,7 +71,7 @@ public abstract class Cromosoma {
 	public void setTextoOriginal(String textoOriginal) {
 		this.textoOriginal = textoOriginal;
 	}
-
+	
 	// Setters externos
 	public abstract void setTextoTraducido(char[] textoTraducido);
 	public abstract void setAlelos(ArrayList<Character> alelos);

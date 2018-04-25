@@ -94,7 +94,7 @@ public class Decode extends Cromosoma {
 			}
 		} 
 
-		this.fitness = fitMonograma * 0.1 + fitBigrama * 0.3 + fitTrigrama * 0.6;
+		this.fitness = fitBigrama * 0.3 + fitTrigrama * 0.7;
 		//		System.out.println(this.fitness);
 		//		// Mostramos el texto
 		//		for (int i = 0; i < texto.length; i++) {
@@ -122,19 +122,26 @@ public class Decode extends Cromosoma {
 		}
 		this.textoOriginal = new String(this.textoTraducido);
 	}
-	private void pasarClaveGen() {
+	public void pasarClaveGen() {
 		// Mostramos los alelos
 		//		for (int i = 0; i < alelos.size(); i++) {
 		//			System.out.print(alelos.get(i));
 		//		}
 		//		System.out.println();
 
-		this.textoTraducido = this.textoOriginal.toCharArray();
+//		this.textoTraducido = this.textoOriginal.toCharArray();
+//		this.alelos = this.gen.getAlelos();
+//		for (int i = 0; i < this.textoTraducido.length; i++) {
+//			if (this.alelos.contains(this.textoTraducido[i]))
+//				this.textoTraducido[i] = (char) (this.alelos.indexOf(this.textoTraducido[i]) + 97);
+//		}
+		
 		this.alelos = this.gen.getAlelos();
 		for (int i = 0; i < this.textoTraducido.length; i++) {
-			if (this.alelos.contains(this.textoTraducido[i]))
-				this.textoTraducido[i] = (char) (this.alelos.indexOf(this.textoTraducido[i]) + 97);
-		}
+			if (this.alelos.contains(this.textoTraducido[i])){
+				this.textoTraducido[i] = traductor(this.alelos.indexOf(this.textoTraducido[i]));
+			}
+}
 	}
 	private void calcularFrecuencias() {
 		// Contador de veces que aparecen los nGramas
@@ -228,6 +235,7 @@ public class Decode extends Cromosoma {
 		String textoOriginal = this.textoOriginal;
 		char[] textoTraducido = this.textoTraducido;
 		ArrayList<Character> alelos = new ArrayList<>();
+		
 		HashMap<String, Double> frecuenciaMonogramasTextoInicial = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaBigramasTextoInicial = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaTrigramasTextoInicial = new HashMap<String, Double>();
@@ -258,6 +266,7 @@ public class Decode extends Cromosoma {
 		f.setTextoOriginal(textoOriginal);
 		f.setTextoTraducido(textoTraducido);
 		f.setAlelos(alelos);
+		
 		f.setFrecuenciaMonogramasTextoInicial(frecuenciaMonogramasTextoInicial);
 		f.setFrecuenciaBigramasTextoInicial(frecuenciaBigramasTextoInicial);
 		f.setFrecuenciaTrigramasTextoInicial(frecuenciaTrigramasTextoInicial);
@@ -270,6 +279,97 @@ public class Decode extends Cromosoma {
 
 		return f;
 	}
+	
+	public char traductor(int num){
+		char letra = '-';
+		
+		switch (num) {
+		case 0:
+			letra = 'a';
+			break;
+		case 1:
+			letra = 'b';
+			break;
+		case 2:
+			letra = 'c';	
+			break;
+		case 3:
+			letra = 'd';
+			break;
+		case 4:
+			letra = 'e';
+			break;
+		case 5:
+			letra = 'f';
+			break;
+		case 6:
+			letra = 'g';
+			break;
+		case 7:
+			letra = 'h';
+			break;
+		case 8:
+			letra = 'i';
+			break;
+		case 9:
+			letra = 'j';
+			break;
+		case 10:
+			letra = 'k';
+			break;
+		case 11:
+			letra = 'l';
+			break;
+		case 12:
+			letra = 'm';
+			break;
+		case 13:
+			letra = 'n';
+			break;
+		case 14:
+			letra = 'o';
+			break;
+		case 15:
+			letra = 'p';
+			break;
+		case 16:
+			letra = 'q';
+			break;
+		case 17:
+			letra = 'r';
+			break;
+		case 18:
+			letra = 's';
+			break;
+		case 19:
+			letra = 't';
+			break;
+		case 20:
+			letra = 'u';
+			break;
+		case 21:
+			letra = 'v';
+			break;
+		case 22:
+			letra = 'w';
+			break;
+		case 23:
+			letra = 'x';
+			break;
+		case 24:
+			letra = 'y';
+			break;
+		case 25:
+			letra = 'z';
+			break;
+
+		default:
+			break;
+		}
+		
+		
+		return letra;
+}
 
 	// Getters and Setters
 	public char[] getTextoTraducido() {
