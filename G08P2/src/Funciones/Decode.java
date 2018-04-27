@@ -1,10 +1,10 @@
-package funciones;
+package Funciones;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import base.Cromosoma;
-import base.Gen;
+import Base.Cromosoma;
+import Base.Gen;
 
 public class Decode extends Cromosoma {
 	

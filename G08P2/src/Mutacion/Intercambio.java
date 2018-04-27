@@ -1,11 +1,11 @@
-package mutacion;
+package Mutacion;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import funciones.Decode;
-import base.Cromosoma;
-import base.Gen;
+import Base.Cromosoma;
+import Base.Gen;
+import Funciones.Decode;
 
 public class Intercambio extends Mutacion {
 	private double probMutacion;

@@ -1,11 +1,11 @@
-package seleccion;
+package Seleccion;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import base.AlgoritmoGenetico;
-import base.Cromosoma;
-import base.Gen;
+import Base.AlgoritmoGenetico;
+import Base.Cromosoma;
+import Base.Gen;
 
 public class Torneo extends Seleccion {
 

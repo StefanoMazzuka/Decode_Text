@@ -1,23 +1,24 @@
-package mutacion;
+package Mutacion;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import funciones.Decode;
-import base.Cromosoma;
-import base.Gen;
+import Base.Cromosoma;
+import Base.Gen;
+import Funciones.Decode;
 
-public class Insercion extends Mutacion{
+public class Inversion extends Mutacion {
+	
 	private double probMutacion;
 	ArrayList<Cromosoma> poblacion;
 	private int lPoblacion;
-
-	public Insercion(double probMutacion) {
+	
+	public Inversion(double probMutacion) {
 		this.probMutacion = probMutacion;
 	}
-
-	public ArrayList<Cromosoma> mutar(ArrayList<Cromosoma> poblacion) {
 	
+	public ArrayList<Cromosoma> mutar(ArrayList<Cromosoma> poblacion) {
+
 		this.poblacion = poblacion;
 		this.lPoblacion = this.poblacion.size();
 
@@ -42,29 +43,26 @@ public class Insercion extends Mutacion{
 		g = c.getGen().copy();
 		alelos = g.getAlelos();
 
-		int alelosAMutar;
+		int posI;
+		int posJ;
 		Random r = new Random();
-		alelosAMutar = r.nextInt(26);
+		posI = r.nextInt(26);
+		posJ = r.nextInt(26);
 		
-		int posAlelo = r.nextInt(26);	
-		while (posAlelo == 0) {
-			posAlelo = r.nextInt(26);
+		int aux;
+		if (posI > posJ) {
+			aux = posJ;
+			posJ = posI;
+			posI = aux;
 		}
 		
-		int posAIntercambiar = r.nextInt(posAlelo);
-		char letra = alelos.get(posAlelo);
-		for (int i = 0; i < alelosAMutar; i++) {
-			for (int j = posAlelo; j > posAIntercambiar; j--) {
-				alelos.set(j, alelos.get(j - 1));
-			}
-			alelos.set(posAIntercambiar, letra);
-			posAlelo = r.nextInt(26);
-			while (posAlelo == 0) {
-				posAlelo = r.nextInt(26);
-			}
-			
-			posAIntercambiar = r.nextInt(posAlelo);
-			letra = alelos.get(posAlelo);
+		char letra;
+		int j = posJ;
+		for (int i = posI; i < j; i++) {
+			letra = alelos.get(j);
+			alelos.set(j, alelos.get(i));
+			alelos.set(i, letra);
+			j--;
 		}
 
 		g.setAlelos(alelos);

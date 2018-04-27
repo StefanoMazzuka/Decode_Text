@@ -1,8 +1,8 @@
-package seleccion;
+package Seleccion;
 
 import java.util.ArrayList;
 
-import base.Cromosoma;
+import Base.Cromosoma;
 
 public abstract class Seleccion {
 	public abstract ArrayList<Cromosoma> ejecutar(ArrayList<Cromosoma> poblacion, int numGeneraciones);

@@ -1,10 +1,10 @@
-package cruce;
+package Cruce;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import base.Cromosoma;
-import base.Gen;
+import Base.Cromosoma;
+import Base.Gen;
 
 public class OX extends Cruce {
 

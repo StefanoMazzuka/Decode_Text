@@ -1,9 +1,9 @@
-package seleccion;
+package Seleccion;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import base.Cromosoma;
+import Base.Cromosoma;
 
 public class Estocastico extends Seleccion {
 

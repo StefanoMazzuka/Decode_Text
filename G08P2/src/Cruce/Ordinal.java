@@ -1,40 +1,40 @@
-package cruce;
+package Cruce;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
-import base.Cromosoma;
-import base.Gen;
+import Base.Cromosoma;
+import Base.Gen;
 
-public class PMX extends Cruce {
-
+public class Ordinal {
 	int numElemACruzar;
 	double pCruce;
-	ArrayList<Cromosoma> poblacion;
-	ArrayList<Cromosoma> poblacionACruzar;
-	Gen genCruzadoUno;
-	Gen genCruzadoDos;
+	ArrayList<Cromosoma> poblacion = new ArrayList<Cromosoma>();
+	ArrayList<Cromosoma> poblacionACruzar = new ArrayList<Cromosoma>();
+	ArrayList<Character> vectorOrdinal = new ArrayList<Character>();
+	Gen genCruzadoUno = new Gen();
+	Gen genCruzadoDos = new Gen();
 	
-	public PMX(double pCruce) {
+	public Ordinal(double pCruce) {
 		this.pCruce = pCruce;
 	}
 
 	public ArrayList<Cromosoma> cruzar(ArrayList<Cromosoma> poblacion) {
 
 		this.poblacion = poblacion;
-		this.poblacionACruzar = new ArrayList<Cromosoma>();
-		this.genCruzadoUno = new Gen();
-		this.genCruzadoDos = new Gen();
 
+	    for (int i = 97; i <= 122; i++)
+	    	this.vectorOrdinal.add((char) i);
+	    
+	    Collections.shuffle(this.vectorOrdinal);
+		
 		cualCruza();
 
-		for (int i = 0; i < numElemACruzar; i += 2) {
+		for (int i = 0; i < numElemACruzar; i += 2)
 			cruzarCromosomas(poblacionACruzar.get(i), poblacionACruzar.get(i + 1));
-		}
 
 		poblacionFinal();
-//		agCopy.setPoblacion(this.poblacion);
-//		ag.setPoblacion(agCopy.getPoblacion());
 		
 		return this.poblacion;
 	}
@@ -56,34 +56,29 @@ public class PMX extends Cruce {
 		}
 	}
 	public void cruzarCromosomas(Cromosoma padreUno, Cromosoma padreDos) {
-		Gen padreUGen = padreUno.getGen();
-		Gen padreDGen = padreDos.getGen();
-
-		// Elegimos los puntos de corte
-		int pos1 = 0, pos2 = 0, pmin = 0, pmax = 0;
-		Random r = new Random();
-		pos1 = r.nextInt(26);// Sobre 26?
-		pos2 = r.nextInt(26);
-
-		// Colocamos correctamente pmin y pmax
-		if (pos1 > pos2) {
-			pmin = pos2;
-			pmax = pos1;
-		} else {
-			pmin = pos1;
-			pmax = pos2;
-
+		ArrayList<Character> padreU = padreUno.getGen().getAlelos();
+		ArrayList<Character> padreD = padreDos.getGen().getAlelos();
+		ArrayList<Integer>padreUOrdinal = new ArrayList<Integer>();
+		ArrayList<Integer>padreDOrdinal = new ArrayList<Integer>();
+		
+		for (int i = 0; i < padreU.size(); i++) {
+			padreUOrdinal.add(0);
+			padreDOrdinal.add(0);
 		}
-
-		cruzarGenes(pmin, pmax, padreUGen.copy(), padreDGen.copy());
+		
+		for (int i = 0; i < padreU.size(); i++) {
+			padreUOrdinal.set(i, padreU.indexOf(vectorOrdinal.get(i)));
+			
+			padreDOrdinal.add();
+		}
+		
+		
+		//cruzarGenes(pmin, pmax, padreUGen.copy(), padreDGen.copy());
 
 		padreUno.setGen(this.genCruzadoUno);
 		padreDos.setGen(this.genCruzadoDos);
 
-		//padreUno.calcularFenotipo();
  		padreUno.calcularFitness();
-
-		//padreDos.calcularFenotipo();
 		padreDos.calcularFitness();
 
 		int i = 0;

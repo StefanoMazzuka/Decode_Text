@@ -1,12 +1,12 @@
-package mutacion;
+package Mutacion;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import base.Cromosoma;
-import base.Gen;
-import funciones.Decode;
+import Base.Cromosoma;
+import Base.Gen;
+import Funciones.Decode;
 
 public class Heuristica extends Mutacion {
 	private double probMutacion;

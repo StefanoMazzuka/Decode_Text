@@ -1,8 +1,8 @@
-package cruce;
+package Cruce;
 
 import java.util.ArrayList;
 
-import base.Cromosoma;
+import Base.Cromosoma;
 
 public abstract class Cruce {	
 	public abstract ArrayList<Cromosoma> cruzar(ArrayList<Cromosoma> poblacion);	

@@ -21,8 +21,8 @@ import javax.swing.SwingConstants;
 
 import org.math.plot.*;
 
-import base.AlgoritmoGenetico;
-import base.nGramas;
+import Base.AlgoritmoGenetico;
+import Base.nGramas;
 
 public class Menu extends JFrame {
 

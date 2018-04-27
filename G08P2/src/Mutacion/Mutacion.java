@@ -1,8 +1,8 @@
-package mutacion;
+package Mutacion;
 
 import java.util.ArrayList;
 
-import base.Cromosoma;
+import Base.Cromosoma;
 
 public abstract class Mutacion {
 	public abstract ArrayList<Cromosoma> mutar(ArrayList<Cromosoma> poblacion);

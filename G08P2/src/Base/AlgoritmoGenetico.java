@@ -1,20 +1,20 @@
-package base;
+package Base;
 
 import java.util.ArrayList;
 
-import cruce.Cruce;
-import cruce.OX;
-import cruce.PMX;
-import funciones.Decode;
-import mutacion.Heuristica;
-import mutacion.Insercion;
-import mutacion.Intercambio;
-import mutacion.Inversion;
-import mutacion.Mutacion;
-import seleccion.Estocastico;
-import seleccion.Ruleta;
-import seleccion.Seleccion;
-import seleccion.Torneo;
+import Cruce.Cruce;
+import Cruce.OX;
+import Cruce.PMX;
+import Funciones.Decode;
+import Mutacion.Heuristica;
+import Mutacion.Insercion;
+import Mutacion.Intercambio;
+import Mutacion.Inversion;
+import Mutacion.Mutacion;
+import Seleccion.Estocastico;
+import Seleccion.Ruleta;
+import Seleccion.Seleccion;
+import Seleccion.Torneo;
 
 import java.util.Arrays;
 import java.util.Collections;
