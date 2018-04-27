@@ -8,6 +8,9 @@ public class Gen {
 
 	public Gen() {
 		this.alelos = new ArrayList<Character>();
+	}
+	public void crearAlelos() {
+		this.alelos = new ArrayList<Character>();
 
 	    for (int i = 97; i <= 122; i++) {
 	    	this.alelos.add((char) i);
@@ -26,7 +29,6 @@ public class Gen {
 		g.setAlelos(alelos);
 		return g;
 	}
-	
 	public String concatenarAlelos() {
 		String alelos = "";
 		

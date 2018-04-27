@@ -2,14 +2,12 @@ package funciones;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import base.Cromosoma;
 import base.Gen;
 
 public class Decode extends Cromosoma {
-
-	private char[] textoTraducido;
+	
 	private ArrayList<Character> alelos;
 	private HashMap<String, Double> frecuenciaMonogramasTextoInicial;
 	private HashMap<String, Double> frecuenciaBigramasTextoInicial;
@@ -22,25 +20,22 @@ public class Decode extends Cromosoma {
 	private HashMap<String, Double> frecuenciaTrigramas;
 
 	public Decode(){};
-	public Decode(char[] texto, HashMap<String, Double> frecuenciaMonogramas, 
+	public Decode(String texto, 
+			HashMap<String, Double> frecuenciaMonogramas, 
 			HashMap<String, Double> frecuenciaBigramas, 
 			HashMap<String, Double> frecuenciaTrigramas) {
 
 		this.frecuenciaMonogramas = frecuenciaMonogramas;
 		this.frecuenciaBigramas = frecuenciaBigramas;
 		this.frecuenciaTrigramas = frecuenciaTrigramas;
-		this.textoCromosoma = new String(texto);
-		this.textoOriginal = new String(texto);
-		this.textoTraducido = texto;
+		this.textoOriginal = texto;
 		this.gen = new Gen();
+		this.gen.crearAlelos();
 		this.alelos = new ArrayList<Character>();
-		this.alelos = this.gen.getAlelos();
 
 		inicializarFrecuencias();
-		pasarAMinusculas();
 		calcularFitness();
 	}
-	public void calcularFenotipo() {}
 	private void inicializarFrecuencias() {
 //		this.frecuenciaMonogramasTextoInicial = new HashMap<String, Double>();
 		this.frecuenciaBigramasTextoInicial = new HashMap<String, Double>();
@@ -60,12 +55,9 @@ public class Decode extends Cromosoma {
 	}
 	public void calcularFitness() {
 		pasarClaveGen();
-
-		this.textoCromosoma = new String(this.textoTraducido);
-
 		calcularFrecuencias();
 
-		double fitMonograma = 0.0;
+//		double fitMonograma = 0.0;
 		double fitBigrama = 0.0;
 		double fitTrigrama = 0.0;
 		double fitReal = 0.0;
@@ -117,12 +109,6 @@ public class Decode extends Cromosoma {
 //					System.out.println(entry.getKey() + " - " + entry.getValue());
 //				}
 	}
-	private void pasarAMinusculas() {
-		for (int i = 0; i < this.textoTraducido.length; i++) {
-			this.textoTraducido[i] = Character.toLowerCase(this.textoTraducido[i]);
-		}
-		this.textoOriginal = new String(this.textoTraducido);
-	}
 	private void pasarClaveGen() {
 		// Mostramos los alelos
 		//		for (int i = 0; i < alelos.size(); i++) {
@@ -130,20 +116,21 @@ public class Decode extends Cromosoma {
 		//		}
 		//		System.out.println();
 
-		this.textoTraducido = this.textoOriginal.toCharArray();
+		char[] textoTraducido = this.textoOriginal.toCharArray();
 		this.alelos = this.gen.getAlelos();
-		for (int i = 0; i < this.textoTraducido.length; i++) {
-			if (this.alelos.contains(this.textoTraducido[i]))
-				this.textoTraducido[i] = (char) (this.alelos.indexOf(this.textoTraducido[i]) + 97);
+		for (int i = 0; i < textoTraducido.length; i++) {
+			if (this.alelos.contains(textoTraducido[i]))
+				textoTraducido[i] = (char) (this.alelos.indexOf(textoTraducido[i]) + 97);
 		}
+		this.textoCromosoma = new String(textoTraducido); 
 	}
 	private void calcularFrecuencias() {
 		// Contador de veces que aparecen los nGramas
 		String nGrama = "";
-		String monoGrama;
+//		String monoGrama;
 		String biGrama;
 		String triGrama;
-		int contMonograma = 0;
+//		int contMonograma = 0;
 		int contBigrama = 0;
 		int contTrigrama = 0;
 
@@ -153,10 +140,11 @@ public class Decode extends Cromosoma {
 		this.frecuenciaMonogramasTexto = this.frecuenciaMonogramasTextoInicial;
 		this.frecuenciaBigramasTexto = this.frecuenciaBigramasTextoInicial;
 		this.frecuenciaTrigramasTexto = this.frecuenciaTrigramasTextoInicial;
-		for (int i = 0; i < this.textoTraducido.length; i++) {
-			if (((int) this.textoTraducido[i]) < 97 || ((int) this.textoTraducido[i]) > 122) nGrama = "";
+		char[] texto = this.textoCromosoma.toCharArray();
+		for (int i = 0; i < texto.length; i++) {
+			if (((int) texto[i]) < 97 || ((int) texto[i]) > 122) nGrama = "";
 			else {
-				nGrama += (this.textoTraducido[i]);
+				nGrama += texto[i];
 
 //				monoGrama = "" + (nGrama.charAt(nGrama.length() - 1));
 //				if (this.frecuenciaMonogramasTexto.containsKey(monoGrama)) {
@@ -227,8 +215,8 @@ public class Decode extends Cromosoma {
 		int id = this.id;
 		String textoCromosoma = this.textoCromosoma;
 		String textoOriginal = this.textoOriginal;
-		char[] textoTraducido = this.textoTraducido;
 		ArrayList<Character> alelos = new ArrayList<>();
+		alelos = this.alelos;
 		HashMap<String, Double> frecuenciaMonogramasTextoInicial = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaBigramasTextoInicial = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaTrigramasTextoInicial = new HashMap<String, Double>();
@@ -239,7 +227,6 @@ public class Decode extends Cromosoma {
 		HashMap<String, Double> frecuenciaBigramas = new HashMap<String, Double>();
 		HashMap<String, Double> frecuenciaTrigramas = new HashMap<String, Double>();
 
-		alelos = this.alelos;
 		frecuenciaMonogramasTextoInicial = this.frecuenciaMonogramasTextoInicial;
 		frecuenciaBigramasTextoInicial = this.frecuenciaBigramasTextoInicial;
 		frecuenciaTrigramasTextoInicial = this.frecuenciaTrigramasTextoInicial;
@@ -257,7 +244,6 @@ public class Decode extends Cromosoma {
 		f.setId(id);
 		f.setTextoCromosoma(textoCromosoma);
 		f.setTextoOriginal(textoOriginal);
-		f.setTextoTraducido(textoTraducido);
 		f.setAlelos(alelos);
 		f.setFrecuenciaMonogramasTextoInicial(frecuenciaMonogramasTextoInicial);
 		f.setFrecuenciaBigramasTextoInicial(frecuenciaBigramasTextoInicial);
@@ -273,12 +259,6 @@ public class Decode extends Cromosoma {
 	}
 
 	// Getters and Setters
-	public char[] getTextoTraducido() {
-		return this.textoTraducido;
-	}
-	public void setTextoTraducido(char[] textoTraducido) {
-		this.textoTraducido = textoTraducido;
-	}
 	public ArrayList<Character> getAlelos() {
 		return alelos;
 	}

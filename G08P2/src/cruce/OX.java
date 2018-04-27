@@ -79,10 +79,7 @@ public class OX extends Cruce {
 		padreUno.setGen(this.genCruzadoUno);
 		padreDos.setGen(this.genCruzadoDos);
 
-		padreUno.calcularFenotipo();
 		padreUno.calcularFitness();
-
-		padreDos.calcularFenotipo();
 		padreDos.calcularFitness();
 
 		int i = 0;

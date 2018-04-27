@@ -34,7 +34,6 @@ public class Menu extends JFrame {
 	private int numeroGeneraciones;
 	private double porcentajeCruce;
 	private double porcentajeMutacion;
-	private double precision;
 	private double[] generacion;
 	private double[] mejoresFitnessAbsolutos;
 	private double[] mejoresFitness;
@@ -54,7 +53,6 @@ public class Menu extends JFrame {
 		JTextField numGen = new JTextField("100");
 		JTextField porCruce = new JTextField("0.6");
 		JTextField porMuta = new JTextField("0.05");
-		JTextField preci = new JTextField("0.001");
 		JCheckBox eli = new JCheckBox("", false);
 		JLabel empty = new JLabel();
 		JButton ok = new JButton("Ok");
@@ -73,7 +71,7 @@ public class Menu extends JFrame {
 
 		// Panel programa
 		// Menu Panel
-		JPanel menuPanel = new JPanel(new GridLayout(10, 2));
+		JPanel menuPanel = new JPanel(new GridLayout(9, 2));
 		menuPanel.add(new JLabel("Tipo de seleccion:"));
 		menuPanel.add(seleccion);
 		menuPanel.add(new JLabel("Tipo de cruce:"));
@@ -88,8 +86,6 @@ public class Menu extends JFrame {
 		menuPanel.add(porCruce);
 		menuPanel.add(new JLabel("Porcentaje de mutaciones:"));
 		menuPanel.add(porMuta);
-		menuPanel.add(new JLabel("Precision:"));
-		menuPanel.add(preci);
 		menuPanel.add(new JLabel("Elitismo:"));
 		menuPanel.add(eli);
 		menuPanel.add(empty);
@@ -157,7 +153,7 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (tamPob.getText().equals("") || numGen.getText().equals("") || porCruce.getText().equals("") ||
-						porMuta.getText().equals("") || preci.getText().equals("")) {
+						porMuta.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Por favor introduzca todos los datos.");
 				}
 
@@ -167,8 +163,6 @@ public class Menu extends JFrame {
 					numeroGeneraciones = Integer.parseInt(numGen.getText());
 					porcentajeCruce = Double.parseDouble(porCruce.getText());
 					porcentajeMutacion = Double.parseDouble(porMuta.getText());
-					precision = Double.parseDouble(preci.getText());
-
 
 					if (eli.isSelected() == true) {
 						generacion = new double[numeroGeneraciones];
@@ -183,7 +177,7 @@ public class Menu extends JFrame {
 						int tipoCruce = (int) cruce.getSelectedIndex();
 						int tipoMutacion = (int) mutacion.getSelectedIndex();
 
-						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, porcentajeCruce, 
 								porcentajeMutacion, numeroGeneraciones, true, tipoSeleccion, tipoCruce, tipoMutacion,
 								textoOriginal.getText(), frecuenciaMonogramas, frecuenciaBigramas, frecuenciaTrigramas);
 
@@ -219,7 +213,7 @@ public class Menu extends JFrame {
 						int tipoCruce = (int) cruce.getSelectedIndex();
 						int tipoMutacion = (int) mutacion.getSelectedIndex();
 						
-						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, precision, porcentajeCruce, 
+						AlgoritmoGenetico ag = new AlgoritmoGenetico(tamañoPoblacion, porcentajeCruce, 
 								porcentajeMutacion, numeroGeneraciones, false, tipoSeleccion, tipoCruce, tipoMutacion, 
 								textoOriginal.getText(), frecuenciaMonogramas, frecuenciaBigramas, frecuenciaTrigramas);
 

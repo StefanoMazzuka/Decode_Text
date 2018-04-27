@@ -5,21 +5,13 @@ import java.util.HashMap;
 
 public abstract class Cromosoma {
 	public Gen gen;
-	public double precision;
-	public double[] fenotipo;
 	public double fitness;
-	public int lGen = 26;
+	public final int lGen = 26;
 	public int id;
 	public String textoCromosoma;
 	public String textoOriginal;
 
-	public Cromosoma() {}
-	
-	public Cromosoma(double precision) {
-		this.precision = precision;
-	}
 	public abstract Cromosoma copy();
-	public abstract void calcularFenotipo();
 	public abstract void calcularFitness();
 	
 	/*Getters y Setters*/
@@ -35,18 +27,6 @@ public abstract class Cromosoma {
 	public void setFitness(double fitness) {
 		this.fitness = fitness;
 	}
-	public double[] getFenotipo() {
-		return fenotipo;
-	}
-	public void setFenotipo(double[] fenotipo) {
-		this.fenotipo = fenotipo;
-	}
-	public double getPrecision() {
-		return precision;
-	}
-	public void setPrecision(double precision) {
-		this.precision = precision;
-	}
 	public int getId() {
 		return id;
 	}
@@ -55,9 +35,6 @@ public abstract class Cromosoma {
 	}
 	public int getlGen() {
 		return lGen;
-	}
-	public void setlGen(int lGen) {
-		this.lGen = lGen;
 	}
 	public String getTextoCromosoma() {
 		return textoCromosoma;
@@ -73,7 +50,6 @@ public abstract class Cromosoma {
 	}
 
 	// Setters externos
-	public abstract void setTextoTraducido(char[] textoTraducido);
 	public abstract void setAlelos(ArrayList<Character> alelos);
 	public abstract void setFrecuenciaMonogramasTextoInicial(HashMap<String, Double> frecuenciaMonogramasTextoInicial);
 	public abstract void setFrecuenciaBigramasTextoInicial(HashMap<String, Double> frecuenciaBigramasTextoInicial);
