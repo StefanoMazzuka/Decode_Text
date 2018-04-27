@@ -2,20 +2,10 @@ package Base;
 
 import java.util.ArrayList;
 
-import Cruce.Cruce;
-import Cruce.OX;
-import Cruce.PMX;
-import Funciones.Decode;
-import Mutacion.Heuristica;
-import Mutacion.Insercion;
-import Mutacion.Intercambio;
-import Mutacion.Inversion;
-import Mutacion.Mutacion;
-import Seleccion.Estocastico;
-import Seleccion.Ruleta;
-import Seleccion.Seleccion;
-import Seleccion.Torneo;
-
+import Cruce.*;
+import Funciones.*;
+import Mutacion.*;
+import Seleccion.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -89,6 +79,7 @@ public class AlgoritmoGenetico {
 		
 		Cruce cruce = new OX(this.porcentajeCruce);
 		if (this.tipoCruce == 1) cruce = new PMX(this.porcentajeCruce);
+		else if (this.tipoCruce == 2) cruce = new Ordinal(this.porcentajeCruce);
 		
 		Mutacion mutacion = new Insercion(this.porcentajeMutacion);
 		if (this.tipoMutacion == 1) mutacion = new Intercambio(this.porcentajeMutacion);

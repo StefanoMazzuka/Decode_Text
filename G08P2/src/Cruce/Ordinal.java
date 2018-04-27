@@ -2,12 +2,11 @@ package Cruce;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 import Base.Cromosoma;
 import Base.Gen;
 
-public class Ordinal {
+public class Ordinal extends Cruce {
 	int numElemACruzar;
 	double pCruce;
 	ArrayList<Cromosoma> poblacion = new ArrayList<Cromosoma>();
@@ -61,17 +60,28 @@ public class Ordinal {
 		ArrayList<Integer>padreUOrdinal = new ArrayList<Integer>();
 		ArrayList<Integer>padreDOrdinal = new ArrayList<Integer>();
 		
+		// Inicializamos los padres ordinales
 		for (int i = 0; i < padreU.size(); i++) {
 			padreUOrdinal.add(0);
 			padreDOrdinal.add(0);
 		}
 		
-		for (int i = 0; i < padreU.size(); i++) {
+		// Rellenamos los padres ordinales
+		for (int i = 0; i < 26; i++) {
 			padreUOrdinal.set(i, padreU.indexOf(vectorOrdinal.get(i)));
-			
-			padreDOrdinal.add();
+			padreU.remove(padreU.indexOf(vectorOrdinal.get(i)));
+			padreDOrdinal.add(i, padreD.indexOf(vectorOrdinal.get(i)));
+			padreD.remove(padreD.indexOf(vectorOrdinal.get(i)));
 		}
 		
+		// Mostramos resultados
+		for (int i = 0; i < 26; i++) {
+			System.out.print(padreUOrdinal.get(i) + ", ");
+		}
+		System.out.println();
+		for (int i = 0; i < 26; i++) {
+			System.out.print(padreDOrdinal.get(i) + ", ");
+		}
 		
 		//cruzarGenes(pmin, pmax, padreUGen.copy(), padreDGen.copy());
 

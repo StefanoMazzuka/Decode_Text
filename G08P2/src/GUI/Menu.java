@@ -39,7 +39,7 @@ public class Menu extends JFrame {
 	private double[] mejoresFitness;
 	private double[] listaMedias;
 	private String[] selecciones = {"Ruleta", "Torneos", "Estocastico universal"};
-	private String[] cruces = {"OX", "PMX"};
+	private String[] cruces = {"OX", "PMX", "Ordinal"};
 	private String[] mutaciones = {"Inserción", "Intercambio", "Inversión", "Heurística"};
 	private HashMap<String, Double> frecuenciaMonogramas;
 	private HashMap<String, Double> frecuenciaBigramas;
