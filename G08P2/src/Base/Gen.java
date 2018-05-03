@@ -1,4 +1,4 @@
-package base;
+package Base;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,9 @@ public class Gen {
 	private ArrayList<Character> alelos;
 
 	public Gen() {
+		this.alelos = new ArrayList<Character>();
+	}
+	public void crearAlelos() {
 		this.alelos = new ArrayList<Character>();
 
 	    for (int i = 97; i <= 122; i++) {
@@ -26,7 +29,6 @@ public class Gen {
 		g.setAlelos(alelos);
 		return g;
 	}
-	
 	public String concatenarAlelos() {
 		String alelos = "";
 		

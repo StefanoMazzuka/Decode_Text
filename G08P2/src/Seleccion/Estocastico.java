@@ -1,31 +1,31 @@
-package seleccion;
+package Seleccion;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import base.AlgoritmoGenetico;
-import base.Cromosoma;
+import Base.Cromosoma;
 
 public class Estocastico extends Seleccion {
 
 	private double[] puntuacion;
 	private double[] fitnessDesplazado;
 	private double fitnessTotalPoblacion;
+	ArrayList<Cromosoma> poblacion;
 
 	@Override
-	public ArrayList<Cromosoma> ejecutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> ejecutar(ArrayList<Cromosoma> poblacion, int numGeneraciones) {
 		// TODO Auto-generated method stub
-		this.puntuacion = new double[ag.getlPoblacion()];
-		this.fitnessDesplazado = new double[ag.getlPoblacion()];
+		this.poblacion = poblacion;
+		this.puntuacion = new double[this.poblacion.size()];
+		this.fitnessDesplazado = new double[this.poblacion.size()];
 		this.fitnessTotalPoblacion = 0;
 		
-		ArrayList<Cromosoma> pob = ag.getPoblacion();
 		ArrayList<Cromosoma> pobSeleccionada = new ArrayList<Cromosoma>();
 		
-		double N = pob.size();
+		double N = this.poblacion.size();
 		double distMarcas = 1 / N;
 		double primeraMarca = 0.0;
-		double[] arrayDeMarcas = new double[pob.size()];
+		double[] arrayDeMarcas = new double[this.poblacion.size()];
 		double probAcumulada;
 		
 		Random r = new Random();
@@ -33,15 +33,15 @@ public class Estocastico extends Seleccion {
 		/*
 		 * Calculamos el fitnes total
 		 */
-		for (int i = 0; i < ag.getlPoblacion(); i++) {
-			this.fitnessTotalPoblacion += pob.get(i).getFitness();
+		for (int i = 0; i < this.poblacion.size(); i++) {
+			this.fitnessTotalPoblacion += this.poblacion.get(i).getFitness();
 		}
 		
 		/*
 		 * Calculamos el fitness de cada idividuo entre el fitness total
 		 */
-		for (int i = 0; i < ag.getlPoblacion(); i++) {
-			this.puntuacion[i] = pob.get(i).getFitness() / this.fitnessTotalPoblacion;
+		for (int i = 0; i < this.poblacion.size(); i++) {
+			this.puntuacion[i] = this.poblacion.get(i).getFitness() / this.fitnessTotalPoblacion;
 		}
 		
 		/*
@@ -53,7 +53,7 @@ public class Estocastico extends Seleccion {
 		/*
 		 * Calculamos el resto de marcas
 		 */
-		for (int i = 1; i < pob.size(); i++) {
+		for (int i = 1; i < this.poblacion.size(); i++) {
 			arrayDeMarcas[i] = arrayDeMarcas[i-1] + distMarcas;
 		}
 		
@@ -65,24 +65,24 @@ public class Estocastico extends Seleccion {
 		for (int j = 0; j < arrayDeMarcas.length; j++) {
 			probAcumulada = this.puntuacion[0];
 			int k = 1;
-			while (k < ag.getlPoblacion() && arrayDeMarcas[j] > probAcumulada) {
+			while (k < this.poblacion.size() && arrayDeMarcas[j] > probAcumulada) {
 				probAcumulada += this.puntuacion[k];
 				k++;
 			}
-			pobSeleccionada.add(pob.get(k - 1).copy());
+			pobSeleccionada.add(this.poblacion.get(k - 1).copy());
 		}
 		
 		return pobSeleccionada;
 	}
-	public void desplazamiento(ArrayList<Cromosoma> pob) {
+	public void desplazamiento(ArrayList<Cromosoma> poblacion) {
 		double fitnessMejor = 0;
-		for (int i = 0; i < pob.size(); i++) {
-			if(fitnessMejor < pob.get(i).getFitness())
-				fitnessMejor = pob.get(i).getFitness();
+		for (int i = 0; i < poblacion.size(); i++) {
+			if(fitnessMejor < poblacion.get(i).getFitness())
+				fitnessMejor = poblacion.get(i).getFitness();
 		}
 		fitnessMejor = fitnessMejor * 1.05;
-		for (int i = 0; i < pob.size(); i++) {
-			this.fitnessDesplazado[i] = fitnessMejor - pob.get(i).getFitness();
+		for (int i = 0; i < poblacion.size(); i++) {
+			this.fitnessDesplazado[i] = fitnessMejor - poblacion.get(i).getFitness();
 		}
 	}
 }

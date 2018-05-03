@@ -1,32 +1,23 @@
-package base;
+package Base;
 
 import java.util.ArrayList;
 
-import cruce.Cruce;
-import cruce.OX;
-import cruce.PMX;
-import funciones.Decode;
-import mutacion.Heuristica;
-import mutacion.Insercion;
-import mutacion.Intercambio;
-import mutacion.Inversion;
-import mutacion.Mutacion;
-import seleccion.Estocastico;
-import seleccion.Ruleta;
-import seleccion.Seleccion;
-import seleccion.Torneo;
-
+import Cruce.*;
+import Funciones.*;
+import Mutacion.*;
+import Seleccion.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class AlgoritmoGenetico {
 
-	private static final int MAX = 99999999;
 	private ArrayList<Cromosoma> poblacion;
 	private int lPoblacion;
-	private double precision;
 	private double fitnessMejorAbsoluto;
 	private double fitnessMejor;
+	private Cromosoma CromosomaMejor;
+	private Cromosoma CromosomaMejorAbsoluto;
 	private double media;
 	private double[] listaFitnessMejorAbsoluto;
 	private double[] listaFitnessMejor;
@@ -42,25 +33,25 @@ public class AlgoritmoGenetico {
 	private int tipoSeleccion;	
 	private int tipoCruce;
 	private int tipoMutacion;
-	private String nombreArchivo;
+	private String texto;
 	private String textoMejor;
 	private HashMap<String, Double> frecuenciaMonogramas;
 	private HashMap<String, Double> frecuenciaBigramas;
 	private HashMap<String, Double> frecuenciaTrigramas;
 	private String genMejor;
 
-	public AlgoritmoGenetico(int lPoblacion, double precision, double porcentajeCruce, 
+	public AlgoritmoGenetico(int lPoblacion, double porcentajeCruce, 
 			double porcentajeMutacion, int numeroGeneraciones, boolean elitista, 
-			int tipoSeleccion, int tipoCruce, int tipoMutacion, String nombreArchivo, 
+			int tipoSeleccion, int tipoCruce, int tipoMutacion, String texto, 
 			HashMap<String, Double> frecuenciaMonogramas,
-			HashMap<String, Double> frecuenciaBigramas, HashMap<String, Double> frecuenciaTrigramas) {
-		this.fitnessMejorAbsoluto = MAX;
+			HashMap<String, Double> frecuenciaBigramas, 
+			HashMap<String, Double> frecuenciaTrigramas) {
+		this.fitnessMejorAbsoluto = Double.MAX_VALUE;
 		this.lPoblacion = lPoblacion;
 		this.poblacion = new ArrayList<Cromosoma>(this.lPoblacion);
-		this.precision = precision;
 		this.porcentajeCruce = porcentajeCruce;
 		this.porcentajeMutacion = porcentajeMutacion;
-		this.porcentajeEli = 0.05;
+		this.porcentajeEli = 0.2;
 		this.numeroGeneraciones = numeroGeneraciones;
 		this.listaFitnessMejorAbsoluto = new double[this.numeroGeneraciones];
 		Arrays.fill(this.listaFitnessMejorAbsoluto, 0.0);
@@ -72,7 +63,7 @@ public class AlgoritmoGenetico {
 		this.tipoSeleccion = tipoSeleccion;
 		this.tipoCruce = tipoCruce;
 		this.tipoMutacion = tipoMutacion;
-		this.nombreArchivo = nombreArchivo;
+		this.texto = pasarAMinusculas(texto.toCharArray());
 		this.frecuenciaMonogramas = frecuenciaMonogramas;
 		this.frecuenciaBigramas = frecuenciaBigramas;
 		this.frecuenciaTrigramas = frecuenciaTrigramas;
@@ -80,7 +71,7 @@ public class AlgoritmoGenetico {
 
 	public void ejecutar() {
 
-		crearPoblacionDecode(this.nombreArchivo);
+		crearPoblacionDecode(this.texto);
 
 		// Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo.
 
@@ -90,6 +81,7 @@ public class AlgoritmoGenetico {
 		
 		Cruce cruce = new OX(this.porcentajeCruce);
 		if (this.tipoCruce == 1) cruce = new PMX(this.porcentajeCruce);
+		else if (this.tipoCruce == 2) cruce = new Ordinal(this.porcentajeCruce);
 		
 		Mutacion mutacion = new Insercion(this.porcentajeMutacion);
 		if (this.tipoMutacion == 1) mutacion = new Intercambio(this.porcentajeMutacion);
@@ -108,35 +100,42 @@ public class AlgoritmoGenetico {
 		}
 
 		for (int i = 0; i < this.numeroGeneraciones; i++) {
-			System.out.println(i);
-			this.poblacion = seleccion.ejecutar(this);
-			this.poblacion = cruce.cruzar(this);
-			this.poblacion = mutacion.mutar(this);
+
+			this.poblacion = seleccion.ejecutar(this.poblacion, this.numeroGeneraciones);
+			Collections.shuffle(this.poblacion);
+			this.poblacion = cruce.cruzar(this.poblacion);
+			this.poblacion = mutacion.mutar(this.poblacion);
 
 			if (this.elitista) {
 				insertarPobEli();
 				seleccionarEli();
-			}	
-
+			}
+			
 			this.media = this.calcularMediaGeneracion();
 			this.fitnessMejor = this.calcularFitnessMejor();
 			this.listaMedias[i] = media;
 			this.listaFitnessMejor[i] = this.fitnessMejor;
-			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;	
+			this.listaFitnessMejorAbsoluto[i] = this.fitnessMejorAbsoluto;
+			
+			System.out.println(i);
 		}
-		
-		ordenar();
-		this.textoMejor = this.poblacion.get(0).getTextoCromosoma();
-		this.genMejor = this.poblacion.get(0).getGen().concatenarAlelos();
+
+		this.textoMejor = this.CromosomaMejorAbsoluto.getTextoCromosoma();
+		this.genMejor = this.CromosomaMejorAbsoluto.getGen().concatenarAlelos();
 	}
-	public void crearPoblacionDecode(String nombreArchivo) {
+	private String pasarAMinusculas(char[] texto) {
+		for (int i = 0; i < texto.length; i++) {
+			texto[i] = Character.toLowerCase(texto[i]);
+		}
+		return this.texto = new String(texto);
+	}
+	public void crearPoblacionDecode(String texto) {
 		Decode d;
 		for (int i = 0; i < lPoblacion; i++) {
-			d = new Decode(nombreArchivo.toCharArray(),
+			d = new Decode(texto,
 					this.frecuenciaMonogramas,
 					this.frecuenciaBigramas,
 					this.frecuenciaTrigramas);
-			d.setId(i);
 			this.poblacion.add(i, d);
 		}
 	}
@@ -144,15 +143,19 @@ public class AlgoritmoGenetico {
 		double fitnessMejor;
 		double fitness;
 		
-		fitnessMejor = MAX;
+		fitnessMejor = Double.MAX_VALUE;
 		for (int i = 0; i < this.lPoblacion; i++) {
 			fitness = this.poblacion.get(i).getFitness();
-			if (fitnessMejor > fitness)
+			if (fitnessMejor > fitness) {
 				fitnessMejor = fitness;
-		}		
+				this.CromosomaMejor = this.poblacion.get(i).copy();
+			}
+		}
 
-		if (fitnessMejorAbsoluto > fitnessMejor)
+		if (fitnessMejorAbsoluto > fitnessMejor) {
 			this.fitnessMejorAbsoluto = fitnessMejor;
+			this.CromosomaMejorAbsoluto = this.CromosomaMejor.copy();
+		}
 
 		return fitnessMejor;
 	}
@@ -202,44 +205,6 @@ public class AlgoritmoGenetico {
 			}
 		}
 	}
-	public AlgoritmoGenetico copy() {
-		ArrayList<Cromosoma> poblacion = this.poblacion;
-		int lPoblacion = this.lPoblacion;
-		double precision = this.precision;
-		double fitnessMejorAbsoluto = this.fitnessMejorAbsoluto;
-		int lCromosoma = this.lCromosoma;
-		double porcentajeCruce = this.porcentajeCruce;
-		double porcentajeMutacion = this.porcentajeMutacion;
-		int numeroGeneraciones = this.numeroGeneraciones;
-		boolean elitista = this.elitista;
-		int tipoSeleccion = this.tipoSeleccion;
-		int tipoCruce = this.tipoCruce;
-		int tipoMutacion = this.tipoMutacion;
-		String nombreArchivo = this.nombreArchivo;
-		HashMap<String, Double> frecuenciaMonogramas = new HashMap<String, Double>();
-		HashMap<String, Double> frecuenciaBigramas = new HashMap<String, Double>();
-		HashMap<String, Double> frecuenciaTrigramas = new HashMap<String, Double>();
-
-		frecuenciaMonogramas = this.frecuenciaMonogramas;
-		frecuenciaBigramas = this.frecuenciaBigramas;
-		frecuenciaTrigramas = this.frecuenciaTrigramas;
-
-		AlgoritmoGenetico ag = new AlgoritmoGenetico(lPoblacion, precision, porcentajeCruce, 
-				porcentajeMutacion, numeroGeneraciones, elitista, tipoSeleccion, tipoCruce,
-				tipoMutacion,nombreArchivo, frecuenciaMonogramas, frecuenciaBigramas, frecuenciaTrigramas);
-
-		ag.setPoblacion(poblacion);
-		ag.setlPoblacion(lPoblacion);
-		ag.setPrecision(precision);
-		ag.setFitnessMejorAbsoluto(fitnessMejorAbsoluto);
-		ag.setlCromosoma(lCromosoma);
-		ag.setPorcentajeCruce(porcentajeCruce);
-		ag.setPorcentajeMutacion(porcentajeMutacion);
-		ag.setNumeroGeneraciones(numeroGeneraciones);
-		ag.setTipoSeleccion(tipoSeleccion);
-
-		return ag;
-	}
 
 	/*Getters and Setters*/
 	public double getFitnessMejorAbsoluto() {
@@ -256,12 +221,6 @@ public class AlgoritmoGenetico {
 	}
 	public void setlPoblacion(int lPoblacion) {
 		this.lPoblacion = lPoblacion;
-	}
-	public double getPrecision() {
-		return precision;
-	}
-	public void setPrecision(double precision) {
-		this.precision = precision;
 	}
 	public void setFitnessMejorAbsoluto(double fitnessMejorAbsoluto) {
 		this.fitnessMejorAbsoluto = fitnessMejorAbsoluto;

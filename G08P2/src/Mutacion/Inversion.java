@@ -1,42 +1,41 @@
-package mutacion;
+package Mutacion;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import funciones.Decode;
-import base.AlgoritmoGenetico;
-import base.Cromosoma;
-import base.Gen;
+import Base.Cromosoma;
+import Base.Gen;
+import Funciones.Decode;
 
 public class Inversion extends Mutacion {
+	
 	private double probMutacion;
-	private AlgoritmoGenetico agCopy;
-	ArrayList<Cromosoma> poblacion;
+	private ArrayList<Cromosoma> poblacion;
+	private ArrayList<Cromosoma> poblacionFinal;
 	private int lPoblacion;
 	
 	public Inversion(double probMutacion) {
 		this.probMutacion = probMutacion;
 	}
 	
-	public ArrayList<Cromosoma> mutar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> mutar(ArrayList<Cromosoma> poblacion) {
 
-		this.agCopy = ag.copy();	
-		this.poblacion = this.agCopy.getPoblacion();
-		this.lPoblacion = this.agCopy.getlPoblacion();
+		this.poblacion = poblacion;
+		this.poblacionFinal = new ArrayList<Cromosoma>();
+		this.lPoblacion = this.poblacion.size();
 
 		Cromosoma c = new Decode();
 
 		double prob;
 		for (int i = 0; i < this.lPoblacion; i++){
 			prob = Math.random();
-
+			this.poblacionFinal.add(this.poblacion.get(i).copy());
 			if(prob < this.probMutacion) {
 				c = mutarCromosoma(this.poblacion.get(i).copy());
-				c.calcularFitness();
-				this.poblacion.set(i, c);
-			}
+				this.poblacionFinal.set(i, c);
+			}			
 		}
-		return this.poblacion;
+		return this.poblacionFinal;
 	}
 	private Cromosoma mutarCromosoma(Cromosoma c) {
 		

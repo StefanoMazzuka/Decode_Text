@@ -1,43 +1,43 @@
-package cruce;
+package Cruce;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-import base.AlgoritmoGenetico;
-import base.Cromosoma;
-import base.Gen;
+import Base.Cromosoma;
+import Base.Gen;
 
-public class PMX extends Cruce {
-
-	public PMX(double pCruce) {
+public class Ordinal extends Cruce {
+	private int numElemACruzar;
+	private double pCruce;
+	private ArrayList<Cromosoma> poblacion = new ArrayList<Cromosoma>();
+	private ArrayList<Cromosoma> poblacionACruzar = new ArrayList<Cromosoma>();
+	private ArrayList<Character> vectorOrdinal = new ArrayList<Character>();
+	private Gen genCruzadoUno = new Gen();
+	private Gen genCruzadoDos = new Gen();
+	
+	public Ordinal(double pCruce) {
 		this.pCruce = pCruce;
 	}
 
-	public ArrayList<Cromosoma> cruzar(AlgoritmoGenetico ag) {
+	public ArrayList<Cromosoma> cruzar(ArrayList<Cromosoma> poblacion) {
 
-		this.agCopy = ag.copy();
-		this.poblacion = this.agCopy.getPoblacion();
-		this.lGen = this.poblacion.get(0).getlGen();
-		this.poblacionACruzar = new ArrayList<Cromosoma>();
-		this.genCruzadoUno = new Gen();
-		this.genCruzadoDos = new Gen();
+		this.poblacion = poblacion;
 
+	    for (int i = 97; i <= 122; i++)
+	    	this.vectorOrdinal.add((char) i);
+		
 		cualCruza();
 
-		for (int i = 0; i < numElemACruzar; i += 2) {
+		for (int i = 0; i < numElemACruzar; i += 2)
 			cruzarCromosomas(poblacionACruzar.get(i), poblacionACruzar.get(i + 1));
-		}
 
 		poblacionFinal();
-//		agCopy.setPoblacion(this.poblacion);
-//		ag.setPoblacion(agCopy.getPoblacion());
 		
 		return this.poblacion;
 	}
 	public void cualCruza() {
 
 		double pc = 0;
-		for (int i = 0; i < this.agCopy.getlPoblacion(); i++) {
+		for (int i = 0; i < this.poblacion.size(); i++) {
 			pc = Math.random();
 			if (pc < pCruce) {
 				this.poblacionACruzar.add(this.poblacion.get(i).copy());
@@ -52,48 +52,28 @@ public class PMX extends Cruce {
 		}
 	}
 	public void cruzarCromosomas(Cromosoma padreUno, Cromosoma padreDos) {
-		Gen padreUGen = padreUno.getGen();
-		Gen padreDGen = padreDos.getGen();
-
-		// Elegimos los puntos de corte
-		int pos1 = 0, pos2 = 0, pmin = 0, pmax = 0;
-		Random r = new Random();
-		pos1 = r.nextInt(26);// Sobre 26?
-		pos2 = r.nextInt(26);
-
-		// Colocamos correctamente pmin y pmax
-		if (pos1 > pos2) {
-			pmin = pos2;
-			pmax = pos1;
-		} else {
-			pmin = pos1;
-			pmax = pos2;
-
+		ArrayList<Character> padreU = padreUno.getGen().getAlelos();
+		ArrayList<Character> padreD = padreDos.getGen().getAlelos();
+		ArrayList<Integer> padreUOrdinal = new ArrayList<Integer>();
+		ArrayList<Integer> padreDOrdinal = new ArrayList<Integer>();
+		ArrayList<Character> abcU = this.vectorOrdinal;
+		ArrayList<Character> abcD = this.vectorOrdinal;
+		
+		// Rellenamos los padres ordinales
+		for (int i = 0; i < 26; i++) {
+			padreUOrdinal.add(abcU.indexOf(padreU.get(i)));
+			abcU.remove(padreU.get(i));
+			padreDOrdinal.add(abcD.indexOf(padreD.get(i)));
+			abcD.remove(padreD.get(i));
 		}
 
-		cruzarGenes(pmin, pmax, padreUGen.copy(), padreDGen.copy());
+		//cruzarGenes(pmin, pmax, padreUGen.copy(), padreDGen.copy());
 
 		padreUno.setGen(this.genCruzadoUno);
 		padreDos.setGen(this.genCruzadoDos);
 
-		//padreUno.calcularFenotipo();
  		padreUno.calcularFitness();
-
-		//padreDos.calcularFenotipo();
 		padreDos.calcularFitness();
-
-		int i = 0;
-		while (i < this.numElemACruzar && this.poblacionACruzar.get(i).getId() != padreUno.getId()) {
-			i++;
-		}
-
-		this.poblacionACruzar.set(i, padreUno);
-
-		while (i < this.numElemACruzar && this.poblacionACruzar.get(i).getId() != padreDos.getId()) {
-			i++;
-		}
-
-		this.poblacionACruzar.set(i, padreDos);
 	}
 	public void cruzarGenes(int posI, int posJ, Gen padreUno, Gen padreDos) {
 		ArrayList<Character> hijoUno = new ArrayList<Character>();
@@ -105,7 +85,6 @@ public class PMX extends Cruce {
 		for (int i = 0; i < 26; i++) {
 			hijoUno.add((char) 96);
 			hijoDos.add((char) 96);
-
 		}
 
 		// Hago el primer cruce entre los dos puntos de corte
@@ -153,8 +132,8 @@ public class PMX extends Cruce {
 	}
 	public void poblacionFinal() {
 
-		for (int i = 0; i < this.numElemACruzar; i++) {
-			this.poblacion.set(this.poblacionACruzar.get(i).getId(), this.poblacionACruzar.get(i));
-		}
+//		for (int i = 0; i < this.numElemACruzar; i++) {
+//			this.poblacion.set(this.poblacionACruzar.get(i).getId(), this.poblacionACruzar.get(i));
+//		}
 	}
 }

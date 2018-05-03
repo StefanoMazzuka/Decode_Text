@@ -1,4 +1,4 @@
-package base;
+package Base;
 
 import GUI.Menu;
 // https://people.cs.uct.ac.za/~jkenwood/JasonBrownbridge.pdf
