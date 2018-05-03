@@ -75,18 +75,18 @@ public class AlgoritmoGenetico {
 
 		// Creo una factoria de seleccion para elegir el metodo de seleccion que eloja el combo.
 
-		Seleccion seleccion = new Ruleta();
-		if (this.tipoSeleccion == 1) seleccion = new Torneo();
+		Seleccion seleccion = new Torneo();
+		if (this.tipoSeleccion == 1) seleccion = new Ruleta();
 		else if (this.tipoSeleccion == 2) seleccion = new Estocastico();
 		
-		Cruce cruce = new OX(this.porcentajeCruce);
-		if (this.tipoCruce == 1) cruce = new PMX(this.porcentajeCruce);
+		Cruce cruce = new PMX(this.porcentajeCruce);
+		if (this.tipoCruce == 1) cruce = new OX(this.porcentajeCruce);
 		else if (this.tipoCruce == 2) cruce = new Ordinal(this.porcentajeCruce);
 		
-		Mutacion mutacion = new Insercion(this.porcentajeMutacion);
-		if (this.tipoMutacion == 1) mutacion = new Intercambio(this.porcentajeMutacion);
-		else if (this.tipoMutacion == 2) mutacion = new Inversion(this.porcentajeMutacion);
-		else if (this.tipoMutacion == 3) mutacion = new Heuristica(this.porcentajeMutacion);
+		Mutacion mutacion = new Heuristica(this.porcentajeMutacion);
+		if (this.tipoMutacion == 1) mutacion = new Insercion(this.porcentajeMutacion);
+		else if (this.tipoMutacion == 2) mutacion = new Intercambio(this.porcentajeMutacion);
+		else if (this.tipoMutacion == 3) mutacion = new Inversion(this.porcentajeMutacion);
 
 		if (this.elitista) {
 			this.numElegidosEli = (int) Math.round((this.porcentajeEli * this.lPoblacion));
