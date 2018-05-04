@@ -5,7 +5,6 @@ import java.util.HashMap;
 public abstract class Cromosoma {
 	public Gen gen;
 	public double fitness;
-	public boolean edited;
 	public final int lGen = 26;
 	public String textoCromosoma;
 	public String textoOriginal;

@@ -1,6 +1,7 @@
 package Cruce;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import Base.Cromosoma;
 import Base.Gen;
@@ -8,11 +9,11 @@ import Base.Gen;
 public class Ordinal extends Cruce {
 	private int numElemACruzar;
 	private double pCruce;
-	private ArrayList<Cromosoma> poblacion = new ArrayList<Cromosoma>();
-	private ArrayList<Cromosoma> poblacionACruzar = new ArrayList<Cromosoma>();
-	private ArrayList<Character> vectorOrdinal = new ArrayList<Character>();
-	private Gen genCruzadoUno = new Gen();
-	private Gen genCruzadoDos = new Gen();
+	private ArrayList<Integer> posicionesPadres;
+	private ArrayList<Cromosoma> poblacion;
+	private ArrayList<Cromosoma> poblacionFinal;
+	private ArrayList<Cromosoma> poblacionACruzar;
+	private ArrayList<Character> vectorOrdinal;
 	
 	public Ordinal(double pCruce) {
 		this.pCruce = pCruce;
@@ -20,7 +21,12 @@ public class Ordinal extends Cruce {
 
 	public ArrayList<Cromosoma> cruzar(ArrayList<Cromosoma> poblacion) {
 
+		this.posicionesPadres = new ArrayList<Integer>();
+		this.poblacion = new ArrayList<Cromosoma>();
 		this.poblacion = poblacion;
+		this.poblacionFinal = new ArrayList<Cromosoma>();
+		this.poblacionACruzar = new ArrayList<Cromosoma>();
+		this.vectorOrdinal = new ArrayList<Character>();
 
 	    for (int i = 97; i <= 122; i++)
 	    	this.vectorOrdinal.add((char) i);
@@ -28,30 +34,28 @@ public class Ordinal extends Cruce {
 		cualCruza();
 
 		for (int i = 0; i < numElemACruzar; i += 2)
-			cruzarCromosomas(poblacionACruzar.get(i), poblacionACruzar.get(i + 1));
+			cruzarCromosomas(i, i + 1, poblacionACruzar.get(i), poblacionACruzar.get(i + 1));
 
 		poblacionFinal();
 		
-		return this.poblacion;
+		return this.poblacionFinal;
 	}
 	public void cualCruza() {
-
 		double pc = 0;
 		for (int i = 0; i < this.poblacion.size(); i++) {
 			pc = Math.random();
 			if (pc < pCruce) {
 				this.poblacionACruzar.add(this.poblacion.get(i).copy());
+				this.posicionesPadres.add(i);
 			}
 		}
 
-		this.numElemACruzar = this.poblacionACruzar.size();
-
 		if (this.poblacionACruzar.size() % 2 != 0) {
-			this.poblacionACruzar.remove(this.poblacion.get(0));
-			this.numElemACruzar--;
+			this.poblacionACruzar.remove(this.poblacionACruzar.size() - 1);
+			this.posicionesPadres.remove(this.posicionesPadres.size() - 1);
 		}
 	}
-	public void cruzarCromosomas(Cromosoma padreUno, Cromosoma padreDos) {
+	public void cruzarCromosomas(int pos1, int pos2, Cromosoma padreUno, Cromosoma padreDos) {
 		ArrayList<Character> padreU = padreUno.getGen().getAlelos();
 		ArrayList<Character> padreD = padreDos.getGen().getAlelos();
 		ArrayList<Integer> padreUOrdinal = new ArrayList<Integer>();
@@ -67,73 +71,55 @@ public class Ordinal extends Cruce {
 			abcD.remove(padreD.get(i));
 		}
 
-		//cruzarGenes(pmin, pmax, padreUGen.copy(), padreDGen.copy());
+		// Cruzamos los hijos
+		ArrayList<Integer> hijoUOrdinal = new ArrayList<Integer>();
+		ArrayList<Integer> hijoDOrdinal = new ArrayList<Integer>();		
+		Random r = new Random();
+		int pos = r.nextInt(26);
+		for (int i = 0; i < pos; i++) {
+			hijoUOrdinal.add(padreUOrdinal.get(i));
+			hijoDOrdinal.add(padreDOrdinal.get(i));
+		}
 
-		padreUno.setGen(this.genCruzadoUno);
-		padreDos.setGen(this.genCruzadoDos);
+		for (int j = pos; j < 26; j++) {
+			hijoUOrdinal.add(padreDOrdinal.get(j));
+			hijoDOrdinal.add(padreUOrdinal.get(j));
+		}
+
+		// Transformamos los hijos a alelos
+		abcU = this.vectorOrdinal;
+		abcD = this.vectorOrdinal;
+		ArrayList<Character> hijoU = new ArrayList<Character>();
+		ArrayList<Character> hijoD = new ArrayList<Character>();
+		for (int i = 0; i < 26; i++) {
+			hijoU.add(abcU.get(hijoUOrdinal.get(i)));
+			abcU.remove(hijoUOrdinal.get(i));
+			hijoD.add(abcD.get(hijoDOrdinal.get(i)));
+			abcD.remove(hijoDOrdinal.get(i));
+		}
+		
+		Gen genU = new Gen();
+		genU.setAlelos(hijoU);
+		Gen genD = new Gen();
+		genD.setAlelos(hijoD);
+		padreUno.setGen(genU);
+		padreDos.setGen(genD);
 
  		padreUno.calcularFitness();
 		padreDos.calcularFitness();
-	}
-	public void cruzarGenes(int posI, int posJ, Gen padreUno, Gen padreDos) {
-		ArrayList<Character> hijoUno = new ArrayList<Character>();
-		ArrayList<Character> hijoDos = new ArrayList<Character>();
-		ArrayList<Character> padreU = padreUno.getAlelos();
-		ArrayList<Character> padreD = padreDos.getAlelos();
-
-		// Inicializo los arrays auxiliares a 0
-		for (int i = 0; i < 26; i++) {
-			hijoUno.add((char) 96);
-			hijoDos.add((char) 96);
-		}
-
-		// Hago el primer cruce entre los dos puntos de corte
-		for (int i = posI; i <= posJ; i++) {
-			hijoUno.set(i, padreD.get(i));
-			hijoDos.set(i, padreU.get(i));
-		}
-
-		// HIJO1
-		char letra;
-		int i = posJ + 1;
-		while (i != posI) {
-			if (i == 26)
-				i = 0;
-			if (i != posI) {
-				letra = padreU.get(i);
-				while (hijoUno.contains((letra))) {
-					letra = padreU.get(hijoUno.indexOf(letra));
-				}
-				hijoUno.set(i, letra);
-				i++;
-			}
-		}
-
-		// HIJO2
-		i = posJ + 1;
-		while (i != posI) {
-			if (i == 26)
-				i = 0;
-			if (i != posI) {
-				letra = padreD.get(i);
-				while (hijoDos.contains((letra))) {
-					letra = padreD.get(hijoDos.indexOf(letra));
-				}
-				hijoDos.set(i, letra);
-				i++;
-			}
-		}
-
-		padreUno.setAlelos(hijoUno);
-		padreDos.setAlelos(hijoDos);
-
-		this.genCruzadoUno = padreUno;
-		this.genCruzadoDos = padreDos;
+		
+		this.poblacionACruzar.set(pos1, padreUno);
+		this.poblacionACruzar.set(pos2, padreDos);
 	}
 	public void poblacionFinal() {
-
-//		for (int i = 0; i < this.numElemACruzar; i++) {
-//			this.poblacion.set(this.poblacionACruzar.get(i).getId(), this.poblacionACruzar.get(i));
-//		}
+		int j = 0;
+		for (int i = 0; i < this.poblacion.size(); i++) {
+			if (this.posicionesPadres.contains(i)) {
+				this.poblacionFinal.add(i, this.poblacionACruzar.get(j));
+				j++;
+			}
+			else 
+				this.poblacionFinal.add(i, this.poblacion.get(i));
+		}
 	}
 }

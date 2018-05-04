@@ -29,7 +29,7 @@ public class Torneo extends Seleccion {
 		 * Recorremos el tamaño de la poblacion. Añadimos al pobTrio el trio de cromosomas y comprobamos
 		 * cual es el mejor de esos tres para añadirlo a la pobSeleccionada. 
 		 */
-		for (int j = 0; j < numGeneraciones; j++) {	
+		for (int j = 0; j < this.poblacion.size(); j++) {	
 			/*
 			 * Elegimos el trio al azar
 			 */

@@ -23,6 +23,7 @@ public class PMX extends Cruce {
 	public ArrayList<Cromosoma> cruzar(ArrayList<Cromosoma> poblacion) {
 
 		this.posicionesPadres = new ArrayList<Integer>();
+		this.poblacion = new ArrayList<Cromosoma>();
 		this.poblacion = poblacion;
 		this.poblacionFinal = new ArrayList<Cromosoma>();
 		this.poblacionACruzar = new ArrayList<Cromosoma>();
@@ -40,7 +41,6 @@ public class PMX extends Cruce {
 		return this.poblacionFinal;
 	}
 	public void cualCruza() {
-
 		double pc = 0;
 		for (int i = 0; i < this.poblacion.size(); i++) {
 			pc = Math.random();

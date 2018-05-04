@@ -25,6 +25,7 @@ public class OX extends Cruce {
 	public ArrayList<Cromosoma> cruzar(ArrayList<Cromosoma> poblacion) {
 
 		this.posicionesPadres = new ArrayList<Integer>();
+		this.poblacion = new ArrayList<Cromosoma>();
 		this.poblacion = poblacion;
 		this.poblacionFinal = new ArrayList<Cromosoma>();
 		this.poblacionACruzar = new ArrayList<Cromosoma>();
